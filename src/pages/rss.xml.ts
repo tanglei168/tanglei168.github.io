@@ -2,11 +2,11 @@ import type { APIContext } from 'astro'
 import { getCollection } from 'astro:content'
 
 export async function GET(context: APIContext) {
-  const siteUrl = context.site?.href || 'https://tanglei92.github.io'
+  const siteUrl = context.site?.href || 'https://tanglei168.github.io'
 
   let posts: any[] = []
   try {
-    posts = (await getCollection('blog'))
+    posts = (await getCollection('blog', ({ data }) => !data.draft))
       .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   } catch {
     posts = []
