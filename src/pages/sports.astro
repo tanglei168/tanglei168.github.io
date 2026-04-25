@@ -110,11 +110,47 @@ try {
     data-initial-rows={JSON.stringify(initialRows)}
     data-initial-synced={fetchedAt}
   >
-    <!-- Header -->
-    <header class="space-y-4">
-      <h1 class="text-3xl font-bold" data-zh="运动" data-en="Sports">运动</h1>
-      <p class="text-gray-600 dark:text-gray-400" data-zh="杭州周边登山徒步路线合集·数据实时同步自 Google Sheet" data-en="A dashboard of hiking trails around Hangzhou · Data syncs live from Google Sheet">
-        杭州周边登山徒步路线合集·数据实时同步自 Google Sheet
+    <!-- Header (compact, with inline stats) -->
+    <header class="space-y-2">
+      <h1 class="text-2xl sm:text-3xl font-bold" data-zh="运动" data-en="Sports">运动</h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400" data-zh="杭州周边户外活动 · 数据实时同步自 Google Sheet" data-en="Hangzhou outdoor guide · Live from Google Sheet">
+        杭州周边户外活动 · 数据实时同步自 Google Sheet
+      </p>
+
+      <!-- Category tabs -->
+      <div class="inline-flex items-center gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm" role="tablist">
+        <button class="sports-tab px-4 py-1.5 rounded-full font-medium transition-colors flex items-center gap-1.5" data-tab="爬山" data-zh="爬山" data-en="Hiking">
+          <span>爬山</span>
+          <span class="text-[10px] opacity-70" data-tab-count="爬山">0</span>
+        </button>
+        <button class="sports-tab px-4 py-1.5 rounded-full font-medium transition-colors flex items-center gap-1.5" data-tab="露营" data-zh="露营" data-en="Camping">
+          <span>露营</span>
+          <span class="text-[10px] opacity-70" data-tab-count="露营">0</span>
+        </button>
+        <button class="sports-tab px-4 py-1.5 rounded-full font-medium transition-colors flex items-center gap-1.5" data-tab="公园" data-zh="公园" data-en="Parks">
+          <span>公园</span>
+          <span class="text-[10px] opacity-70" data-tab-count="公园">0</span>
+        </button>
+      </div>
+
+      <p class="text-xs text-gray-500 dark:text-gray-500 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span><span id="stat-total" class="font-semibold text-gray-700 dark:text-gray-300">—</span> <span data-zh="路线" data-en="trails">路线</span></span>
+        <span class="text-gray-300 dark:text-gray-700">·</span>
+        <span><span id="stat-regions" class="font-semibold text-gray-700 dark:text-gray-300">—</span> <span data-zh="地区" data-en="regions">地区</span></span>
+        <span class="text-gray-300 dark:text-gray-700">·</span>
+        <span><span id="stat-family" class="font-semibold text-gray-700 dark:text-gray-300">—</span> <span data-zh="家庭" data-en="family">家庭</span></span>
+        <span class="text-gray-300 dark:text-gray-700">·</span>
+        <span><span id="stat-elder" class="font-semibold text-gray-700 dark:text-gray-300">—</span> <span data-zh="老人" data-en="elder">老人</span></span>
+        <span class="text-gray-300 dark:text-gray-700">·</span>
+        <span><span data-zh="同步于" data-en="synced">同步于</span> <span id="last-synced">—</span></span>
+        <a
+          href={SHEET_VIEW_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-blue-600 dark:text-blue-400 hover:underline"
+          data-zh="数据源 ↗"
+          data-en="Source ↗"
+        >数据源 ↗</a>
       </p>
     </header>
 
@@ -146,141 +182,139 @@ try {
     </div>
 
     <!-- Content (pre-rendered from build data, refreshed client-side) -->
-    <div id="sports-content" class:list={['space-y-10', initialRows.length === 0 && 'hidden']}>
-      <!-- Summary Cards -->
-      <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <div class="p-4 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-          <div class="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400" id="stat-total">—</div>
-          <div class="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400" data-zh="路线总数" data-en="Total trails">路线总数</div>
+    <div id="sports-content" class:list={['space-y-5', initialRows.length === 0 && 'hidden']}>
+      <!-- Month heatmap: 12 months × 3 decades (上/中/下旬) — focus visualization -->
+      <section class="p-4 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
+        <div class="flex items-end justify-between gap-3 mb-3 flex-wrap">
+          <div>
+            <h3 class="text-sm sm:text-base font-semibold inline-flex items-center gap-2">
+              <span data-zh="最佳时段 · 旬热力图" data-en="Best windows · decade heatmap">最佳时段 · 旬热力图</span>
+            </h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-gray-500 dark:text-gray-400" data-zh="格内数字 = 该旬合适的路线数，颜色越深越多" data-en="Number = trails fitting that decade; darker = more">
+              格内数字 = 该旬合适的路线数，颜色越深越多
+            </p>
+          </div>
+          <div class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 flex items-center gap-3 flex-wrap">
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded ring-2 ring-orange-400 ring-offset-1 ring-offset-white dark:ring-offset-gray-800 inline-block"></span>
+              <span data-zh="当前旬" data-en="now">当前旬</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="inline-flex items-center gap-0.5">
+                <span class="w-3 h-3 rounded inline-block" style="background-color: rgba(59,130,246,0.18);"></span>
+                <span class="w-3 h-3 rounded inline-block" style="background-color: rgba(59,130,246,0.5);"></span>
+                <span class="w-3 h-3 rounded inline-block" style="background-color: rgba(59,130,246,0.9);"></span>
+              </span>
+              <span data-zh="少 → 多" data-en="few → many">少 → 多</span>
+            </span>
+            <span class="inline-flex items-center gap-1.5">
+              <span class="w-3 h-3 rounded ring-2 ring-blue-500 inline-block"></span>
+              <span data-zh="已选" data-en="selected">已选</span>
+            </span>
+          </div>
         </div>
-        <div class="p-4 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-          <div class="text-2xl sm:text-3xl font-bold text-purple-600 dark:text-purple-400" id="stat-regions">—</div>
-          <div class="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400" data-zh="覆盖地区" data-en="Regions">覆盖地区</div>
-        </div>
-        <div class="p-4 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-          <div class="text-2xl sm:text-3xl font-bold text-green-600 dark:text-green-400" id="stat-family">—</div>
-          <div class="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400" data-zh="适合家庭" data-en="Family friendly">适合家庭</div>
-        </div>
-        <div class="p-4 sm:p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-          <div class="text-2xl sm:text-3xl font-bold text-orange-600 dark:text-orange-400" id="stat-elder">—</div>
-          <div class="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400" data-zh="适合老人" data-en="Elder friendly">适合老人</div>
-        </div>
+        <div
+          id="chart-month"
+          class="grid gap-1 sm:gap-1.5"
+          style="grid-template-columns: auto repeat(12, minmax(0, 1fr));"
+        ></div>
+        <p class="mt-2.5 text-[11px] text-gray-400 dark:text-gray-500" data-zh="提示：点单格按该旬筛选；点行/列标签按整行/整列筛选；再次点击取消" data-en="Tip: click a cell to filter by decade; click row/col label for whole row/col; click again to clear">
+          提示：点单格按该旬筛选；点行/列标签按整行/整列筛选；再次点击取消
+        </p>
       </section>
 
-      <!-- Charts: Difficulty & Region distribution -->
-      <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-          <h3 class="text-base font-semibold mb-4" data-zh="难度分布" data-en="Difficulty">难度分布</h3>
-          <div class="space-y-3" id="chart-difficulty"></div>
-        </div>
-        <div class="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-          <h3 class="text-base font-semibold mb-4" data-zh="地区分布 TOP 6" data-en="Top Regions">地区分布 TOP 6</h3>
-          <div class="space-y-3" id="chart-region"></div>
-        </div>
-      </section>
+      <!-- Compact filter row (table header for list) -->
+      <section class="flex flex-wrap items-center gap-2 pt-1">
+        <details class="filter-dropdown relative">
+          <summary class="list-none cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 transition-colors marker:hidden [&::-webkit-details-marker]:hidden">
+            <span data-zh="难度" data-en="Difficulty">难度</span>
+            <span id="difficulty-badge" class="hidden text-[10px] px-1.5 py-0.5 bg-blue-500 text-white rounded-full leading-none"></span>
+            <svg class="w-3 h-3 opacity-60" viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 7.5l4.5 4.5 4.5-4.5z"/></svg>
+          </summary>
+          <div class="absolute z-20 mt-2 left-0 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl min-w-[180px]">
+            <div id="filter-difficulty" class="flex flex-wrap gap-2"></div>
+          </div>
+        </details>
 
-      <!-- Filters -->
-      <section class="space-y-4">
-        <!-- Search -->
-        <div class="relative">
+        <details class="filter-dropdown relative">
+          <summary class="list-none cursor-pointer flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:border-blue-500 dark:hover:border-blue-400 transition-colors marker:hidden [&::-webkit-details-marker]:hidden">
+            <span data-zh="地区" data-en="Region">地区</span>
+            <span id="region-badge" class="hidden text-[10px] px-1.5 py-0.5 bg-blue-500 text-white rounded-full leading-none"></span>
+            <svg class="w-3 h-3 opacity-60" viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 7.5l4.5 4.5 4.5-4.5z"/></svg>
+          </summary>
+          <div class="absolute z-20 mt-2 left-0 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-xl min-w-[280px] max-w-[80vw]">
+            <div id="filter-region" class="space-y-3 max-h-72 overflow-y-auto"></div>
+          </div>
+        </details>
+
+        <button
+          class="filter-toggle px-3 py-1.5 text-sm rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
+          data-toggle="family"
+          data-zh="家庭"
+          data-en="Family"
+        >家庭</button>
+        <button
+          class="filter-toggle px-3 py-1.5 text-sm rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
+          data-toggle="elder"
+          data-zh="老人"
+          data-en="Elder"
+        >老人</button>
+
+        <div class="relative flex-1 min-w-[140px] sm:min-w-[200px]">
           <input
             type="text"
             id="sports-search"
-            class="w-full px-4 py-2 pl-10 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-            data-placeholder-zh="搜索地点、路线、推荐理由..."
-            data-placeholder-en="Search location, route, reason..."
-            placeholder="搜索地点、路线、推荐理由..."
+            class="w-full px-3 py-1.5 pl-8 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            data-placeholder-zh="搜索地点 / 路线 / 理由..."
+            data-placeholder-en="Search place / route / reason..."
+            placeholder="搜索地点 / 路线 / 理由..."
           />
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg class="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
 
-        <!-- Region filter -->
-        <div class="space-y-2">
-          <div class="text-xs font-medium text-gray-500 dark:text-gray-400" data-zh="地区" data-en="Region">地区</div>
-          <div class="flex flex-wrap gap-2" id="filter-region"></div>
-        </div>
-
-        <!-- Difficulty filter -->
-        <div class="space-y-2">
-          <div class="text-xs font-medium text-gray-500 dark:text-gray-400" data-zh="难度" data-en="Difficulty">难度</div>
-          <div class="flex flex-wrap gap-2" id="filter-difficulty"></div>
-        </div>
-
-        <!-- Boolean toggles -->
-        <div class="flex flex-wrap gap-2">
-          <button
-            class="filter-toggle px-3 py-1.5 text-sm rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
-            data-toggle="family"
-            data-zh="仅看家庭友好"
-            data-en="Family only"
-          >
-            仅看家庭友好
-          </button>
-          <button
-            class="filter-toggle px-3 py-1.5 text-sm rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
-            data-toggle="elder"
-            data-zh="仅看适合老人"
-            data-en="Elder friendly"
-          >
-            仅看适合老人
-          </button>
-          <button
-            class="filter-toggle px-3 py-1.5 text-sm rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
-            data-toggle="thisMonth"
-            data-zh="本月推荐"
-            data-en="Best this month"
-          >
-            本月推荐
-          </button>
-        </div>
+        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 ml-auto whitespace-nowrap">
+          <span class="font-semibold text-gray-900 dark:text-gray-100" id="result-count">0</span>
+          <span data-zh="条" data-en="trails">条</span>
+        </span>
+        <button
+          id="clear-filters"
+          class="hidden px-2.5 py-1 text-xs text-blue-600 dark:text-blue-400 hover:underline"
+          data-zh="清除"
+          data-en="Clear"
+        >清除</button>
       </section>
 
-      <!-- Results count -->
-      <div class="text-sm text-gray-500 dark:text-gray-400 flex items-center justify-between">
-        <span>
-          <span data-zh="共匹配到" data-en="Matched">共匹配到</span>
-          <span class="mx-1 font-semibold text-gray-900 dark:text-gray-100" id="result-count">0</span>
-          <span data-zh="条路线" data-en="trails">条路线</span>
-        </span>
+      <!-- Trail cards (priority lifted, denser grid) -->
+      <section id="trail-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"></section>
+
+      <!-- Empty state -->
+      <div id="empty-state" class="hidden p-8 bg-gray-50 dark:bg-gray-900 rounded-xl text-center">
+        <p id="empty-text" class="text-sm text-gray-500 dark:text-gray-400" data-zh="没有匹配的路线，换个筛选条件试试" data-en="No items match. Try different filters.">
+          没有匹配的路线，换个筛选条件试试
+        </p>
         <a
+          id="empty-cta"
           href={SHEET_VIEW_URL}
           target="_blank"
           rel="noopener noreferrer"
-          class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
-          data-zh="数据源 Google Sheet ↗"
-          data-en="Google Sheet source ↗"
-        >
-          数据源 Google Sheet ↗
-        </a>
-      </div>
-
-      <!-- Trail cards -->
-      <section id="trail-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></section>
-
-      <!-- Empty state -->
-      <div id="empty-state" class="hidden p-10 bg-gray-50 dark:bg-gray-900 rounded-xl text-center">
-        <svg class="w-12 h-12 mx-auto text-gray-300 dark:text-gray-700 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <p class="text-gray-500 dark:text-gray-400" data-zh="没有匹配的路线，换个筛选条件试试" data-en="No trails match. Try different filters.">
-          没有匹配的路线，换个筛选条件试试
-        </p>
-      </div>
-
-      <!-- Footer note -->
-      <div class="pt-4 text-center text-xs text-gray-500 dark:text-gray-400">
-        <span data-zh="最后同步" data-en="Last synced">最后同步</span>
-        <span class="ml-1" id="last-synced">—</span>
+          class="hidden inline-block mt-3 text-sm text-blue-600 dark:text-blue-400 hover:underline"
+          data-zh="到 Google Sheet 添加 →"
+          data-en="Add via Google Sheet →"
+        >到 Google Sheet 添加 →</a>
       </div>
     </div>
   </div>
 </BaseLayout>
 
 <script>
+  type Category = '爬山' | '露营' | '公园'
+  const CATEGORIES: Category[] = ['爬山', '露营', '公园']
+
   type Row = {
     id: string
+    type: Category
     region: string
     place: string
     transport: string
@@ -295,6 +329,13 @@ try {
     reason: string
   }
 
+  function normalizeCategory(s: string): Category {
+    const v = (s || '').trim()
+    if (v.includes('露营')) return '露营'
+    if (v.includes('公园')) return '公园'
+    return '爬山'
+  }
+
   const container = document.querySelector('[data-sheet-url]') as HTMLElement
   const sheetUrl = container?.dataset.sheetUrl || ''
   const loadingEl = document.getElementById('sports-loading')
@@ -303,10 +344,15 @@ try {
 
   const HEADER_MAP: Record<string, keyof Row> = {
     '序号': 'id',
+    '类型': 'type',
+    '分类': 'type',
     '地区': 'region',
     '地点': 'place',
     '交通': 'transport',
     '爬山/徒步路线': 'route',
+    '路线/特色': 'route',
+    '路线': 'route',
+    '特色': 'route',
     '难度': 'difficulty',
     '适合年龄': 'age',
     '适合老年人': 'elder' as keyof Row,
@@ -314,6 +360,8 @@ try {
     '推荐季节': 'season',
     '评价': 'rating',
     '最佳爬山月份': 'bestMonth',
+    '最佳月份': 'bestMonth',
+    '推荐月份': 'bestMonth',
     '推荐理由': 'reason',
   }
 
@@ -367,7 +415,8 @@ try {
       const raw = rows[i]
       if (!raw || raw.every(v => !v || !v.trim())) continue
       const obj: any = {
-        id: '', region: '', place: '', transport: '', route: '',
+        id: '', type: '爬山' as Category,
+        region: '', place: '', transport: '', route: '',
         difficulty: '', age: '', elder: false, family: false,
         season: '', rating: '', bestMonth: '', reason: '',
       }
@@ -377,6 +426,8 @@ try {
         const v = (raw[idx] || '').trim()
         if (key === 'elder' || key === 'family') {
           obj[key] = v === '是' || v.toLowerCase() === 'yes'
+        } else if (key === 'type') {
+          obj.type = normalizeCategory(v)
         } else {
           obj[key] = v
         }
@@ -387,14 +438,22 @@ try {
     return result
   }
 
+  type Decade = '上' | '中' | '下'
+  const ALL_DECADES: Decade[] = ['上', '中', '下']
+
   const state = {
     all: [] as Row[],
-    region: '全部',
-    difficulty: '全部',
+    tab: '爬山' as Category,
+    regions: new Set<string>(),
+    difficulties: new Set<string>(),
+    monthDecades: new Set<string>(),
     search: '',
     family: false,
     elder: false,
-    thisMonth: false,
+  }
+
+  function tabRows(): Row[] {
+    return state.all.filter(r => r.type === state.tab)
   }
 
   const DIFFICULTY_ORDER = ['低', '中', '高']
@@ -403,12 +462,123 @@ try {
     '中': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400',
     '高': 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400',
   }
-  const DIFFICULTY_BAR: Record<string, string> = {
-    '低': 'bg-green-500',
-    '中': 'bg-yellow-500',
-    '高': 'bg-red-500',
+
+  function decadeKey(m: number, d: Decade): string {
+    return `${m}-${d}`
   }
-  const REGION_BAR = 'bg-blue-500'
+
+  function parseDecadeWord(s: string): Decade | null {
+    if (s === '初' || s === '上' || s === '上旬') return '上'
+    if (s === '中' || s === '中旬') return '中'
+    if (s === '底' || s === '末' || s === '下' || s === '下旬') return '下'
+    return null
+  }
+
+  function expandRange(a: number, aD: Decade | null, b: number, bD: Decade | null): string[] {
+    const result: string[] = []
+    let months: number[] = []
+    if (a <= b) {
+      for (let i = a; i <= b; i++) months.push(i)
+    } else {
+      for (let i = a; i <= 12; i++) months.push(i)
+      for (let i = 1; i <= b; i++) months.push(i)
+    }
+    months.forEach((m, idx) => {
+      const isFirst = idx === 0
+      const isLast = idx === months.length - 1
+      const startD: Decade = (isFirst && aD) ? aD : '上'
+      const endD: Decade = (isLast && bD) ? bD : '下'
+      const startIdx = ALL_DECADES.indexOf(startD)
+      const endIdx = ALL_DECADES.indexOf(endD)
+      const lo = Math.min(startIdx, endIdx)
+      const hi = Math.max(startIdx, endIdx)
+      for (let i = lo; i <= hi; i++) result.push(decadeKey(m, ALL_DECADES[i]))
+    })
+    return result
+  }
+
+  function parseMonthDecades(text: string): Set<string> {
+    const set = new Set<string>()
+    if (!text) return set
+    const normalized = text.replace(/[–—~～]/g, '-')
+    const parts = normalized.split(/[、，,]/)
+    for (const p of parts) {
+      const t = p.trim()
+      if (!t) continue
+      const range = t.match(/^(\d{1,2})\s*月\s*(初|上旬|上|中旬|中|底|末|下旬|下)?\s*-\s*(\d{1,2})\s*月\s*(初|上旬|上|中旬|中|底|末|下旬|下)?$/)
+      if (range) {
+        const a = parseInt(range[1], 10)
+        const aD = parseDecadeWord(range[2] || '')
+        const b = parseInt(range[3], 10)
+        const bD = parseDecadeWord(range[4] || '')
+        if (a >= 1 && a <= 12 && b >= 1 && b <= 12) {
+          for (const k of expandRange(a, aD, b, bD)) set.add(k)
+        }
+        continue
+      }
+      const single = t.match(/^(\d{1,2})\s*月\s*(初|上旬|上|中旬|中|底|末|下旬|下)?$/)
+      if (single) {
+        const m = parseInt(single[1], 10)
+        const d = parseDecadeWord(single[2] || '')
+        if (m >= 1 && m <= 12) {
+          if (d) set.add(decadeKey(m, d))
+          else for (const dd of ALL_DECADES) set.add(decadeKey(m, dd))
+        }
+      }
+    }
+    return set
+  }
+
+  // Mine 旬-precision hints from free-form reason text.
+  // Recognizes "3月底"、"4月初"、"10月中旬"、"11月上中旬"、"9月下旬至10月初" 等。
+  const REASON_DECADE_RE = /(\d{1,2})\s*月\s*(上中下旬|上中旬|中下旬|上下旬|上旬|中旬|下旬|底|末|初|上|中|下)/g
+  function decadesFromMarker(marker: string): Decade[] {
+    if (marker === '上中下旬') return ['上', '中', '下']
+    if (marker === '上中旬') return ['上', '中']
+    if (marker === '中下旬') return ['中', '下']
+    if (marker === '上下旬') return ['上', '下']
+    if (marker === '初' || marker === '上' || marker === '上旬') return ['上']
+    if (marker === '中' || marker === '中旬') return ['中']
+    if (marker === '底' || marker === '末' || marker === '下' || marker === '下旬') return ['下']
+    return []
+  }
+
+  function extractDecadesFromReason(reason: string): Set<string> {
+    const set = new Set<string>()
+    if (!reason) return set
+    let m: RegExpExecArray | null
+    REASON_DECADE_RE.lastIndex = 0
+    while ((m = REASON_DECADE_RE.exec(reason)) !== null) {
+      const month = parseInt(m[1], 10)
+      if (month < 1 || month > 12) continue
+      for (const d of decadesFromMarker(m[2])) {
+        set.add(decadeKey(month, d))
+      }
+    }
+    return set
+  }
+
+  // For a row: prefer 旬-precise hints from reason for any month it covers,
+  // and fall back to bestMonth's all-旬 expansion for months reason doesn't refine.
+  function rowDecades(r: Row): Set<string> {
+    const base = parseMonthDecades(r.bestMonth)
+    const refined = extractDecadesFromReason(r.reason)
+    if (refined.size === 0) return base
+    const refinedMonths = new Set<number>()
+    refined.forEach(k => refinedMonths.add(parseInt(k.split('-')[0], 10)))
+    const out = new Set<string>()
+    base.forEach(k => {
+      const mm = parseInt(k.split('-')[0], 10)
+      if (!refinedMonths.has(mm)) out.add(k)
+    })
+    refined.forEach(k => out.add(k))
+    return out
+  }
+
+  function currentDecade(): Decade {
+    const day = new Date().getDate()
+    return day <= 10 ? '上' : day <= 20 ? '中' : '下'
+  }
 
   function countBy(rows: Row[], key: keyof Row): Record<string, number> {
     const counts: Record<string, number> = {}
@@ -432,71 +602,192 @@ try {
     setText('stat-elder', rows.filter(r => r.elder).length)
   }
 
-  function renderDifficultyChart(rows: Row[]) {
-    const el = document.getElementById('chart-difficulty')
-    if (!el) return
-    const counts = countBy(rows, 'difficulty')
-    const total = rows.length || 1
-    el.innerHTML = DIFFICULTY_ORDER
-      .filter(k => counts[k])
-      .map(k => {
-        const n = counts[k]
-        const pct = Math.round((n / total) * 100)
-        return `
-          <div>
-            <div class="flex items-center justify-between text-xs mb-1">
-              <span class="text-gray-600 dark:text-gray-400">${k}</span>
-              <span class="text-gray-500 dark:text-gray-400">${n} · ${pct}%</span>
-            </div>
-            <div class="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-              <div class="h-full ${DIFFICULTY_BAR[k]} rounded-full transition-all duration-500" style="width:${pct}%"></div>
-            </div>
-          </div>
-        `
-      }).join('')
+  function renderTabCounts() {
+    for (const c of CATEGORIES) {
+      const el = document.querySelector(`[data-tab-count="${c}"]`)
+      if (el) el.textContent = String(state.all.filter(r => r.type === c).length)
+    }
   }
 
-  function renderRegionChart(rows: Row[]) {
-    const el = document.getElementById('chart-region')
+  function renderBadge(id: string, count: number) {
+    const badge = document.getElementById(id)
+    if (!badge) return
+    if (count > 0) {
+      badge.textContent = String(count)
+      badge.classList.remove('hidden')
+    } else {
+      badge.classList.add('hidden')
+    }
+  }
+
+  function renderDifficultyFilter() {
+    const el = document.getElementById('filter-difficulty')
     if (!el) return
-    const counts = countBy(rows, 'region')
-    const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 6)
-    const max = entries[0]?.[1] || 1
-    el.innerHTML = entries.map(([k, n]) => {
-      const pct = Math.round((n / max) * 100)
+    const counts = countBy(tabRows(), 'difficulty')
+    el.innerHTML = DIFFICULTY_ORDER.filter(k => counts[k]).map(k => {
+      const n = counts[k]
+      const active = state.difficulties.has(k)
+      return `
+        <button
+          type="button"
+          class="chip px-3 py-1 text-xs rounded-full border transition-colors ${active
+            ? 'bg-blue-500 text-white border-blue-500'
+            : 'bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400'}"
+          data-value="${k}"
+        >${k} <span class="opacity-70">${n}</span></button>
+      `
+    }).join('')
+    renderBadge('difficulty-badge', state.difficulties.size)
+  }
+
+  const HANGZHOU_DISTRICTS = new Set([
+    '西湖区', '上城区', '下城区', '江干区', '拱墅区', '滨江区',
+    '萧山区', '余杭区', '临平区', '钱塘区', '富阳区', '临安区',
+    '桐庐县', '淳安县', '建德市',
+  ])
+  const CITY_ORDER = ['杭州', '绍兴', '湖州', '宁波', '嘉兴', '台州', '金华', '舟山']
+
+  function regionCity(region: string): string {
+    if (region.includes('·')) return region.split('·')[0]
+    if (HANGZHOU_DISTRICTS.has(region)) return '杭州'
+    return region
+  }
+
+  function renderRegionFilter() {
+    const el = document.getElementById('filter-region')
+    if (!el) return
+    const counts = countBy(tabRows(), 'region')
+    const groups: Record<string, { region: string; n: number }[]> = {}
+    Object.entries(counts).forEach(([region, n]) => {
+      const city = regionCity(region)
+      if (!groups[city]) groups[city] = []
+      groups[city].push({ region, n })
+    })
+    const ordered = Object.entries(groups)
+      .map(([city, arr]) => ({ city, arr, total: arr.reduce((s, x) => s + x.n, 0) }))
+      .sort((a, b) => {
+        const ai = CITY_ORDER.indexOf(a.city)
+        const bi = CITY_ORDER.indexOf(b.city)
+        if (ai !== -1 || bi !== -1) {
+          if (ai === -1) return 1
+          if (bi === -1) return -1
+          return ai - bi
+        }
+        return b.total - a.total
+      })
+
+    el.innerHTML = ordered.map(({ city, arr, total }) => {
+      arr.sort((a, b) => b.n - a.n)
+      const chips = arr.map(({ region, n }) => {
+        const active = state.regions.has(region)
+        const display = region === city ? region : (region.includes('·') ? region.split('·').slice(1).join('·') : region)
+        return `<button
+          type="button"
+          class="chip px-2.5 py-1 text-xs rounded-full border transition-colors ${active
+            ? 'bg-blue-500 text-white border-blue-500'
+            : 'bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600 hover:border-blue-500 dark:hover:border-blue-400'}"
+          data-value="${escapeHtml(region)}"
+        >${escapeHtml(display)} <span class="opacity-70">${n}</span></button>`
+      }).join('')
       return `
         <div>
-          <div class="flex items-center justify-between text-xs mb-1">
-            <span class="text-gray-600 dark:text-gray-400">${k}</span>
-            <span class="text-gray-500 dark:text-gray-400">${n}</span>
+          <div class="text-[11px] font-semibold text-gray-500 dark:text-gray-400 mb-1.5 flex items-baseline gap-1.5">
+            <span>${escapeHtml(city)}</span>
+            <span class="text-gray-400 dark:text-gray-500 font-normal">${total}</span>
           </div>
-          <div class="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div class="h-full ${REGION_BAR} rounded-full transition-all duration-500" style="width:${pct}%"></div>
-          </div>
+          <div class="flex flex-wrap gap-1.5">${chips}</div>
         </div>
       `
     }).join('')
+    renderBadge('region-badge', state.regions.size)
   }
 
-  function renderFilterChips() {
-    const regions = ['全部', ...Array.from(new Set(state.all.map(r => r.region).filter(Boolean)))]
-    const difficulties = ['全部', ...DIFFICULTY_ORDER.filter(d => state.all.some(r => r.difficulty === d))]
+  function renderMonthChart() {
+    const el = document.getElementById('chart-month')
+    if (!el) return
+    const counts: number[][] = Array.from({ length: 12 }, () => [0, 0, 0])
+    for (const r of tabRows()) {
+      const decades = rowDecades(r)
+      decades.forEach(k => {
+        const [mStr, d] = k.split('-')
+        const m = parseInt(mStr, 10)
+        const di = ALL_DECADES.indexOf(d as Decade)
+        if (m >= 1 && m <= 12 && di >= 0) counts[m - 1][di]++
+      })
+    }
+    let max = 0
+    for (const row of counts) for (const n of row) if (n > max) max = n
+    if (max < 1) max = 1
 
-    const regionEl = document.getElementById('filter-region')
-    const diffEl = document.getElementById('filter-difficulty')
+    const today = new Date()
+    const curMonth = today.getMonth() + 1
+    const curDec = currentDecade()
 
-    const makeChip = (value: string, active: boolean, group: 'region' | 'difficulty') => `
-      <button
-        class="chip px-3 py-1 text-xs rounded-full border transition-colors ${active
-          ? 'bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 border-gray-900 dark:border-gray-100'
-          : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-400'}"
-        data-group="${group}"
-        data-value="${value}"
-      >${value}</button>
-    `
-
-    if (regionEl) regionEl.innerHTML = regions.map(r => makeChip(r, r === state.region, 'region')).join('')
-    if (diffEl) diffEl.innerHTML = difficulties.map(d => makeChip(d, d === state.difficulty, 'difficulty')).join('')
+    let html = ''
+    for (let di = 0; di < 3; di++) {
+      const decade = ALL_DECADES[di]
+      const isCurrentRow = decade === curDec
+      const rowLabelCls = isCurrentRow
+        ? 'text-gray-700 dark:text-gray-200 font-semibold'
+        : 'text-gray-500 dark:text-gray-400'
+      html += `
+        <button
+          type="button"
+          class="month-row-label text-[11px] sm:text-xs ${rowLabelCls} hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer text-right pr-1.5 self-center tracking-wide"
+          data-decade="${decade}"
+          title="切换 ${decade}旬 整行"
+        >${decade}旬</button>
+      `
+      for (let mi = 0; mi < 12; mi++) {
+        const m = mi + 1
+        const n = counts[mi][di]
+        const key = decadeKey(m, decade)
+        const active = state.monthDecades.has(key)
+        const isCurrent = m === curMonth && decade === curDec
+        const intensity = max > 0 ? n / max : 0
+        const bg = n === 0
+          ? ''
+          : `background-color: rgba(59, 130, 246, ${0.16 + intensity * 0.76});`
+        const textCls = active
+          ? 'text-white font-semibold'
+          : intensity >= 0.55 ? 'text-white' : intensity >= 0.28 ? 'text-gray-800 dark:text-gray-100' : 'text-gray-600 dark:text-gray-300'
+        const ringCls = active
+          ? 'ring-2 ring-blue-500 dark:ring-blue-400 shadow-sm shadow-blue-500/20'
+          : n === 0
+            ? 'bg-gray-50 dark:bg-gray-700/30 hover:ring-1 hover:ring-blue-300 dark:hover:ring-blue-700'
+            : 'hover:ring-1 hover:ring-blue-400 hover:scale-[1.04]'
+        const outlineCls = isCurrent ? 'ring-2 ring-orange-400 ring-offset-2 ring-offset-white dark:ring-offset-gray-800' : ''
+        html += `
+          <button
+            type="button"
+            class="month-cell aspect-square min-w-0 rounded-md flex items-center justify-center text-[11px] sm:text-xs transition-all duration-150 relative ${ringCls} ${outlineCls}"
+            style="${active ? '' : bg}"
+            data-month="${m}"
+            data-decade="${decade}"
+            aria-label="${m}月${decade}旬 ${n}条"
+            aria-pressed="${active}"
+            title="${m}月${decade}旬 · ${n} 条路线"
+          ><span class="${textCls}">${n || ''}</span></button>
+        `
+      }
+    }
+    // Bottom row: empty corner + month labels 1-12
+    html += `<span></span>`
+    for (let m = 1; m <= 12; m++) {
+      const isCurrent = m === curMonth
+      const labelCls = isCurrent
+        ? 'text-orange-600 dark:text-orange-400 font-bold'
+        : 'text-gray-500 dark:text-gray-400'
+      html += `
+        <button
+          type="button"
+          class="month-col-label text-[11px] sm:text-xs ${labelCls} hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer pt-1 text-center"
+          data-month="${m}"
+          title="切换 ${m}月 整列"
+        >${m}</button>
+      `
+    }
+    el.innerHTML = html
   }
 
   function escapeHtml(s: string): string {
@@ -508,23 +799,21 @@ try {
       .replace(/'/g, '&#39;')
   }
 
-  function currentMonthLabel(): string[] {
-    const m = new Date().getMonth() + 1
-    return [`${m}月`]
-  }
-
   function applyFilters(): Row[] {
     const q = state.search.trim().toLowerCase()
-    const monthLabels = currentMonthLabel()
-    return state.all.filter(r => {
-      if (state.region !== '全部' && r.region !== state.region) return false
-      if (state.difficulty !== '全部' && r.difficulty !== state.difficulty) return false
+    return tabRows().filter(r => {
+      if (state.regions.size > 0 && !state.regions.has(r.region)) return false
+      if (state.difficulties.size > 0 && !state.difficulties.has(r.difficulty)) return false
+      if (state.monthDecades.size > 0) {
+        const decades = rowDecades(r)
+        let hit = false
+        for (const k of state.monthDecades) {
+          if (decades.has(k)) { hit = true; break }
+        }
+        if (!hit) return false
+      }
       if (state.family && !r.family) return false
       if (state.elder && !r.elder) return false
-      if (state.thisMonth) {
-        const bm = (r.bestMonth || '') + (r.season || '')
-        if (!monthLabels.some(m => bm.includes(m))) return false
-      }
       if (q) {
         const hay = [r.place, r.region, r.route, r.transport, r.reason, r.season, r.bestMonth].join(' ').toLowerCase()
         if (!hay.includes(q)) return false
@@ -536,12 +825,27 @@ try {
   function renderTrails(rows: Row[]) {
     const listEl = document.getElementById('trail-list')
     const emptyEl = document.getElementById('empty-state')
+    const emptyTextEl = document.getElementById('empty-text')
+    const emptyCtaEl = document.getElementById('empty-cta')
     const countEl = document.getElementById('result-count')
     if (countEl) countEl.textContent = String(rows.length)
     if (!listEl || !emptyEl) return
     if (rows.length === 0) {
       listEl.innerHTML = ''
       emptyEl.classList.remove('hidden')
+      const noDataInTab = tabRows().length === 0
+      if (emptyTextEl) {
+        if (noDataInTab) {
+          emptyTextEl.textContent = `「${state.tab}」分类暂无数据，去 Google Sheet 录入第一条`
+          emptyTextEl.setAttribute('data-zh', `「${state.tab}」分类暂无数据，去 Google Sheet 录入第一条`)
+          emptyTextEl.setAttribute('data-en', `No ${state.tab} entries yet — add the first one in the source sheet`)
+        } else {
+          emptyTextEl.textContent = '没有匹配的路线，换个筛选条件试试'
+          emptyTextEl.setAttribute('data-zh', '没有匹配的路线，换个筛选条件试试')
+          emptyTextEl.setAttribute('data-en', 'No items match. Try different filters.')
+        }
+      }
+      emptyCtaEl?.classList.toggle('hidden', !noDataInTab)
       return
     }
     emptyEl.classList.add('hidden')
@@ -558,78 +862,221 @@ try {
              老人
            </span>` : ''
       return `
-        <article class="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
-          <div class="flex items-start justify-between gap-3 mb-2">
+        <article class="p-3.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md hover:shadow-blue-500/10 transition-all duration-300">
+          <div class="flex items-start justify-between gap-2 mb-1.5">
             <div class="min-w-0">
-              <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mb-1">
+              <div class="flex items-center gap-2 text-[11px] text-gray-500 dark:text-gray-400 mb-0.5">
                 <span>${escapeHtml(r.region)}</span>
                 ${r.age ? `<span>·</span><span>${escapeHtml(r.age)}</span>` : ''}
               </div>
-              <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 truncate">${escapeHtml(r.place)}</h3>
+              <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">${escapeHtml(r.place)}</h3>
             </div>
-            <span class="shrink-0 px-2 py-0.5 text-xs rounded-full font-medium ${diffClass}">${escapeHtml(r.difficulty || '—')}</span>
+            <span class="shrink-0 px-2 py-0.5 text-[11px] rounded-full font-medium ${diffClass}">${escapeHtml(r.difficulty || '—')}</span>
           </div>
 
-          <div class="space-y-1.5 text-xs text-gray-600 dark:text-gray-400">
-            ${r.route ? `<div class="flex gap-2"><span class="shrink-0 text-gray-400">路线</span><span class="line-clamp-2">${escapeHtml(r.route)}</span></div>` : ''}
-            ${r.transport ? `<div class="flex gap-2"><span class="shrink-0 text-gray-400">交通</span><span class="line-clamp-2">${escapeHtml(r.transport)}</span></div>` : ''}
-            ${r.season ? `<div class="flex gap-2"><span class="shrink-0 text-gray-400">季节</span><span>${escapeHtml(r.season)}</span></div>` : ''}
-            ${r.bestMonth ? `<div class="flex gap-2"><span class="shrink-0 text-gray-400">最佳</span><span>${escapeHtml(r.bestMonth)}</span></div>` : ''}
+          <div class="space-y-1 text-[11px] text-gray-600 dark:text-gray-400">
+            ${r.route ? `<div class="flex gap-1.5"><span class="shrink-0 text-gray-400">路线</span><span class="line-clamp-2">${escapeHtml(r.route)}</span></div>` : ''}
+            ${r.bestMonth ? `<div class="flex gap-1.5"><span class="shrink-0 text-gray-400">最佳</span><span class="line-clamp-1">${escapeHtml(r.bestMonth)}</span></div>` : ''}
+            ${r.transport ? `<div class="flex gap-1.5"><span class="shrink-0 text-gray-400">交通</span><span class="line-clamp-1">${escapeHtml(r.transport)}</span></div>` : ''}
           </div>
 
-          ${r.reason ? `<p class="mt-3 text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3">${escapeHtml(r.reason)}</p>` : ''}
+          ${r.reason ? `<p class="mt-2 text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">${escapeHtml(r.reason)}</p>` : ''}
 
-          ${(familyBadge || elderBadge) ? `<div class="mt-3 flex flex-wrap gap-3">${familyBadge}${elderBadge}</div>` : ''}
+          ${(familyBadge || elderBadge) ? `<div class="mt-2 flex flex-wrap gap-2">${familyBadge}${elderBadge}</div>` : ''}
         </article>
       `
     }).join('')
   }
 
+  function hasActiveFilter(): boolean {
+    return state.regions.size > 0
+      || state.difficulties.size > 0
+      || state.monthDecades.size > 0
+      || state.family
+      || state.elder
+      || state.search.trim().length > 0
+  }
+
+  function renderClearButton() {
+    const btn = document.getElementById('clear-filters')
+    if (!btn) return
+    btn.classList.toggle('hidden', !hasActiveFilter())
+  }
+
   function renderAll() {
-    renderStats(state.all)
-    renderDifficultyChart(state.all)
-    renderRegionChart(state.all)
-    renderFilterChips()
+    renderTabCounts()
+    renderStats(tabRows())
+    renderMonthChart()
+    renderDifficultyFilter()
+    renderRegionFilter()
     renderTrails(applyFilters())
+    renderClearButton()
   }
 
   function onFilterChange() {
-    renderFilterChips()
+    renderMonthChart()
+    renderDifficultyFilter()
+    renderRegionFilter()
     renderTrails(applyFilters())
+    renderClearButton()
+  }
+
+  function toggleInSet<T>(set: Set<T>, value: T) {
+    if (set.has(value)) set.delete(value)
+    else set.add(value)
+  }
+
+  function setToggleVisuals(btn: Element, on: boolean) {
+    btn.classList.toggle('bg-blue-500', on)
+    btn.classList.toggle('text-white', on)
+    btn.classList.toggle('border-blue-500', on)
+    btn.classList.toggle('bg-white', !on)
+    btn.classList.toggle('dark:bg-gray-800', !on)
+    btn.classList.toggle('text-gray-600', !on)
+    btn.classList.toggle('dark:text-gray-400', !on)
+  }
+
+  function toggleMonthCell(m: number, d: Decade) {
+    const key = decadeKey(m, d)
+    if (state.monthDecades.has(key)) state.monthDecades.delete(key)
+    else state.monthDecades.add(key)
+  }
+
+  function toggleMonthRow(d: Decade) {
+    const allOn = Array.from({ length: 12 }, (_, i) => state.monthDecades.has(decadeKey(i + 1, d))).every(Boolean)
+    for (let m = 1; m <= 12; m++) {
+      const k = decadeKey(m, d)
+      if (allOn) state.monthDecades.delete(k)
+      else state.monthDecades.add(k)
+    }
+  }
+
+  function toggleMonthCol(m: number) {
+    const allOn = ALL_DECADES.every(d => state.monthDecades.has(decadeKey(m, d)))
+    for (const d of ALL_DECADES) {
+      const k = decadeKey(m, d)
+      if (allOn) state.monthDecades.delete(k)
+      else state.monthDecades.add(k)
+    }
+  }
+
+  function setTabVisuals() {
+    document.querySelectorAll('.sports-tab').forEach(btn => {
+      const tab = (btn as HTMLElement).dataset.tab as Category
+      const active = tab === state.tab
+      btn.classList.toggle('bg-white', active)
+      btn.classList.toggle('dark:bg-gray-700', active)
+      btn.classList.toggle('text-gray-900', active)
+      btn.classList.toggle('dark:text-white', active)
+      btn.classList.toggle('shadow-sm', active)
+      btn.classList.toggle('text-gray-500', !active)
+      btn.classList.toggle('dark:text-gray-400', !active)
+      btn.classList.toggle('hover:text-gray-700', !active)
+      btn.classList.toggle('dark:hover:text-gray-200', !active)
+    })
+  }
+
+  function resetFilters() {
+    state.regions.clear()
+    state.difficulties.clear()
+    state.monthDecades.clear()
+    state.search = ''
+    state.family = false
+    state.elder = false
+    const search = document.getElementById('sports-search') as HTMLInputElement | null
+    if (search) search.value = ''
+    document.querySelectorAll('.filter-toggle').forEach(btn => {
+      setToggleVisuals(btn, false)
+    })
+  }
+
+  function switchTab(t: Category) {
+    if (state.tab === t) return
+    state.tab = t
+    resetFilters()
+    // Re-apply default current-decade selection only if there is data in the new tab
+    if (tabRows().length > 0) {
+      const m = new Date().getMonth() + 1
+      state.monthDecades.add(decadeKey(m, currentDecade()))
+    }
+    setTabVisuals()
+    renderAll()
   }
 
   function bindEvents() {
-    document.getElementById('filter-region')?.addEventListener('click', (e) => {
-      const t = (e.target as HTMLElement).closest('.chip') as HTMLElement | null
-      if (!t) return
-      state.region = t.dataset.value || '全部'
-      onFilterChange()
+    document.querySelectorAll('.sports-tab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const t = (btn as HTMLElement).dataset.tab as Category
+        if (t) switchTab(t)
+      })
+    })
+    document.getElementById('chart-month')?.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement
+      const cell = target.closest('.month-cell') as HTMLElement | null
+      if (cell) {
+        const m = parseInt(cell.dataset.month || '0', 10)
+        const d = (cell.dataset.decade || '') as Decade
+        if (m && d) { toggleMonthCell(m, d); onFilterChange() }
+        return
+      }
+      const rowLabel = target.closest('.month-row-label') as HTMLElement | null
+      if (rowLabel) {
+        const d = (rowLabel.dataset.decade || '') as Decade
+        if (d) { toggleMonthRow(d); onFilterChange() }
+        return
+      }
+      const colLabel = target.closest('.month-col-label') as HTMLElement | null
+      if (colLabel) {
+        const m = parseInt(colLabel.dataset.month || '0', 10)
+        if (m) { toggleMonthCol(m); onFilterChange() }
+      }
     })
     document.getElementById('filter-difficulty')?.addEventListener('click', (e) => {
       const t = (e.target as HTMLElement).closest('.chip') as HTMLElement | null
       if (!t) return
-      state.difficulty = t.dataset.value || '全部'
+      const v = t.dataset.value || ''
+      if (!v) return
+      toggleInSet(state.difficulties, v)
+      onFilterChange()
+    })
+    document.getElementById('filter-region')?.addEventListener('click', (e) => {
+      const t = (e.target as HTMLElement).closest('.chip') as HTMLElement | null
+      if (!t) return
+      const v = t.dataset.value || ''
+      if (!v) return
+      toggleInSet(state.regions, v)
       onFilterChange()
     })
     document.querySelectorAll('.filter-toggle').forEach(btn => {
       btn.addEventListener('click', () => {
-        const key = (btn as HTMLElement).dataset.toggle as 'family' | 'elder' | 'thisMonth'
+        const key = (btn as HTMLElement).dataset.toggle as 'family' | 'elder'
         if (!key) return
         state[key] = !state[key]
-        btn.classList.toggle('bg-blue-500')
-        btn.classList.toggle('text-white')
-        btn.classList.toggle('border-blue-500')
-        btn.classList.toggle('bg-white')
-        btn.classList.toggle('dark:bg-gray-800')
-        btn.classList.toggle('text-gray-600')
-        btn.classList.toggle('dark:text-gray-400')
+        setToggleVisuals(btn, state[key])
         onFilterChange()
       })
+    })
+    document.getElementById('clear-filters')?.addEventListener('click', () => {
+      state.regions.clear()
+      state.difficulties.clear()
+      state.monthDecades.clear()
+      state.search = ''
+      const search = document.getElementById('sports-search') as HTMLInputElement | null
+      if (search) search.value = ''
+      document.querySelectorAll('.filter-toggle').forEach(btn => {
+        const key = (btn as HTMLElement).dataset.toggle as 'family' | 'elder'
+        if (key && state[key]) {
+          state[key] = false
+          setToggleVisuals(btn, false)
+        }
+      })
+      onFilterChange()
     })
     const search = document.getElementById('sports-search') as HTMLInputElement | null
     search?.addEventListener('input', (e) => {
       state.search = (e.target as HTMLInputElement).value
       renderTrails(applyFilters())
+      renderClearButton()
     })
   }
 
@@ -638,10 +1085,20 @@ try {
     if (el) el.textContent = d.toLocaleString('zh-CN', { hour12: false })
   }
 
+  let defaultsApplied = false
+  function applyDefaultSelection() {
+    if (defaultsApplied) return
+    defaultsApplied = true
+    const m = new Date().getMonth() + 1
+    state.monthDecades.add(decadeKey(m, currentDecade()))
+  }
+
   function hydrate(rows: Row[], syncedAt?: Date) {
     state.all = rows
+    applyDefaultSelection()
     loadingEl?.classList.add('hidden')
     contentEl?.classList.remove('hidden')
+    setTabVisuals()
     renderAll()
     if (syncedAt) updateSynced(syncedAt)
   }
