@@ -9,13 +9,15 @@ interface Props {
   description?: string
   showHeroBanner?: boolean
   showSearch?: boolean
+  wide?: boolean
 }
 
 const {
   title,
   description = 'Tanglei 的个人网站 - Growth Hacker 成长之路',
   showHeroBanner = false,
-  showSearch = false
+  showSearch = false,
+  wide = false,
 } = Astro.props
 ---
 
@@ -43,7 +45,7 @@ const {
   <body class="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors font-sans">
     <Header showSearch={showSearch} />
     {showHeroBanner && <HeroBanner />}
-    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+    <div class:list={["mx-auto px-4 sm:px-6", wide ? "max-w-6xl" : "max-w-3xl"]}>
       <main class="py-8 sm:py-12">
         <slot />
       </main>
