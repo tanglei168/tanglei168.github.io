@@ -1,0 +1,88 @@
+{
+  "last_updated": "2026-05-07T11:40:52.431455+08:00",
+  "dimensions": [
+    "现金流溯源",
+    "单位经济",
+    "叙事一致",
+    "时间承诺",
+    "批评者质量",
+    "用户留存",
+    "投入产出比",
+    "第三方付费"
+  ],
+  "domains": [
+    {
+      "id": "ai_coding",
+      "name": "AI 编程",
+      "scores": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        2,
+        3
+      ],
+      "verdict": "强烈真趋势",
+      "total": 23,
+      "max": 24,
+      "level": "strong"
+    },
+    {
+      "id": "ai_legal",
+      "name": "AI 改造法律",
+      "scores": [
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        2,
+        2
+      ],
+      "verdict": "真趋势但天花板低",
+      "total": 15,
+      "max": 24,
+      "level": "moderate"
+    },
+    {
+      "id": "cn_ai_chip",
+      "name": "中国 AI 芯片产业链",
+      "scores": [
+        1,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1
+      ],
+      "verdict": "早期 + 部分炒作",
+      "total": 12,
+      "max": 24,
+      "level": "moderate"
+    },
+    {
+      "id": "ai_manufacturing",
+      "name": "AI 改造制造业",
+      "scores": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        1,
+        1
+      ],
+      "verdict": "大部分炒作",
+      "total": 10,
+      "max": 24,
+      "level": "partial"
+    }
+  ],
+  "core_principle": "真趋势是叙事最终被现金流验证，炒作是叙事永远在等待现金流验证"
+}

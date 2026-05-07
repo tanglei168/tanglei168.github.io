@@ -1,0 +1,150 @@
+---
+import '../styles/dashboard.css'
+import { getEntry } from 'astro:content'
+
+const tickersEntry = await getEntry('dashboard', 'tickers')
+const tickersConfig = tickersEntry?.data
+
+const title = 'AI 投资监测看板'
+const description = 'T+0 自动更新的 AI 算力链投资监测系统'
+---
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | Tanglei</title>
+  <meta name="description" content={description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <header class="dashboard-header">
+    <div class="header-inner">
+      <h1>AI 投资监测看板</h1>
+      <div class="meta">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="last-updated">加载中…</span>
+        <span class="separator">·</span>
+        <a href="/" class="back-link">← 返回主页</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <!-- 区域 1: 关键监测指标（红黄旗） -->
+    <section class="section indicators-section">
+      <div class="section-header">
+        <h2>关键监测指标</h2>
+        <span class="section-hint">任一红旗触发 → 立刻减仓 30%</span>
+      </div>
+      <div class="indicators-grid" id="indicators-grid">
+        <p style="color: var(--color-muted); font-size: 13px;">加载中…</p>
+      </div>
+    </section>
+
+    <!-- 区域 2: 持仓监测 -->
+    <section class="section holdings-section">
+      <div class="section-header">
+        <h2>持仓监测</h2>
+        <div class="holdings-controls">
+          <input
+            type="search"
+            id="holdings-search"
+            placeholder="搜索代码或名称…"
+            autocomplete="off"
+          />
+          <div class="filter-tabs" role="tablist" aria-label="市场筛选">
+            <button class="tab active" data-filter="market" data-value="all">全部</button>
+            <button class="tab" data-filter="market" data-value="cn">CN/HK</button>
+            <button class="tab" data-filter="market" data-value="us">US</button>
+          </div>
+          <div class="filter-tabs" role="tablist" aria-label="层级筛选">
+            <button class="tab active" data-filter="tier" data-value="all">所有层级</button>
+            <button class="tab" data-filter="tier" data-value="core">核心</button>
+            <button class="tab" data-filter="tier" data-value="satellite">卫星</button>
+            <button class="tab" data-filter="tier" data-value="theme">主题</button>
+            <button class="tab" data-filter="tier" data-value="avoid">回避</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table class="holdings-table" id="holdings-table">
+          <thead>
+            <tr>
+              <th data-sort="name">名称</th>
+              <th data-sort="ticker">代码</th>
+              <th data-sort="price" class="num">价格</th>
+              <th data-sort="change_pct" class="num">涨跌幅</th>
+              <th data-sort="pe_ttm" class="num">PE</th>
+              <th data-sort="from_high_pct" class="num">距高点</th>
+              <th data-sort="weight" class="num">仓位</th>
+              <th>层级</th>
+              <th>逻辑</th>
+            </tr>
+          </thead>
+          <tbody id="holdings-tbody">
+            <tr><td colspan="9" style="text-align:center; color: var(--color-muted); padding: 32px;">加载中…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="holdings-empty" hidden>
+        <p>没有匹配的标的</p>
+      </div>
+    </section>
+
+    <!-- 区域 3: 8 维度炒作识别 -->
+    <section class="section hype-section">
+      <div class="section-header">
+        <h2>8 维度炒作识别评分</h2>
+        <span class="section-hint">点击图例切换显示</span>
+      </div>
+      <div class="hype-grid">
+        <div class="radar-container">
+          <canvas id="hype-radar" aria-label="8 维度雷达图"></canvas>
+        </div>
+        <div class="hype-scores" id="hype-scores">
+          <p style="color: var(--color-muted); font-size: 13px;">加载中…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 区域 4: 系统性指标 -->
+    <section class="section systemic-section">
+      <h2>系统性风险指标</h2>
+      <div class="systemic-grid">
+        <div class="big-number" id="capex-big-number">
+          <span class="label">AI 资本开支 / 真实收入比例</span>
+          <span class="number" id="capex-ratio">—</span>
+          <span class="hint" id="capex-hint">加载中…</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="capex-history" aria-label="资本开支与收入历史对比"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- 区域 5: 炒作识别 4 问 -->
+    <section class="section checklist-section">
+      <h2>炒作识别 4 问</h2>
+      <ol class="checklist">
+        <li>把所有融资和补贴剥掉，公司能活吗？</li>
+        <li>这个行业 3 年前的承诺兑现了多少？</li>
+        <li>行业最权威的批评者批评的是细节还是核心命题？</li>
+        <li>用户用过之后，30 天和 90 天还在用吗？</li>
+      </ol>
+      <p class="footnote">4 个问题中 3 个以上指向炒作 = 强烈警告信号</p>
+    </section>
+  </main>
+
+  <footer class="dashboard-footer">
+    <div class="footer-inner">
+      <p>本看板不构成投资建议 · 数据可能存在 15 分钟延迟</p>
+      <p>价格 © Yahoo Finance · 评分 / 配置：<a href="https://github.com/MrLeion/MrLeion.github.io">源码</a></p>
+    </div>
+  </footer>
+
+  <script is:inline src="/vendor/chart.umd.min.js"></script>
+  <script is:inline type="module" src="/dashboard/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+{
+  "last_updated": "2026-05-07T11:40:52.265450+08:00",
+  "indicators": [
+    {
+      "id": "msft_capex",
+      "name": "Microsoft AI 资本开支",
+      "type": "red_flag",
+      "threshold": "削减则触发",
+      "source": "MSFT 季报",
+      "current_value": "+138% YoY",
+      "status": "green",
+      "note": "$190B 指引，创纪录"
+    },
+    {
+      "id": "googl_capex",
+      "name": "Google AI 资本开支",
+      "type": "red_flag",
+      "threshold": "削减则触发",
+      "source": "GOOGL 季报",
+      "current_value": "持续增加",
+      "status": "green",
+      "note": "$110B，2027 显著增加"
+    },
+    {
+      "id": "meta_capex",
+      "name": "Meta AI 资本开支",
+      "type": "red_flag",
+      "threshold": "削减则触发",
+      "source": "META 季报",
+      "current_value": "$135B",
+      "status": "green",
+      "note": "上调指引"
+    },
+    {
+      "id": "amzn_capex",
+      "name": "Amazon AI 资本开支",
+      "type": "red_flag",
+      "threshold": "削减则触发",
+      "source": "AMZN 季报",
+      "current_value": "$120B",
+      "status": "green",
+      "note": "持续投入"
+    },
+    {
+      "id": "nvda_dc_revenue",
+      "name": "NVIDIA 数据中心收入同比",
+      "type": "red_flag",
+      "threshold": "<0% 触发",
+      "source": "NVDA 季报",
+      "current_value": "+78% YoY",
+      "status": "green",
+      "note": "Q1 财报 5/20"
+    },
+    {
+      "id": "openai_growth",
+      "name": "OpenAI 收入增速",
+      "type": "amber_flag",
+      "threshold": "<30% 触发",
+      "source": "公开披露",
+      "current_value": "约 240% YoY",
+      "status": "green",
+      "note": "ARR $24B"
+    },
+    {
+      "id": "anthropic_growth",
+      "name": "Anthropic 收入增速",
+      "type": "amber_flag",
+      "threshold": "<30% 触发",
+      "source": "公开披露",
+      "current_value": "约 1400% YoY",
+      "status": "green",
+      "note": "ARR $30B"
+    },
+    {
+      "id": "hbm_price",
+      "name": "HBM 价格趋势",
+      "type": "amber_flag",
+      "threshold": "连续下跌触发",
+      "source": "TrendForce",
+      "current_value": "持续上涨",
+      "status": "green",
+      "note": "供需仍紧张"
+    },
+    {
+      "id": "alibaba_cloud",
+      "name": "阿里云增速",
+      "type": "amber_flag",
+      "threshold": "<10% 触发",
+      "source": "BABA 季报",
+      "current_value": "+18% YoY",
+      "status": "green",
+      "note": "三年最快"
+    }
+  ],
+  "systemic": {
+    "capex_to_revenue_ratio": "13:1",
+    "capex_to_revenue_status": "red",
+    "capex_to_revenue_note": "2026 美国四大 $725B / AI 收入约 $54B",
+    "history": [
+      {
+        "period": "2000 电信泡沫",
+        "ratio": 6.0,
+        "status": "bubble"
+      },
+      {
+        "period": "2005-10 互联网",
+        "ratio": 0.25,
+        "status": "healthy"
+      },
+      {
+        "period": "2025 AI",
+        "ratio": 7.0,
+        "status": "warning"
+      },
+      {
+        "period": "2026 AI",
+        "ratio": 13.0,
+        "status": "warning"
+      }
+    ]
+  }
+}
