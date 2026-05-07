@@ -41,6 +41,14 @@ const {
         }
       })();
     </script>
+    {import.meta.env.PROD && import.meta.env.PUBLIC_CF_BEACON_TOKEN && (
+      <script
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token":"${import.meta.env.PUBLIC_CF_BEACON_TOKEN}"}`}
+        is:inline
+      />
+    )}
   </head>
   <body class="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors font-sans">
     <Header showSearch={showSearch} />

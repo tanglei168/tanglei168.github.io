@@ -9,9 +9,12 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/preact": "^4.0.0",
+    "@supabase/supabase-js": "^2.49.0",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.1",
+    "preact": "^10.25.0",
     "tailwindcss": "^4.1.18"
   }
 }

@@ -1,4 +1,6 @@
 ---
+import LoginButton from './auth/LoginButton.tsx'
+
 interface Props {
   showSearch?: boolean
 }
@@ -44,6 +46,9 @@ const currentPath = Astro.url.pathname
           </a>
         ))}
 
+        <!-- Login -->
+        <LoginButton client:load />
+
         <!-- Language Toggle -->
         <button
           id="lang-toggle"
@@ -72,6 +77,9 @@ const currentPath = Astro.url.pathname
 
       <!-- Mobile Menu Button -->
       <div class="flex items-center gap-2 md:hidden">
+        <!-- Login -->
+        <LoginButton client:load />
+
         <button
           id="lang-toggle-mobile"
           class="px-2.5 py-1 rounded-full border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all text-xs font-medium text-gray-600 dark:text-gray-400"

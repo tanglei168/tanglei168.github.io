@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import { getCollection, type CollectionEntry } from 'astro:content'
+import Comments from '../../components/comments/Comments.tsx'
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft)
@@ -91,6 +92,7 @@ const tocHeadings = headings.filter(h => h.depth <= 3)
             返回博客列表
           </a>
         </footer>
+        <Comments postSlug={post.slug} client:visible />
       </article>
     </div>
   </div>
