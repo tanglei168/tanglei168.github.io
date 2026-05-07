@@ -167,7 +167,55 @@ hype_assessment:
       name: "中国 AI 芯片产业链"
       scores: [1, 2, 2, 2, 2, 1, 1, 1]
       verdict: "早期 + 部分炒作"
+    - id: "customer_service"
+      name: "客户服务"
+      scores: [3, 3, 3, 3, 2, 3, 3, 3]
+      verdict: "强烈真趋势，$80亿+ ARR"
+    - id: "data_analysis"
+      name: "数据分析"
+      scores: [3, 3, 3, 3, 2, 3, 2, 3]
+      verdict: "强烈真趋势，$50亿+ ARR"
+    - id: "cybersecurity"
+      name: "网络安全"
+      scores: [3, 3, 3, 2, 3, 2, 3, 2]
+      verdict: "强烈真趋势，$40亿+ ARR"
+    - id: "content_creation"
+      name: "内容创作"
+      scores: [2, 2, 2, 2, 2, 2, 2, 2]
+      verdict: "低端有效，高端难"
+    - id: "financial_services"
+      name: "金融服务"
+      scores: [2, 2, 2, 2, 2, 1, 2, 2]
+      verdict: "后台 OK，前台难"
+    - id: "medical_admin"
+      name: "医疗（行政）"
+      scores: [2, 1, 2, 2, 2, 1, 2, 1]
+      verdict: "行政可以，临床不行"
+    - id: "sales_assist"
+      name: "销售辅助"
+      scores: [2, 2, 2, 1, 2, 2, 1, 2]
+      verdict: "辅助可以，关系不可"
+    - id: "ai_agent"
+      name: "AI Agent"
+      scores: [2, 2, 1, 1, 2, 2, 2, 2]
+      verdict: "早期但增长快"
     - id: "ai_manufacturing"
       name: "AI 改造制造业"
       scores: [1, 1, 1, 1, 2, 2, 1, 1]
-      verdict: "大部分炒作"
+      verdict: "物理世界瓶颈"
+    - id: "ai_education"
+      name: "AI 改造教育"
+      scores: [1, 1, 1, 1, 2, 1, 1, 1]
+      verdict: "动机问题非知识"
+    - id: "ai_retail"
+      name: "AI 改造零售"
+      scores: [1, 1, 1, 1, 1, 2, 1, 1]
+      verdict: "边际改进"
+    - id: "ai_realestate"
+      name: "AI 改造房地产"
+      scores: [1, 1, 1, 1, 1, 1, 1, 1]
+      verdict: "物理生意难数字化"
+    - id: "ai_agriculture"
+      name: "AI 改造农业"
+      scores: [1, 1, 1, 1, 1, 1, 1, 2]
+      verdict: "补贴驱动"

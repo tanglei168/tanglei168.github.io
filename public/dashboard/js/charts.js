@@ -9,10 +9,25 @@ const COLORS = {
 }
 
 const DOMAIN_COLORS = {
-  ai_coding: COLORS.green,
-  ai_legal: COLORS.amber,
-  cn_ai_chip: '#A86B5C',
-  ai_manufacturing: COLORS.red,
+  // 真实兑现（绿色系）
+  ai_coding:        '#3D6B4D',
+  customer_service: '#2E7D5A',
+  data_analysis:    '#4A8C6A',
+  cybersecurity:    '#1B5E3B',
+  // 部分真实（琥珀/蓝色系）
+  ai_legal:         '#C9952B',
+  content_creation: '#D4A44C',
+  financial_services:'#3B5C7E',
+  medical_admin:    '#5B7EA0',
+  sales_assist:     '#8B6914',
+  ai_agent:         '#6B8CAD',
+  // 主要炒作（红/棕色系）
+  cn_ai_chip:       '#A86B5C',
+  ai_manufacturing: '#C8392E',
+  ai_education:     '#B5341F',
+  ai_retail:        '#D4572A',
+  ai_realestate:    '#C04A35',
+  ai_agriculture:   '#A03020',
 }
 
 let radarChart = null
