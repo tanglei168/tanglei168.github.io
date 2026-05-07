@@ -17,6 +17,9 @@ const description = 'T+0 自动更新的 AI 算力链投资监测系统'
   <title>{title} | Tanglei</title>
   <meta name="description" content={description} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
   <header class="dashboard-header">
@@ -25,7 +28,7 @@ const description = 'T+0 自动更新的 AI 算力链投资监测系统'
       <div class="meta">
         <span class="status-dot" id="status-dot"></span>
         <span id="last-updated">加载中…</span>
-        <span class="separator">·</span>
+        <span class="sep">·</span>
         <a href="/" class="back-link">← 返回主页</a>
       </div>
     </div>
@@ -39,7 +42,7 @@ const description = 'T+0 自动更新的 AI 算力链投资监测系统'
         <span class="section-hint">任一红旗触发 → 立刻减仓 30%</span>
       </div>
       <div class="indicators-grid" id="indicators-grid">
-        <p style="color: var(--color-muted); font-size: 13px;">加载中…</p>
+        <p style="color: var(--text-muted); font-size: 13px;">加载中…</p>
       </div>
     </section>
 
@@ -83,8 +86,8 @@ const description = 'T+0 自动更新的 AI 算力链投资监测系统'
               <th>逻辑</th>
             </tr>
           </thead>
-          <tbody id="holdings-tbody">
-            <tr><td colspan="9" style="text-align:center; color: var(--color-muted); padding: 32px;">加载中…</td></tr>
+          <tbody data-holdings-loading>
+            <tr><td colspan="9" style="text-align:center; color: var(--text-muted); padding: 32px;">加载中…</td></tr>
           </tbody>
         </table>
       </div>
@@ -104,7 +107,7 @@ const description = 'T+0 自动更新的 AI 算力链投资监测系统'
           <canvas id="hype-radar" aria-label="8 维度雷达图"></canvas>
         </div>
         <div class="hype-scores" id="hype-scores">
-          <p style="color: var(--color-muted); font-size: 13px;">加载中…</p>
+          <p style="color: var(--text-muted); font-size: 13px;">加载中…</p>
         </div>
       </div>
     </section>

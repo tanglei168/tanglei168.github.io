@@ -33,15 +33,16 @@ function renderIndicators() {
   const grid = document.getElementById('indicators-grid')
   if (!grid || !dashboardData.indicators) return
   grid.innerHTML = dashboardData.indicators.indicators
-    .map(
-      (ind) => `
-    <div class="indicator-card ${ind.status}">
-      <div class="indicator-name">${ind.name}</div>
-      <div class="indicator-value">${ind.current_value}</div>
-      <div class="indicator-note">${ind.note}</div>
-    </div>
-  `
-    )
+    .map((ind) => `
+      <div class="indicator-card ${ind.status}">
+        <div class="indicator-header">
+          <span class="indicator-signal ${ind.status}"></span>
+          <span class="indicator-name">${ind.name}</span>
+        </div>
+        <div class="indicator-value">${ind.current_value ?? '—'}</div>
+        <div class="indicator-note">${ind.note ?? ind.threshold ?? ''}</div>
+      </div>
+    `)
     .join('')
 }
 
@@ -50,40 +51,85 @@ function formatNum(v, digits = 2) {
   return Number(v).toFixed(digits)
 }
 
+function formatMarketCap(v, currency) {
+  if (v == null) return '—'
+  if (currency === 'USD') {
+    if (v >= 1e12) return (v / 1e12).toFixed(1) + 'T'
+    if (v >= 1e9)  return (v / 1e9).toFixed(0) + 'B'
+    return (v / 1e6).toFixed(0) + 'M'
+  }
+  if (v >= 1e12) return (v / 1e12).toFixed(1) + '万亿'
+  if (v >= 1e8)  return (v / 1e8).toFixed(0) + '亿'
+  return v.toLocaleString()
+}
+
 function renderHoldings() {
-  const tbody = document.getElementById('holdings-tbody')
+  const table = document.getElementById('holdings-table')
   const empty = document.getElementById('holdings-empty')
-  if (!tbody) return
+  if (!table) return
 
   const filtered = applyFilters(dashboardData.prices)
 
+  table.querySelectorAll('tbody').forEach((el) => el.remove())
+
   if (filtered.length === 0) {
-    tbody.innerHTML = ''
     empty.hidden = false
     return
   }
   empty.hidden = true
 
-  tbody.innerHTML = filtered
-    .map((item) => {
-      const changeClass =
-        item.change_pct > 0 ? 'price-up' : item.change_pct < 0 ? 'price-down' : ''
-      const changeSign = item.change_pct > 0 ? '+' : ''
-      return `
-      <tr>
+  const frag = document.createDocumentFragment()
+  filtered.forEach((item) => {
+    const changeClass = item.change_pct > 0 ? 'price-up' : item.change_pct < 0 ? 'price-down' : ''
+    const changeSign = item.change_pct > 0 ? '+' : ''
+    const highClass = item.from_high_pct != null && item.from_high_pct < -20 ? 'price-down' : ''
+    const range = (item.week52_high ?? 0) - (item.week52_low ?? 0)
+    const pos = range > 0 ? Math.round(((item.price - item.week52_low) / range) * 100) : 50
+
+    const tbody = document.createElement('tbody')
+    tbody.className = 'holding-group'
+    tbody.innerHTML = `
+      <tr class="holding-row">
         <td>${item.name}</td>
-        <td><code>${item.ticker}</code></td>
+        <td><span class="ticker-code">${item.ticker}</span></td>
         <td class="num">${formatNum(item.price)}</td>
         <td class="num ${changeClass}">${changeSign}${formatNum(item.change_pct)}%</td>
         <td class="num">${formatNum(item.pe_ttm, 1)}</td>
-        <td class="num">${item.from_high_pct != null ? formatNum(item.from_high_pct, 1) + '%' : '—'}</td>
-        <td class="num">${item.weight}%</td>
+        <td class="num ${highClass}">${item.from_high_pct != null ? formatNum(item.from_high_pct, 1) + '%' : '—'}</td>
+        <td class="num">${item.weight > 0 ? item.weight + '%' : '—'}</td>
         <td><span class="tier-badge ${item.tier}">${tierLabel(item.tier)}</span></td>
         <td class="thesis-cell">${item.thesis}</td>
       </tr>
+      <tr class="holding-detail">
+        <td colspan="9">
+          <div class="detail-expand">
+            <div class="detail-inner">
+              <div class="detail-item">
+                <span class="detail-label">PE Forward</span>
+                <span class="detail-value">${formatNum(item.pe_forward, 1)}×</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">市值</span>
+                <span class="detail-value">${formatMarketCap(item.market_cap, item.currency)}</span>
+              </div>
+              <div class="detail-item detail-range">
+                <span class="detail-label">52 周区间</span>
+                <div class="range-bar">
+                  <span class="range-bound">${formatNum(item.week52_low)}</span>
+                  <div class="range-track">
+                    <div class="range-marker" style="left:${pos}%"></div>
+                  </div>
+                  <span class="range-bound">${formatNum(item.week52_high)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
     `
-    })
-    .join('')
+    frag.appendChild(tbody)
+  })
+  table.appendChild(frag)
 }
 
 function tierLabel(tier) {
