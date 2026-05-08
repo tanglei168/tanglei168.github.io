@@ -61,10 +61,11 @@ export default function Comments({ postSlug }: Props) {
     if (err) { setError(err.message); return }
     setDraft('')
     if (textareaRef.current) textareaRef.current.value = ''
+    await loadComments()
   }
 
   const signIn = async (provider: 'github' | 'google') => {
-    await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: window.location.href } })
+    await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: window.location.origin + window.location.pathname } })
   }
 
   return (
