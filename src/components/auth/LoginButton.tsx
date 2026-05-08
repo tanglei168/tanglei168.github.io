@@ -33,7 +33,7 @@ export default function LoginButton() {
   const signIn = async (provider: 'github' | 'google') => {
     await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: window.location.href },
+      options: { redirectTo: window.location.origin + window.location.pathname },
     })
   }
 
