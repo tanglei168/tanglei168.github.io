@@ -1,6 +1,6 @@
 import { loadLocalJson, fetchLiveQuotes, mergeQuotes, dataFreshness } from './data-loader.js'
 import { state, applyFilters, bindFilterTabs, bindSearch, bindSortHeaders } from './filters.js'
-import { renderRadar, renderCapexHistory } from './charts.js'
+import { renderRadar, renderCapexHistory, DOMAIN_COLORS } from './charts.js'
 
 const DATA = {
   prices: '/dashboard/snapshots/prices-latest.json',
@@ -140,25 +140,28 @@ function renderHype() {
   if (!dashboardData.hypeScores) return
   const { dimensions, domains } = dashboardData.hypeScores
 
-  renderRadar('hype-radar', dimensions, domains)
+  const visibleIds = new Set(['ai_coding'])
+  renderRadar('hype-radar', dimensions, domains, [...visibleIds])
 
   const scoresEl = document.getElementById('hype-scores')
   if (scoresEl) {
     scoresEl.innerHTML = domains
-      .map(
-        (d) => `
-      <div class="hype-domain-card" data-domain-id="${d.id}">
-        <div>
-          <div class="hype-domain-name">${d.name}</div>
-          <div class="hype-domain-verdict">${d.verdict}</div>
-        </div>
-        <span class="hype-score ${d.level}">${d.total}/${d.max}</span>
-      </div>
-    `
-      )
+      .map((d) => {
+        const color = DOMAIN_COLORS[d.id] || '#3D6B4D'
+        const dimmed = visibleIds.has(d.id) ? '' : ' dimmed'
+        return `
+          <div class="hype-domain-card${dimmed}" data-domain-id="${d.id}" style="--domain-color:${color}">
+            <span class="domain-color-dot"></span>
+            <div>
+              <div class="hype-domain-name">${d.name}</div>
+              <div class="hype-domain-verdict">${d.verdict}</div>
+            </div>
+            <span class="hype-score ${d.level}">${d.total}/${d.max}</span>
+          </div>
+        `
+      })
       .join('')
 
-    const visibleIds = new Set(domains.map((d) => d.id))
     scoresEl.querySelectorAll('.hype-domain-card').forEach((card) => {
       card.addEventListener('click', () => {
         const id = card.dataset.domainId

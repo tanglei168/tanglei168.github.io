@@ -8,7 +8,7 @@ const COLORS = {
   blue: '#3B5C7E',
 }
 
-const DOMAIN_COLORS = {
+export const DOMAIN_COLORS = {
   // 真实兑现（绿色系）
   ai_coding:        '#3D6B4D',
   customer_service: '#2E7D5A',
@@ -57,10 +57,7 @@ export function renderRadar(canvasId, dimensions, domains, visibleDomainIds = nu
       responsive: true,
       maintainAspectRatio: true,
       plugins: {
-        legend: {
-          position: 'bottom',
-          labels: { color: COLORS.text, font: { size: 12 } },
-        },
+        legend: { display: false },
         tooltip: { backgroundColor: COLORS.text },
       },
       scales: {

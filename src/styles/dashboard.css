@@ -584,6 +584,20 @@ body {
   cursor: pointer;
   transition: background 130ms ease, opacity 200ms ease;
   touch-action: manipulation;
+  min-height: 40px;
+}
+
+/* 域色点：替代 Chart.js 内置图例 */
+.domain-color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--domain-color, var(--text-muted));
+  flex-shrink: 0;
+  transition: opacity 200ms ease;
+}
+.hype-domain-card.dimmed .domain-color-dot {
+  background: var(--border-fine);
 }
 
 .hype-domain-card:focus-visible {
