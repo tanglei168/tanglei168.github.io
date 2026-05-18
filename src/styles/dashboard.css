@@ -145,6 +145,12 @@ body {
 }
 .meta a:hover { text-decoration: underline; }
 
+.meta .doc-link {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+.meta .doc-link:hover { color: var(--accent); }
+
 /* 状态指示点 */
 .status-dot {
   width: 7px;

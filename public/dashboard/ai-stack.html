@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>AI 产业链全景图 v2 · 训练 vs 推理 + 产业流水线</title>
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-soft:#f8fafc;
+    --bg-blue:#f0f9ff;
+    --bg-emphasis:#dbeafe;
+    --ink:#0f172a;
+    --ink-2:#334155;
+    --ink-3:#64748b;
+    --ink-4:#94a3b8;
+    --line:#e2e8f0;
+    --line-2:#cbd5e1;
+
+    --c1-edge:#f59e0b;
+    --c2-edge:#0ea5e9;
+    --c3-edge:#8b5cf6;
+    --c4-edge:#10b981;
+    --c5-edge:#f97316;
+
+    --c1:#fffbf2;
+    --c2:#f0f9ff;
+    --c3:#f5f3ff;
+    --c4:#f0fdf4;
+    --c5:#fff7ed;
+
+    --train:#b45309;
+    --train-soft:#fef3c7;
+    --infer:#1d4ed8;
+    --infer-soft:#dbeafe;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:"Noto Sans CJK SC","Noto Sans SC","PingFang SC",sans-serif;font-weight:400;-webkit-font-smoothing:antialiased}
+  body{padding:48px 56px 36px;width:1600px}
+
+  .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:0.7px solid var(--line-2);padding-bottom:22px;margin-bottom:28px}
+  .head .left .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.18em;color:var(--ink-3);text-transform:uppercase;margin-bottom:10px}
+  .head h1{font-size:34px;font-weight:500;color:var(--ink);letter-spacing:-0.01em;line-height:1.15}
+  .head h1 .accent{color:var(--train)}
+  .head h1 .accent2{color:var(--infer)}
+  .head .sub{font-size:12px;color:var(--ink-3);margin-top:8px}
+  .head .right{text-align:right;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-4);line-height:1.7}
+
+  .colhead{display:grid;grid-template-columns:80px 1fr 1fr;gap:12px;margin-bottom:14px;align-items:end}
+  .colhead .axis{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.2em;color:var(--ink-4);text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);align-self:center;text-align:center;padding-bottom:8px}
+  .colhead .ch{padding:10px 14px;border-bottom:0.7px solid var(--line-2)}
+  .colhead .ch .num{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.12em;color:var(--ink-4)}
+  .colhead .ch .name{font-size:18px;font-weight:500;margin-top:4px;letter-spacing:0.01em}
+  .colhead .ch.train .name{color:var(--train)}
+  .colhead .ch.infer .name{color:var(--infer)}
+  .colhead .ch .desc{font-size:11px;color:var(--ink-3);margin-top:3px;line-height:1.5}
+
+  .row{display:grid;grid-template-columns:80px 1fr 1fr;gap:12px;margin-bottom:10px}
+  .row.full-row{grid-template-columns:80px 1fr}
+  .row .rowlabel{display:flex;flex-direction:column;justify-content:flex-start;padding-top:18px;border-right:0.7px dashed var(--line-2);padding-right:10px}
+  .row .rowlabel .lnum{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-4);letter-spacing:0.12em}
+  .row .rowlabel .lbar{width:28px;height:3px;border-radius:1.5px;margin:8px 0}
+  .row .rowlabel .lname{font-size:15px;font-weight:500;color:var(--ink);letter-spacing:0.04em}
+  .row .rowlabel .len{font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--ink-4);letter-spacing:0.1em;margin-top:3px}
+  .row .rowlabel .ldesc{font-size:10px;color:var(--ink-3);margin-top:10px;line-height:1.55}
+
+  .card{padding:16px 18px;border-radius:14px;border:0.7px solid var(--line-2);background:var(--bg);position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(15,23,42,0.03)}
+  .card .h{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .card .h .dot{width:6px;height:6px;border-radius:50%}
+  .card .h .dot.train{background:var(--train)}
+  .card .h .dot.infer{background:var(--infer)}
+  .card .h .title{font-size:12px;font-weight:500;color:var(--ink);letter-spacing:0.05em}
+  .card .h .meta{font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--ink-4);margin-left:auto;letter-spacing:0.1em;text-transform:uppercase}
+
+  .block{margin-bottom:10px}
+  .block:last-child{margin-bottom:0}
+  .block .label{font-size:10px;color:var(--ink-3);letter-spacing:0.05em;margin-bottom:5px;font-weight:500}
+  .block .label .sep{color:var(--line-2);margin:0 6px}
+  .block .body{font-size:11.5px;color:var(--ink-2);line-height:1.65}
+  .block .body b{color:var(--ink);font-weight:500}
+  .block .body code{font-family:"JetBrains Mono",monospace;font-size:10.5px;color:var(--ink);background:rgba(15,23,42,0.05);padding:1px 5px;border-radius:3px}
+  .block .body .pill{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:9.5px;padding:1.5px 6px;border-radius:3px;border:0.7px solid var(--line-2);color:var(--ink-2);margin:1px 2px 1px 0;background:#fff}
+  .block .body .pill.t{border-color:#fbbf24;color:#b45309;background:#fffbeb}
+  .block .body .pill.i{border-color:#60a5fa;color:#1d4ed8;background:#eff6ff}
+  .block .body .pill.cn{border-color:#fca5a5;color:#b91c1c;background:#fef2f2}
+  .block .body .pill.us{border-color:#93c5fd;color:#1e40af;background:#eff6ff}
+
+  /* SCATTER MATRIX */
+  .matrix-wrapper{padding:16px 18px;background:var(--bg-blue);border-radius:14px;border:0.7px solid var(--line)}
+  .matrix-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .matrix-title .t{font-size:13px;font-weight:500;color:var(--ink)}
+  .matrix-title .sub{font-size:10px;color:var(--ink-3)}
+  .matrix-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:10px;color:var(--ink-3);margin-top:12px;padding-top:10px;border-top:0.7px dashed var(--line-2)}
+  .matrix-legend .item{display:inline-flex;align-items:center;gap:5px}
+  .matrix-legend .swatch{width:9px;height:9px;border-radius:50%}
+
+  /* PIPELINE */
+  .pipeline{padding:14px 18px;background:var(--bg-soft);border-radius:12px;border:0.7px solid var(--line);margin-bottom:10px}
+  .pipeline .ph{font-size:11px;color:var(--ink-3);margin-bottom:10px;letter-spacing:0.05em;display:flex;align-items:center;gap:8px}
+  .pipeline .ph .num{font-family:"JetBrains Mono",monospace;color:var(--ink-4);font-size:9px}
+  .pipeline .steps{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap}
+  .pipeline .step{flex:1;padding:8px 10px;background:#fff;border:0.7px solid var(--line-2);border-radius:8px;position:relative;min-width:0}
+  .pipeline .step + .step{margin-left:18px}
+  .pipeline .step + .step::before{content:'→';position:absolute;left:-15px;top:50%;transform:translateY(-50%);color:var(--ink-4);font-size:14px;font-family:monospace}
+  .pipeline .step .sn{font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--ink-4);letter-spacing:0.1em}
+  .pipeline .step .st{font-size:11.5px;font-weight:500;color:var(--ink);margin:2px 0 4px;letter-spacing:0.02em}
+  .pipeline .step .sd{font-size:10px;color:var(--ink-3);line-height:1.5}
+  .pipeline .step .sk{margin-top:6px;font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--ink-4);line-height:1.5}
+  .pipeline .step .sk b{color:var(--ink-2);font-weight:400}
+
+  /* TOKEN EFFIC */
+  .token-effic{padding:16px 18px;border-radius:12px;border:0.7px solid var(--line);background:var(--bg-blue);margin-top:10px}
+  .token-effic h3{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .token-effic h3::before{content:'';width:3px;height:14px;background:var(--infer);border-radius:1.5px}
+  .token-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+  .token-card{padding:10px 12px;background:#fff;border-radius:8px;border:0.7px solid var(--line-2)}
+  .token-card .tk{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--ink-3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+  .token-card .tv{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--ink);font-weight:500}
+  .token-card .ts{font-size:10px;color:var(--ink-3);margin-top:3px;line-height:1.45}
+
+  .flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:4px 0 8px}
+  .flow .step{padding:3px 8px;border-radius:4px;border:0.7px solid var(--line-2);font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--ink-2);background:#fff}
+  .flow .step.k{color:var(--ink);background:#fff}
+  .flow .arr{color:var(--ink-4);font-size:11px}
+
+  .trend{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:10.5px;color:var(--ink-2)}
+  .trend .arr-down{color:#dc2626}
+  .trend .arr-up{color:#16a34a}
+
+  /* LAYER row label bars - 5 colors only here */
+  .layer1 .rowlabel .lbar{background:var(--c1-edge)}
+  .layer2 .rowlabel .lbar{background:var(--c2-edge)}
+  .layer3 .rowlabel .lbar{background:var(--c3-edge)}
+  .layer4 .rowlabel .lbar{background:var(--c4-edge)}
+  .layer5 .rowlabel .lbar{background:var(--c5-edge)}
+
+  /* BENCHMARKS */
+  .benchmarks{padding:14px 18px;background:var(--bg-blue);border-radius:12px;border:0.7px solid var(--line);margin-top:10px}
+  .benchmarks h3{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .benchmarks h3::before{content:'';width:3px;height:14px;background:var(--c1-edge);border-radius:1.5px}
+  .bench-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .bench-item{padding:9px 12px;background:#fff;border-radius:6px;border:0.7px solid var(--line-2)}
+  .bench-item .bn{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--train);font-weight:500;margin-bottom:3px}
+  .bench-item .bd{font-size:10.5px;color:var(--ink-2);line-height:1.5}
+  .bench-item .bd .meta{color:var(--ink-4);font-family:"JetBrains Mono",monospace;font-size:9px}
+
+  .migration{margin-top:18px;padding:14px 20px;border:0.7px solid var(--line);border-radius:12px;background:var(--bg-soft);display:flex;align-items:center;gap:18px}
+  .migration .mlbl{font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--ink-3);letter-spacing:0.12em;text-transform:uppercase}
+  .migration .marrow{flex:1;height:2px;background:linear-gradient(90deg,var(--train) 0%,var(--train) 30%,var(--infer) 70%,var(--infer) 100%);position:relative;border-radius:1px}
+  .migration .marrow::after{content:'';position:absolute;right:-1px;top:-4px;border-left:8px solid var(--infer);border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .migration .mtext{font-size:11px;color:var(--ink-2);font-weight:500}
+
+  .foot{margin-top:24px;padding-top:14px;border-top:0.7px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:9px;color:var(--ink-4);letter-spacing:0.08em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;line-height:1.7}
+  .foot .sources{max-width:1100px}
+  .foot .sources span{color:var(--ink-3)}
+</style>
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<div class="head">
+  <div class="left">
+    <div class="eyebrow">Industry Map · v3 light · 2026 Q2</div>
+    <h1>AI 产业链全景图：<span class="accent">训练</span> ↔ <span class="accent2">推理 / 部署</span> · 五层产业流水线</h1>
+    <div class="sub">应用层频率×价值×速度三维定位 · 渠道层 Token Efficiency 决胜 · 模型/硬件/能源三层产业链拆解到每个环节</div>
+  </div>
+  <div class="right">
+    XT · MEMO 数字化重制 v3 (light)<br>
+    版本 2026-05-15<br>
+    置信度 · 中
+  </div>
+</div>
+
+<!-- ============== 列头 ============== -->
+<div class="colhead">
+  <div class="axis">▼ 产业层级 · Stack</div>
+  <div class="ch train">
+    <div class="num">A / TRAINING SIDE</div>
+    <div class="name">训练侧</div>
+    <div class="desc">前训练 + 后训练 · 边际收益递减 · 资本集中 · 工程化</div>
+  </div>
+  <div class="ch infer">
+    <div class="num">B / INFERENCE & DEPLOYMENT</div>
+    <div class="name">推理 / 部署侧</div>
+    <div class="desc">Test-time compute 扩张 · 商业化兑现 · 单位经济学决胜</div>
+  </div>
+</div>
+
+<!-- ============== LAYER 01 · 应用 · 二维散点矩阵 ============== -->
+<div class="row layer1 full-row">
+  <div class="rowlabel">
+    <div class="lnum">01</div>
+    <div class="lbar"></div>
+    <div class="lname">应用</div>
+    <div class="len">APPLICATION</div>
+    <div class="ldesc">货币化兑现点 · 三维定位：使用频率 × 场景价值 × 交互速度。颜色编码交互速度要求，决定了适用的推理基础设施与延迟预算。</div>
+  </div>
+  <div class="matrix-wrapper">
+    <div class="matrix-title">
+      <div class="t">应用层 · 频率 × 价值 × 速度三维定位</div>
+      <div class="sub">点大小 ≈ 公司当前 ARR（对数尺度）· 颜色 = 交互速度要求</div>
+    </div>
+
+    <svg width="100%" viewBox="0 0 1400 640" xmlns="http://www.w3.org/2000/svg">
+      <!-- 4 象限背景 -->
+      <rect x="100" y="40" width="640" height="280" fill="rgba(139,92,246,0.05)"/>
+      <rect x="740" y="40" width="560" height="280" fill="rgba(245,158,11,0.13)"/>
+      <rect x="100" y="320" width="640" height="280" fill="rgba(15,23,42,0.025)"/>
+      <rect x="740" y="320" width="560" height="280" fill="rgba(220,38,38,0.06)"/>
+
+      <!-- 象限标签 -->
+      <text x="115" y="60" font-family="JetBrains Mono" font-size="10" fill="#64748b" letter-spacing="0.05em">Q3 · 低频 × 高价值 · 企业垂直壁垒</text>
+      <text x="755" y="60" font-family="JetBrains Mono" font-size="10" fill="#b45309" letter-spacing="0.05em">Q1 · 高频 × 高价值 · 星象限 ★</text>
+      <text x="115" y="340" font-family="JetBrains Mono" font-size="10" fill="#64748b" letter-spacing="0.05em">Q4 · 低频 × 低价值 · 边缘 / 免费层</text>
+      <text x="755" y="340" font-family="JetBrains Mono" font-size="10" fill="#b91c1c" letter-spacing="0.05em">Q2 · 高频 × 低价值 · 商品化红海</text>
+
+      <!-- 坐标轴 -->
+      <line x1="100" y1="600" x2="1300" y2="600" stroke="#cbd5e1" stroke-width="0.7"/>
+      <line x1="100" y1="40" x2="100" y2="600" stroke="#cbd5e1" stroke-width="0.7"/>
+      <line x1="740" y1="40" x2="740" y2="600" stroke="#cbd5e1" stroke-width="0.4" stroke-dasharray="2 4"/>
+      <line x1="100" y1="320" x2="1300" y2="320" stroke="#cbd5e1" stroke-width="0.4" stroke-dasharray="2 4"/>
+
+      <!-- X轴标签 -->
+      <text x="700" y="630" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#334155" letter-spacing="0.08em">使用频率 (calls / user / day) →</text>
+      <text x="120" y="618" font-family="JetBrains Mono" font-size="9" fill="#94a3b8">低</text>
+      <text x="1280" y="618" font-family="JetBrains Mono" font-size="9" fill="#94a3b8" text-anchor="end">高</text>
+
+      <!-- Y轴标签 -->
+      <text x="40" y="320" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#334155" letter-spacing="0.08em" transform="rotate(-90 40 320)">↑ 场景价值 (单次替代人工成本)</text>
+      <text x="88" y="55" font-family="JetBrains Mono" font-size="9" fill="#94a3b8" text-anchor="end">高</text>
+      <text x="88" y="598" font-family="JetBrains Mono" font-size="9" fill="#94a3b8" text-anchor="end">低</text>
+
+      <!-- ========== 数据点（v2.1 重排，标签紧贴 dot） ========== -->
+      <g>
+        <circle cx="1200" cy="95" r="11" fill="#ef4444" opacity="0.85"/>
+        <text x="1216" y="99" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Cursor</text>
+        <text x="1216" y="112" font-family="JetBrains Mono" font-size="9" fill="#64748b">$2B ARR</text>
+      </g>
+      <g>
+        <circle cx="1100" cy="125" r="10" fill="#ef4444" opacity="0.85"/>
+        <text x="1115" y="129" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">GitHub Copilot</text>
+      </g>
+      <g>
+        <circle cx="985" cy="100" r="13" fill="#eab308" opacity="0.85"/>
+        <text x="1003" y="104" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">ChatGPT</text>
+        <text x="1003" y="117" font-family="JetBrains Mono" font-size="9" fill="#64748b">$20B+ rev</text>
+      </g>
+      <g>
+        <circle cx="870" cy="135" r="12" fill="#eab308" opacity="0.85"/>
+        <text x="887" y="139" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Claude</text>
+        <text x="887" y="152" font-family="JetBrains Mono" font-size="9" fill="#64748b">$19B ARR</text>
+      </g>
+      <g>
+        <circle cx="1180" cy="165" r="9" fill="#60a5fa" opacity="0.85"/>
+        <text x="1194" y="169" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Devin</text>
+        <text x="1194" y="182" font-family="JetBrains Mono" font-size="9" fill="#64748b">长周期 Agent</text>
+      </g>
+      <g>
+        <circle cx="1015" cy="195" r="11" fill="#ef4444" opacity="0.85"/>
+        <text x="1031" y="199" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Sierra</text>
+        <text x="1031" y="212" font-family="JetBrains Mono" font-size="9" fill="#64748b">$150M / $15.8B</text>
+      </g>
+      <g>
+        <circle cx="820" cy="175" r="10" fill="#eab308" opacity="0.85"/>
+        <text x="835" y="179" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Glean</text>
+        <text x="835" y="192" font-family="JetBrains Mono" font-size="9" fill="#64748b">$200M / $7.2B</text>
+      </g>
+      <g>
+        <circle cx="890" cy="240" r="9" fill="#f97316" opacity="0.85"/>
+        <text x="904" y="244" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Decagon</text>
+      </g>
+      <g>
+        <circle cx="260" cy="85" r="9" fill="#60a5fa" opacity="0.85"/>
+        <text x="274" y="89" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">药物发现 AI</text>
+        <text x="274" y="102" font-family="JetBrains Mono" font-size="9" fill="#64748b">Recursion · Isomorphic</text>
+      </g>
+      <g>
+        <circle cx="380" cy="90" r="11" fill="#60a5fa" opacity="0.85"/>
+        <text x="396" y="94" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Harvey</text>
+        <text x="396" y="107" font-family="JetBrains Mono" font-size="9" fill="#64748b">$190M / $11B · 法律</text>
+      </g>
+      <g>
+        <circle cx="560" cy="110" r="9" fill="#60a5fa" opacity="0.85"/>
+        <text x="574" y="114" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Hebbia</text>
+        <text x="574" y="127" font-family="JetBrains Mono" font-size="9" fill="#64748b">金融文档</text>
+      </g>
+      <g>
+        <circle cx="280" cy="130" r="9" fill="#60a5fa" opacity="0.85"/>
+        <text x="294" y="134" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Legora</text>
+      </g>
+      <g>
+        <circle cx="640" cy="140" r="11" fill="#f97316" opacity="0.85"/>
+        <text x="656" y="144" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Abridge</text>
+        <text x="656" y="157" font-family="JetBrains Mono" font-size="9" fill="#64748b">$100M / $5.3B · 医疗</text>
+      </g>
+      <g>
+        <circle cx="620" cy="185" r="9" fill="#f97316" opacity="0.85"/>
+        <text x="634" y="189" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Ambience</text>
+      </g>
+      <g>
+        <circle cx="180" cy="170" r="8" fill="#60a5fa" opacity="0.85"/>
+        <text x="193" y="174" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">保险核保 AI</text>
+      </g>
+      <g>
+        <circle cx="380" cy="210" r="9" fill="#60a5fa" opacity="0.85"/>
+        <text x="394" y="214" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">AlphaSense / BloombergGPT</text>
+      </g>
+      <g>
+        <circle cx="200" cy="255" r="8" fill="#60a5fa" opacity="0.85"/>
+        <text x="213" y="259" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">工业质检 Landing AI</text>
+      </g>
+      <g>
+        <circle cx="940" cy="376" r="11" fill="#eab308" opacity="0.85"/>
+        <text x="956" y="380" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Perplexity</text>
+        <text x="956" y="393" font-family="JetBrains Mono" font-size="9" fill="#64748b">$450M / $20B</text>
+      </g>
+      <g>
+        <circle cx="810" cy="408" r="9" fill="#60a5fa" opacity="0.85"/>
+        <text x="824" y="412" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Jasper</text>
+        <text x="824" y="425" font-family="JetBrains Mono" font-size="9" fill="#64748b">$35M · 跌 53%</text>
+      </g>
+      <g>
+        <circle cx="760" cy="470" r="8" fill="#60a5fa" opacity="0.85"/>
+        <text x="773" y="474" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Copy.ai / Writesonic</text>
+      </g>
+      <g>
+        <circle cx="870" cy="445" r="9" fill="#60a5fa" opacity="0.85"/>
+        <text x="884" y="449" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Runway / Pika</text>
+      </g>
+      <g>
+        <circle cx="1050" cy="415" r="8" fill="#f97316" opacity="0.85"/>
+        <text x="1063" y="419" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">DeepL</text>
+      </g>
+      <g>
+        <circle cx="1100" cy="485" r="10" fill="#eab308" opacity="0.85"/>
+        <text x="1115" y="489" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Character.AI</text>
+        <text x="1115" y="502" font-family="JetBrains Mono" font-size="9" fill="#64748b">$32M · 跌 60%</text>
+      </g>
+      <g>
+        <circle cx="1060" cy="530" r="8" fill="#eab308" opacity="0.85"/>
+        <text x="1073" y="534" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Replika</text>
+      </g>
+      <g>
+        <circle cx="150" cy="490" r="7" fill="#60a5fa" opacity="0.85"/>
+        <text x="162" y="494" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">AI 简历 / 名字生成</text>
+      </g>
+      <g>
+        <circle cx="300" cy="465" r="8" fill="#60a5fa" opacity="0.85"/>
+        <text x="313" y="469" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Photoroom · Lensa</text>
+      </g>
+      <g>
+        <circle cx="450" cy="425" r="9" fill="#eab308" opacity="0.85"/>
+        <text x="464" y="429" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Khanmigo</text>
+      </g>
+      <g>
+        <circle cx="560" cy="458" r="9" fill="#eab308" opacity="0.85"/>
+        <text x="574" y="462" font-family="Noto Sans CJK SC" font-size="12" fill="#0f172a" font-weight="500">Duolingo Max</text>
+      </g>
+    </svg>
+
+    <div class="matrix-legend">
+      <div class="item"><span class="swatch" style="background:#ef4444"></span>实时 &lt;200ms · 语音 / Tab 补全</div>
+      <div class="item"><span class="swatch" style="background:#f97316"></span>低延迟 &lt;1s · 客服 / 实时文书</div>
+      <div class="item"><span class="swatch" style="background:#eab308"></span>标准 1-3s · 对话 / 搜索</div>
+      <div class="item"><span class="swatch" style="background:#60a5fa"></span>异步 / 批 · Agent / 长文档</div>
+      <div class="item" style="margin-left:auto;color:var(--ink-4)">交互速度决定推理基础设施选型与单位经济学</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== 应用层 · 评估基准 ============== -->
+<div class="row layer1 full-row">
+  <div class="rowlabel">
+    <div class="lnum">01-A</div>
+    <div class="lbar"></div>
+    <div class="lname">基准</div>
+    <div class="len">EVALS</div>
+    <div class="ldesc">能力定价的"看板"。基准分数直接决定 API 价格与模型估值。</div>
+  </div>
+  <div class="benchmarks">
+    <h3>评估基准 · 模型能力的标尺</h3>
+    <div class="bench-grid">
+      <div class="bench-item">
+        <div class="bn">MMLU / MMLU-Pro</div>
+        <div class="bd">57 学科多任务语言理解，本科到专业水平。已基本饱和（&gt;90%），区分度下降。<span class="meta">通识</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">GPQA Diamond</div>
+        <div class="bd">研究生级物理 / 化学 / 生物问答，专家也答不出。SOTA 约 70-80%。<span class="meta">推理</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">SWE-bench Verified</div>
+        <div class="bd">真实 GitHub issue 端到端修复，500 个人工核验任务。<b>Coding Agent 北极星</b>。<span class="meta">编程</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">AIME / Math Olympiad</div>
+        <div class="bd">美国高中数学奥林匹克。前沿模型 80%+，但仍未稳定满分。<span class="meta">数学</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">Humanity's Last Exam</div>
+        <div class="bd">3000 道跨领域专家级题，2025 年新基准，故意做难。SOTA 约 25-40%。<span class="meta">极限难度</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">ARC-AGI / ARC-AGI-2</div>
+        <div class="bd">抽象视觉推理，对人类简单对模型难。o3 在 ARC-AGI-1 突破后，AGI-2 仍低分。<span class="meta">通用智能</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">MMMU / MathVista</div>
+        <div class="bd">大学级多模态考试 + 视觉数学。考察视觉 + 推理融合。<span class="meta">多模态</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">LiveCodeBench</div>
+        <div class="bd">每周更新的实时编程题，避免训练污染。衡量真实编程能力。<span class="meta">编程</span></div>
+      </div>
+      <div class="bench-item">
+        <div class="bn">τ-bench / τ²-bench</div>
+        <div class="bd">航空 / 零售客服真实工具调用对话，单/双向交互。<b>Agent 评估事实标准</b>。<span class="meta">Agent</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== LAYER 02 · 渠道 · 流水线 ============== -->
+<div class="row layer2 full-row">
+  <div class="rowlabel">
+    <div class="lnum">02</div>
+    <div class="lbar"></div>
+    <div class="lname">渠道</div>
+    <div class="len">CHANNEL</div>
+    <div class="ldesc">把模型送到应用的"分发层"。训练侧是云大厂的算力批发，推理侧是 token 经济学的战场。</div>
+  </div>
+  <div class="pipeline">
+    <div class="ph"><span class="num">PIPELINE</span> 推理分发流水线 · 从模型权重到终端用户的四个环节</div>
+    <div class="steps">
+      <div class="step">
+        <div class="sn">① 模型源</div>
+        <div class="st">基础模型 + 开源权重</div>
+        <div class="sd">闭源 API（OpenAI · Anthropic · Google）+ 开源权重（Llama · Qwen · DeepSeek）</div>
+        <div class="sk"><b>输出</b>：可调用的模型端点</div>
+      </div>
+      <div class="step">
+        <div class="sn">② API 网关</div>
+        <div class="st">聚合 · 路由 · 计费</div>
+        <div class="sd">统一鉴权、多模型路由、降级、缓存、用量计费</div>
+        <div class="sk"><b>玩家</b>：OpenRouter · Portkey · LiteLLM · Vercel AI SDK</div>
+      </div>
+      <div class="step">
+        <div class="sn">③ 推理服务</div>
+        <div class="st">GPU 集群上的 token 工厂</div>
+        <div class="sd">vLLM / SGLang / TensorRT-LLM 等推理引擎在专用集群上服务 token</div>
+        <div class="sk"><b>玩家</b>：Together · Fireworks · Groq · Cerebras · ModelScope</div>
+      </div>
+      <div class="step">
+        <div class="sn">④ 终端集成</div>
+        <div class="st">SDK · App · Agent</div>
+        <div class="sd">应用层调用以上任一层，可能再叠加 RAG / 工具调用 / 多 Agent 编排</div>
+        <div class="sk"><b>关键</b>：上下文管理、流式输出、错误处理</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 渠道层 训练/推理 对照卡 -->
+<div class="row layer2">
+  <div class="rowlabel">
+    <div class="lnum">02-x</div>
+    <div class="lbar"></div>
+    <div class="lname">两侧</div>
+    <div class="len">TRAIN / INFER</div>
+    <div class="ldesc">训练侧买算力，推理侧卖 token。</div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot train"></span><span class="title">训练算力市场 · 长合约</span><span class="meta">B2B</span></div>
+    <div class="block">
+      <div class="label">超大规模云 · Hyperscaler</div>
+      <div class="body"><span class="pill us">AWS</span><span class="pill us">Azure</span><span class="pill us">GCP</span><span class="pill us">Oracle</span><span class="pill cn">阿里云</span><span class="pill cn">腾讯云</span><span class="pill cn">火山引擎</span><span class="pill cn">华为云</span></div>
+    </div>
+    <div class="block">
+      <div class="label">Neocloud · GPU 专营</div>
+      <div class="body"><span class="pill us">CoreWeave</span><span class="pill us">Lambda</span><span class="pill us">Crusoe</span><span class="pill us">Voltage Park</span><span class="pill us">Nebius</span> · 利用 Nvidia 配额优势</div>
+    </div>
+    <div class="block">
+      <div class="label">商业模式</div>
+      <div class="body">多年期 capex commit · 预订 H100/B200 集群 · 价格波动大，过度承诺风险高</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot infer"></span><span class="title">推理分发 · 三条路径</span><span class="meta">B2B+B2C</span></div>
+    <div class="block">
+      <div class="label">① 聚合 API · 多模型路由</div>
+      <div class="body"><span class="pill">OpenRouter</span><span class="pill">Portkey</span><span class="pill">LiteLLM</span><span class="pill">Vercel AI SDK</span></div>
+    </div>
+    <div class="block">
+      <div class="label">② 推理服务商 · 开源托管</div>
+      <div class="body"><span class="pill us">Together</span><span class="pill us">Fireworks</span><span class="pill us">Groq</span><span class="pill us">Cerebras</span><span class="pill cn">ModelScope</span><span class="pill cn">硅基流动</span></div>
+    </div>
+    <div class="block">
+      <div class="label">③ 独自部署 · 私有化 / 边缘</div>
+      <div class="body"><span class="pill">vLLM</span><span class="pill">SGLang</span><span class="pill">TensorRT-LLM</span><span class="pill">llama.cpp</span><span class="pill">Ollama</span><span class="pill">LMDeploy</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Token Efficiency 专属块 -->
+<div class="row layer2 full-row">
+  <div class="rowlabel">
+    <div class="lnum">02-T</div>
+    <div class="lbar"></div>
+    <div class="lname">Token</div>
+    <div class="len">EFFICIENCY</div>
+    <div class="ldesc">每个 token 的成本和延迟，是推理侧单位经济学的本质。所有玩家都在压这两个数字。</div>
+  </div>
+  <div class="token-effic">
+    <h3>Token Efficiency · 推理经济学的四个 KPI</h3>
+    <div class="token-grid">
+      <div class="token-card">
+        <div class="tk">$/M tokens</div>
+        <div class="tv">$0.15 - $15</div>
+        <div class="ts">输入/输出双轨。前沿模型输入 $3-5/M，缓存 token 折扣 50-90%</div>
+      </div>
+      <div class="token-card">
+        <div class="tk">TTFT · 首 token 延迟</div>
+        <div class="tv">100ms - 2s</div>
+        <div class="ts">Groq LPU 可低至 ~80ms；标准 cloud 推理约 200-500ms</div>
+      </div>
+      <div class="token-card">
+        <div class="tk">TPOT · 单 token 延迟</div>
+        <div class="tv">10ms - 50ms</div>
+        <div class="ts">决定流式输出体感速度。Groq/Cerebras 可达 500+ tok/s</div>
+      </div>
+      <div class="token-card">
+        <div class="tk">吞吐 · concurrent</div>
+        <div class="tv">100 - 10000 req/GPU</div>
+        <div class="ts">取决于 batching、KV cache、模型大小。决定单位成本</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div>
+        <div class="label" style="font-size:11px;color:var(--ink-2);margin-bottom:8px;font-weight:500">▸ 优化技术栈 · 推理引擎层</div>
+        <div style="font-size:11px;color:var(--ink-2);line-height:1.8">
+          <span class="pill i">KV cache</span><span class="pill i">Prefix caching</span><span class="pill i">Speculative decoding</span><span class="pill i">Continuous batching</span><span class="pill i">PagedAttention</span><span class="pill i">Quantization FP8/INT4</span><span class="pill i">FlashAttention-3</span><span class="pill i">Tensor parallelism</span>
+          <div style="margin-top:6px;color:var(--ink-3);font-size:10.5px">推理速度自 2023 年起累计提升约 <b style="color:var(--ink)">10-30 倍</b>，同等 GPU 成本下吞吐翻番再翻番</div>
+        </div>
+      </div>
+      <div>
+        <div class="label" style="font-size:11px;color:var(--ink-2);margin-bottom:8px;font-weight:500">▸ 行业方向 · 商业模式层</div>
+        <div style="font-size:11px;color:var(--ink-2);line-height:1.8">
+          <span class="pill i">模型路由</span><span class="pill i">Small model first</span><span class="pill i">蒸馏 + 量化</span><span class="pill i">MoE 稀疏激活</span><span class="pill i">推理专用 ASIC</span><span class="pill i">边缘推理</span><span class="pill i">Outcome-based pricing</span>
+          <div style="margin-top:6px;color:var(--ink-3);font-size:10.5px">同等 token 价格 2023→2026 累计下降约 <b style="color:var(--ink)">95%+</b>。新模式：按结果而非按 token 计费</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== LAYER 03 · 模型 · 训练流水线 ============== -->
+<div class="row layer3 full-row">
+  <div class="rowlabel">
+    <div class="lnum">03</div>
+    <div class="lbar"></div>
+    <div class="lname">模型</div>
+    <div class="len">MODEL</div>
+    <div class="ldesc">从原始数据到可调用 API 的完整工序。每环节的资源消耗与技术含量决定了模型层的竞争格局。</div>
+  </div>
+  <div class="pipeline">
+    <div class="ph"><span class="num">PIPELINE</span> 模型生命周期 · 从数据到 token 的七个环节</div>
+    <div class="steps">
+      <div class="step">
+        <div class="sn">① 数据</div>
+        <div class="st">数据采集与清洗</div>
+        <div class="sd">网页爬取 · 书籍 · 代码 · 多模态。去重、过滤、毒性去除</div>
+        <div class="sk"><b>规模</b>：10-100T tokens</div>
+      </div>
+      <div class="step">
+        <div class="sn">② 预训练</div>
+        <div class="st">Base model · 大力出奇迹</div>
+        <div class="sd">Next-token prediction，大规模分布式训练，学到世界知识与语言结构</div>
+        <div class="sk"><b>成本</b>：$10M - $1B+</div>
+      </div>
+      <div class="step">
+        <div class="sn">③ 中期训练</div>
+        <div class="st">能力扩展</div>
+        <div class="sd">长上下文扩展、多模态融合、代码强化、指令格式化</div>
+        <div class="sk"><b>技术</b>：YaRN · 渐进式</div>
+      </div>
+      <div class="step">
+        <div class="sn">④ 后训练</div>
+        <div class="st">对齐 + 偏好优化</div>
+        <div class="sd">SFT 监督微调 · RLHF · DPO · Constitutional AI · RLAIF · 工具使用训练</div>
+        <div class="sk"><b>重要性</b>：↑ 持续上升</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑤ 评估</div>
+        <div class="st">基准 + 红队</div>
+        <div class="sd">公开 benchmark + 内部 evals + 红队对抗测试 + 安全审计</div>
+        <div class="sk"><b>看板</b>：MMLU · SWE-bench</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑥ 部署</div>
+        <div class="st">推理优化 + 上线</div>
+        <div class="sd">蒸馏 / 量化 / 编译优化，部署到推理集群，配 KV cache 与 batching</div>
+        <div class="sk"><b>目标</b>：压成本提速度</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑦ 推理</div>
+        <div class="st">Token 工厂</div>
+        <div class="sd">服务终端调用，按 token 计费或 outcome 计费，反馈回流到下一轮训练</div>
+        <div class="sk"><b>趋势</b>：Test-time compute ↑</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row layer3">
+  <div class="rowlabel">
+    <div class="lnum">03-x</div>
+    <div class="lbar"></div>
+    <div class="lname">两侧</div>
+    <div class="len">TRAIN / INFER</div>
+    <div class="ldesc">训练边际收益递减，推理急速扩张。</div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot train"></span><span class="title">训练侧 · 寡头化</span><span class="meta">CapEx 战争</span></div>
+    <div class="trend"><span class="arr-down">▼</span> 预训练边际收益递减 · 数据耗尽问题显现</div>
+    <div class="block">
+      <div class="label">全球玩家</div>
+      <div class="body">
+        <span class="pill us">OpenAI <b>GPT-5 / o3</b></span>
+        <span class="pill us">Anthropic <b>Claude Opus 4.7</b></span>
+        <span class="pill us">Google <b>Gemini 2.5/3</b></span>
+        <span class="pill us">xAI <b>Grok 4</b></span>
+        <span class="pill us">Meta <b>Llama 4</b></span>
+      </div>
+    </div>
+    <div class="block">
+      <div class="label">中国玩家</div>
+      <div class="body">
+        <span class="pill cn">DeepSeek <b>V3 / R1</b></span>
+        <span class="pill cn">Alibaba <b>Qwen 3</b></span>
+        <span class="pill cn">Moonshot <b>Kimi K2</b></span>
+        <span class="pill cn">Zhipu <b>GLM-4.6</b></span>
+        <span class="pill cn">MiniMax <b>M2</b></span>
+        <span class="pill cn">Baidu <b>ERNIE 4.5</b></span>
+        <span class="pill cn">ByteDance <b>Doubao</b></span>
+      </div>
+    </div>
+    <div class="block">
+      <div class="label">单次训练成本</div>
+      <div class="body"><code>$10M – $1B+</code> · 顶级 AI 人才薪酬 <code>$1M – $100M</code> · 折旧 <b>2-3 年</b></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot infer"></span><span class="title">推理侧 · 价值兑现</span><span class="meta">扩张中</span></div>
+    <div class="trend"><span class="arr-up">▲</span> Test-time compute 急速扩张 · o-series / R1 推理增强</div>
+    <div class="block">
+      <div class="label">商业模式</div>
+      <div class="body">
+        <b>订阅</b>：ChatGPT Plus $20/Pro $200 · Claude Pro $20/Max $100-200 · Gemini Advanced $20<br>
+        <b>API</b>：按 token 计价（输入/输出/缓存三轨）· 长上下文溢价
+      </div>
+    </div>
+    <div class="block">
+      <div class="label">价格趋势</div>
+      <div class="body">GPT-4 级 API 价格自 2023 已下降 <b>~95%+</b> · 开源 + 中国模型加速这一过程 · 纯推理利润被持续压缩</div>
+    </div>
+    <div class="block">
+      <div class="label">推理优化技术栈</div>
+      <div class="body"><span class="pill">KV cache</span><span class="pill">Speculative decoding</span><span class="pill">MoE 路由</span><span class="pill">FP8/INT4 量化</span><span class="pill">Continuous batching</span><span class="pill">PagedAttention</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== LAYER 04 · 硬件 · 供应链 ============== -->
+<div class="row layer4 full-row">
+  <div class="rowlabel">
+    <div class="lnum">04</div>
+    <div class="lbar"></div>
+    <div class="lname">硬件</div>
+    <div class="len">HARDWARE</div>
+    <div class="ldesc">从沙子到 GW 级集群的物理流水线。每个环节都有结构性瓶颈，构成最深的护城河。</div>
+  </div>
+  <div class="pipeline">
+    <div class="ph"><span class="num">PIPELINE</span> 硬件产业链 · 从硅到集群的七个环节</div>
+    <div class="steps">
+      <div class="step">
+        <div class="sn">① 硅片</div>
+        <div class="st">硅原料 · 12寸晶圆</div>
+        <div class="sd">高纯多晶硅熔炼成单晶硅锭，切片成 12 寸晶圆基板</div>
+        <div class="sk"><b>玩家</b>：信越 · SUMCO</div>
+      </div>
+      <div class="step">
+        <div class="sn">② 晶圆制造</div>
+        <div class="st">先进制程 Fab</div>
+        <div class="sd">光刻 + 蚀刻 + 沉积，~2000 道工序。Blackwell 用 N4P，HBM 用 1z/1α nm</div>
+        <div class="sk"><b>玩家</b>：TSMC · Samsung · Intel · 中芯（受限）</div>
+      </div>
+      <div class="step">
+        <div class="sn">③ HBM</div>
+        <div class="st">高带宽内存</div>
+        <div class="sd">DRAM die 多层 TSV 垂直堆叠（HBM3E 8/12 层），是 AI 的核心瓶颈</div>
+        <div class="sk"><b>玩家</b>：<b>SK 海力士 ~50%+</b> · 三星 · 美光</div>
+      </div>
+      <div class="step">
+        <div class="sn">④ 先进封装</div>
+        <div class="st">CoWoS · 2.5D 集成</div>
+        <div class="sd">GPU die + HBM die 通过硅 interposer 集成在一个 package 内</div>
+        <div class="sk"><b>玩家</b>：TSMC CoWoS 几近垄断</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑤ 加速卡</div>
+        <div class="st">SXM / PCIe 板卡</div>
+        <div class="sd">封装后的芯片焊到 SXM 卡上，配 VRM、散热片、连接器</div>
+        <div class="sk"><b>玩家</b>：Nvidia · 华为 · AMD</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑥ 服务器</div>
+        <div class="st">8-GPU 节点</div>
+        <div class="sd">8 张 SXM 卡 + CPU + 内存 + NVLink + 网卡，整机功耗 10-15kW</div>
+        <div class="sk"><b>玩家</b>：超微 · 鸿海 · 工业富联</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑦ 集群</div>
+        <div class="st">NVL72 / Pod / DC</div>
+        <div class="sd">72 GPU 一柜 · 数千机柜组 Pod · InfiniBand/RoCE 互联 · GW 级 DC</div>
+        <div class="sk"><b>玩家</b>：Hyperscaler · Neocloud</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row layer4">
+  <div class="rowlabel">
+    <div class="lnum">04-x</div>
+    <div class="lbar"></div>
+    <div class="lname">两侧</div>
+    <div class="len">TRAIN / INFER</div>
+    <div class="ldesc">训练用最贵最新，推理百舸争流。</div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot train"></span><span class="title">训练硬件 · 高度集中</span><span class="meta">寡头</span></div>
+    <div class="block">
+      <div class="label">HBM · 核心瓶颈</div>
+      <div class="body"><b>SK 海力士</b>（~50%+ HBM3E 主导）· <b>Samsung</b> · <b>Micron</b> · 国产 <span class="pill cn">长鑫 CXMT</span> 仍 HBM2 阶段</div>
+    </div>
+    <div class="block">
+      <div class="label">GPU · Nvidia 近垄断</div>
+      <div class="body">
+        <span class="pill">H100</span><span class="pill">H200</span><span class="pill">B100</span><span class="pill">B200</span><span class="pill">GB200 NVL72</span><span class="pill">GB300</span><br>
+        中国受限版：<span class="pill cn">H20</span><span class="pill cn">B30A（传）</span> · 国产训练：<span class="pill cn">华为昇腾 910B/910C</span>
+      </div>
+    </div>
+    <div class="block">
+      <div class="label">互联 · 隐藏瓶颈</div>
+      <div class="body"><span class="pill">NVLink 5</span><span class="pill">NVSwitch</span><span class="pill">InfiniBand NDR</span><span class="pill">RoCE</span> · 大集群训练性能 30%+ 取决于网络</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot infer"></span><span class="title">推理硬件 · 百舸争流</span><span class="meta">国产窗口</span></div>
+    <div class="block">
+      <div class="label">GPU · Nvidia 仍领先</div>
+      <div class="body">Nvidia <span class="pill">H100</span><span class="pill">L40S</span><span class="pill">RTX Pro 6000</span> · 国产 <span class="pill cn">昇腾 910B/C</span><span class="pill cn">寒武纪</span><span class="pill cn">海光</span><span class="pill cn">摩尔线程</span><span class="pill cn">沐曦</span><span class="pill cn">壁仞</span></div>
+    </div>
+    <div class="block">
+      <div class="label">专用推理芯片 · 挑战 Nvidia</div>
+      <div class="body"><span class="pill">Groq LPU</span><span class="pill">Cerebras WSE-3</span><span class="pill">SambaNova</span><span class="pill">Tenstorrent</span><span class="pill">Etched Sohu</span><span class="pill">AWS Trainium/Inferentia</span><span class="pill">Google TPU v5/v6</span></div>
+    </div>
+    <div class="block">
+      <div class="label">架构 · ARM 上位 · 边缘成熟</div>
+      <div class="body"><span class="pill">ARM Neoverse</span><span class="pill">Nvidia Grace</span><span class="pill">Apple Neural Engine</span><span class="pill">Qualcomm AI Engine</span> · 端侧 ≤7B 模型推理硬件已成熟</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== LAYER 05 · 能源 · 流水线 ============== -->
+<div class="row layer5 full-row">
+  <div class="rowlabel">
+    <div class="lnum">05</div>
+    <div class="lbar"></div>
+    <div class="lname">能源</div>
+    <div class="len">ENERGY</div>
+    <div class="ldesc">2026-2030 年的核心约束。从一次能源到机柜的每一步都有损耗，每一步都是中美差异的产生点。</div>
+  </div>
+  <div class="pipeline">
+    <div class="ph"><span class="num">PIPELINE</span> 能源产业链 · 从化石燃料到算力的六个环节</div>
+    <div class="steps">
+      <div class="step">
+        <div class="sn">① 一次能源</div>
+        <div class="st">化石 · 核 · 可再生</div>
+        <div class="sd">天然气 / 煤 / 铀 / 太阳能 / 风能 / 水。决定碳排与单位电价</div>
+        <div class="sk"><b>结构</b>：美 — 气主导 · 中 — 煤+风光增量</div>
+      </div>
+      <div class="step">
+        <div class="sn">② 发电</div>
+        <div class="st">燃机 · 反应堆 · 光伏</div>
+        <div class="sd">燃气联合循环 60%+ 效率 · 大堆 33% · 小堆 SMR 灵活 · 光伏装机暴增</div>
+        <div class="sk"><b>新趋势</b>：SMR · 风光配储</div>
+      </div>
+      <div class="step">
+        <div class="sn">③ 输电</div>
+        <div class="st">高压远距离输送</div>
+        <div class="sd">交流 500kV / 直流 ±800-1100kV (UHV)，远距离损耗 5-7%</div>
+        <div class="sk"><b>中国优势</b>：特高压 UHV</div>
+      </div>
+      <div class="step">
+        <div class="sn">④ 配电</div>
+        <div class="st">变电站 + 接入</div>
+        <div class="sd">降压到 35/10kV → 数据中心高压配电柜。<b>变压器排队 2-3 年</b></div>
+        <div class="sk"><b>瓶颈</b>：电网接入而非发电</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑤ 数据中心</div>
+        <div class="st">IT 负载 + 配电</div>
+        <div class="sd">UPS 与电池后备 → PDU → 机柜 → 服务器。GPU 单卡 700-1200W</div>
+        <div class="sk"><b>密度</b>：单柜 30-130kW</div>
+      </div>
+      <div class="step">
+        <div class="sn">⑥ 散热</div>
+        <div class="st">液冷 · 蒸发 · 空冷</div>
+        <div class="sd">冷板液冷 / 浸没液冷必备。PUE 训练&lt;1.15 推理&lt;1.3。余热回收兴起</div>
+        <div class="sk"><b>趋势</b>：液冷成训练标配</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row layer5">
+  <div class="rowlabel">
+    <div class="lnum">05-x</div>
+    <div class="lbar"></div>
+    <div class="lname">两侧</div>
+    <div class="len">TRAIN / INFER</div>
+    <div class="ldesc">训练要集中大功率，推理要靠近用户。</div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot train"></span><span class="title">训练能源 · 集中超大负载</span><span class="meta">GW 级</span></div>
+    <div class="block">
+      <div class="label">美国 · 廉价电 + 宽松监管</div>
+      <div class="body"><span class="pill us">德州 ERCOT</span>（独立电网 + 廉价气电 + 风电）· <span class="pill us">Virginia DC 走廊</span>（占全美 DC 流量 ~70%）· <span class="pill us">Phoenix AZ</span> · <span class="pill us">Wyoming</span></div>
+    </div>
+    <div class="block">
+      <div class="label">中国 · 东数西算工程</div>
+      <div class="body"><span class="pill cn">内蒙古和林格尔</span><span class="pill cn">宁夏中卫</span><span class="pill cn">甘肃庆阳</span><span class="pill cn">贵州贵安</span><span class="pill cn">四川天府</span><span class="pill cn">青海</span></div>
+    </div>
+    <div class="block">
+      <div class="label">散热标配</div>
+      <div class="body"><span class="pill">液冷-冷板</span><span class="pill">液冷-浸没</span> · PUE 目标 <code>&lt; 1.15</code></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="h"><span class="dot infer"></span><span class="title">推理能源 · 分布式低延迟</span><span class="meta">就近接入</span></div>
+    <div class="block">
+      <div class="label">美国 · 核电复兴</div>
+      <div class="body">
+        <b>SMR 小堆</b>：<span class="pill us">Oklo</span><span class="pill us">NuScale</span><span class="pill us">X-energy</span><br>
+        <b>重启 / 长协</b>：Microsoft × Constellation 三里岛 · AWS × Talen Susquehanna · Meta × Constellation · Google × Kairos Power
+      </div>
+    </div>
+    <div class="block">
+      <div class="label">中国 · 东沿 + 西能</div>
+      <div class="body">推理下沉长三角/珠三角/京津冀；西部能源经 <b>特高压 ±800kV/±1100kV</b> 直送 · 沿海核电加速（华龙一号、玲龙一号 SMR）</div>
+    </div>
+    <div class="block">
+      <div class="label">关键约束</div>
+      <div class="body">美电网升级滞后（变压器周期 2-3 年）· 中国 PUE 监管收紧 · 共同瓶颈：<b>电网接入排队</b></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== 价值迁移 ============== -->
+<div class="migration">
+  <div class="mlbl">价值迁移</div>
+  <div class="marrow"></div>
+  <div class="mtext">产业链权重正从 <span style="color:var(--train)">训练侧</span> 向 <span style="color:var(--infer)">推理 / 部署 / 使用侧</span> 系统性转移：CapEx 增速放缓，OpEx 与单位经济学成为决胜点</div>
+</div>
+
+<!-- ============== FOOTER ============== -->
+<div class="foot">
+  <div class="sources">
+    数据来源 · SEMI / TrendForce HBM 报告 · IEA Electricity 2025 · 中国"东数西算"白皮书 · Anthropic/OpenAI/Google 公开发布 · Artificial Analysis · SemiAnalysis · Sacra · Bessemer/ICONIQ State of AI 2026 · 各厂商 IR · <span>数值截至 2026-05；模型版本、价格、ARR 随时间变化，决策时请二次核验</span>
+  </div>
+  <div>© XT MEMO · v3.0 light · 制图 2026-05-15</div>
+</div>
+
+</body>
+</html>
