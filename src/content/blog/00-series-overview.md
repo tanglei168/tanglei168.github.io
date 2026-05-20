@@ -1,7 +1,7 @@
 ---
 draft: false
-title: "AI 投资思考系列：6 篇文章总览"
-description: "从 AI 价值兑现真相到电力基础设施的完整投资思考。本系列 6 篇文章相互独立但彼此引用，可以独立阅读，也可以按顺序读完形成完整框架。"
+title: "AI 投资思考系列：7 篇文章总览"
+description: "从 AI 价值兑现真相到电力基础设施、再到云厂商资本开支的隐形杠杆，本系列 7 篇文章相互独立但彼此引用，可以独立阅读，也可以按顺序读完形成完整框架。"
 date: 2026-05-07
 author: "XT"
 tags:
@@ -12,7 +12,7 @@ series: "ai-investment-thinking"
 seriesOrder: 0
 ---
 
-> 这是一个相互独立但彼此引用的系列。每一篇都从不同角度切入 AI 投资的一个核心问题，可以独立阅读，也可以按顺序读完形成完整框架。本系列共 6 篇内容文章。
+> 这是一个相互独立但彼此引用的系列。每一篇都从不同角度切入 AI 投资的一个核心问题，可以独立阅读，也可以按顺序读完形成完整框架。本系列共 7 篇内容文章。
 
 ## 系列结构
 
@@ -24,8 +24,9 @@ seriesOrder: 0
 | 4 | [**四大公司未来承诺深度**](/blog/04-four-companies-commitments/) | NVIDIA、OpenAI、Anthropic、Google 各自承诺了什么？谁能兑现？ | 约 2.3 万字 |
 | 5 | [**中美 AI 算力链的估值与压力测试**](/blog/05-valuation-and-stress-test/) | 在 5 种情景假设下，配置应该如何调整？ | 约 2.4 万字 |
 | 6 | [**AI 电力瓶颈：电力是不是最稳定的那把铲子？**](/blog/06-power-the-most-stable-shovel/) | 电力相比 GPU、代工、HBM，是不是真正最稳定的铲子？ | 约 2.2 万字 |
+| 7 | [**AI 资本开支的隐形杠杆：四大云厂商把债务藏在哪里**](/blog/07-capex-hidden-leverage/) | 牛市说"还有发债空间"——真正的杠杆比报表显示的高多少？藏在哪里？ | 约 0.6 万字 |
 
-**总计约 13.9 万字。**
+**总计约 14.5 万字。**
 
 ## 系列论证链
 
@@ -41,23 +42,25 @@ seriesOrder: 0
 [第 5 篇] 估值与配置   —— 综合前 4 篇得出条件性结论
               ↓
 [第 6 篇] 电力瓶颈     —— 电力是不是比 GPU、代工、HBM 更稳定的铲子？
+              ↓
+[第 7 篇] 隐形杠杆     —— 撑起 AI capex 八成的四家，把多少债务藏在了表外？
 ```
 
 ## 推荐阅读路径
 
 ### 路径 A：完整阅读（推荐严肃投资者）
 
-按 1 → 2 → 3 → 4 → 5 → 6 顺序读完，预计 8-10 小时。
+按 1 → 2 → 3 → 4 → 5 → 6 → 7 顺序读完，预计 8-10 小时。
 
 ### 路径 B：方法论优先
 
-读 [第 2 篇](/blog/02-hype-detection-framework/)（炒作识别框架）→ [第 1 篇](/blog/01-ai-value-reality/)（用方法论审视 AI 现状）→ [第 5 篇](/blog/05-valuation-and-stress-test/)（应用到投资决策）→ [第 6 篇](/blog/06-power-the-most-stable-shovel/)（电力链稳定性分析）。
+读 [第 2 篇](/blog/02-hype-detection-framework/)（炒作识别框架）→ [第 1 篇](/blog/01-ai-value-reality/)（用方法论审视 AI 现状）→ [第 5 篇](/blog/05-valuation-and-stress-test/)（应用到投资决策）→ [第 6 篇](/blog/06-power-the-most-stable-shovel/)（电力链稳定性分析）→ [第 7 篇](/blog/07-capex-hidden-leverage/)（资金侧的隐形约束）。
 
 跳过具体公司分析（第 3、4 篇），适合**关注方法论而非个股的读者**。
 
 ### 路径 C：实战配置优先
 
-直接读 [第 5 篇](/blog/05-valuation-and-stress-test/) 和 [第 6 篇](/blog/06-power-the-most-stable-shovel/)，遇到不理解的地方回头看其他文章。适合**已经持有 AI 资产，想优化配置的投资者**。
+直接读 [第 5 篇](/blog/05-valuation-and-stress-test/) 和 [第 6 篇](/blog/06-power-the-most-stable-shovel/)，再补 [第 7 篇](/blog/07-capex-hidden-leverage/) 理解资金端的隐形约束。遇到不理解的地方回头看其他文章。适合**已经持有 AI 资产，想优化配置的投资者**。
 
 ### 路径 D：单篇深入
 
@@ -69,6 +72,7 @@ seriesOrder: 0
 - 关注具体公司基本面 → [第 4 篇](/blog/04-four-companies-commitments/)
 - 关注实战配置 → [第 5 篇](/blog/05-valuation-and-stress-test/)
 - 关注电力基础设施 → [第 6 篇](/blog/06-power-the-most-stable-shovel/)
+- 关注 AI capex 资金端 / 表外杠杆 → [第 7 篇](/blog/07-capex-hidden-leverage/)
 
 ## 立场说明
 
