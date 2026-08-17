@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-17T10:37:50.560096+08:00",
+  "last_updated": "2026-08-17T18:53:01.160323+08:00",
   "cn": [
     {
       "ticker": "9988.HK",
@@ -7,17 +7,9 @@
       "weight": 25,
       "tier": "core",
       "thesis": "全栈 AI 重估 + 3800 亿承诺",
-      "price": 122.0,
-      "change_pct": 1.75,
-      "pe_ttm": 19.0625,
-      "pe_forward": 13.207507,
-      "market_cap": 2339348676608,
-      "week52_high": 186.2,
-      "week52_low": 88.65,
-      "from_high_pct": -34.48,
-      "currency": "HKD",
-      "fetched_at": "2026-08-17T10:37:50.883941+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:01.258510+08:00"
     },
     {
       "ticker": "0981.HK",
@@ -25,17 +17,9 @@
       "weight": 20,
       "tier": "core",
       "thesis": "产业链最核心环节",
-      "price": 74.35,
-      "change_pct": 5.01,
-      "pe_ttm": 104.71831,
-      "pe_forward": 46.111763,
-      "market_cap": 636495921152,
-      "week52_high": 93.5,
-      "week52_low": 49.32,
-      "from_high_pct": -20.48,
-      "currency": "HKD",
-      "fetched_at": "2026-08-17T10:37:51.036611+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:01.367747+08:00"
     },
     {
       "ticker": "603019.SS",
@@ -43,17 +27,9 @@
       "weight": 10,
       "tier": "core",
       "thesis": "折价持股海光",
-      "price": 89.8,
-      "change_pct": 0.49,
-      "pe_ttm": 59.07895,
-      "pe_forward": 35.634922,
-      "market_cap": 131387801600,
-      "week52_high": 128.12,
-      "week52_low": 72.0,
-      "from_high_pct": -29.91,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:51.221320+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:01.439691+08:00"
     },
     {
       "ticker": "002371.SZ",
@@ -61,17 +37,9 @@
       "weight": 5,
       "tier": "core",
       "thesis": "设备平台龙头",
-      "price": 751.32,
-      "change_pct": 1.71,
-      "pe_ttm": 97.828125,
-      "pe_forward": 50.96981,
-      "market_cap": 545224818688,
-      "week52_high": 968.0,
-      "week52_low": 335.16,
-      "from_high_pct": -22.38,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:51.425410+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:01.538863+08:00"
     },
     {
       "ticker": "688008.SS",
@@ -79,17 +47,9 @@
       "weight": 8,
       "tier": "satellite",
       "thesis": "毛利率 71%",
-      "price": 216.57,
-      "change_pct": 2.2,
-      "pe_ttm": 97.11659,
-      "pe_forward": 47.78263,
-      "market_cap": 264331919360,
-      "week52_high": 332.9,
-      "week52_low": 88.33,
-      "from_high_pct": -34.94,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:51.603908+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:01.642640+08:00"
     },
     {
       "ticker": "002156.SZ",
@@ -97,17 +57,9 @@
       "weight": 7,
       "tier": "satellite",
       "thesis": "AMD 链高弹性",
-      "price": 68.4,
-      "change_pct": 8.64,
-      "pe_ttm": 72.0,
-      "pe_forward": 86.582275,
-      "market_cap": 103803633664,
-      "week52_high": 84.7,
-      "week52_low": 28.32,
-      "from_high_pct": -19.24,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:51.798969+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:01.730656+08:00"
     },
     {
       "ticker": "300308.SZ",
@@ -115,17 +67,9 @@
       "weight": 5,
       "tier": "satellite",
       "thesis": "光模块龙头",
-      "price": 942.22,
-      "change_pct": -0.08,
-      "pe_ttm": 70.36743,
-      "pe_forward": 15.105852,
-      "market_cap": 1102147354624,
-      "week52_high": 1416.88,
-      "week52_low": 238.08,
-      "from_high_pct": -33.5,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:52.128618+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:01.852779+08:00"
     },
     {
       "ticker": "600584.SS",
@@ -133,17 +77,9 @@
       "weight": 5,
       "tier": "satellite",
       "thesis": "封装多元",
-      "price": 82.66,
-      "change_pct": 5.02,
-      "pe_ttm": 89.84783,
-      "pe_forward": 56.224407,
-      "market_cap": 147913015296,
-      "week52_high": 113.87,
-      "week52_low": 34.58,
-      "from_high_pct": -27.41,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:52.334364+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.034191+08:00"
     },
     {
       "ticker": "0700.HK",
@@ -151,17 +87,9 @@
       "weight": 7,
       "tier": "theme",
       "thesis": "防御性 + AI 期权",
-      "price": 444.8,
-      "change_pct": 1.09,
-      "pe_ttm": 15.021952,
-      "pe_forward": 12.270684,
-      "market_cap": 4008628453376,
-      "week52_high": 683.0,
-      "week52_low": 411.0,
-      "from_high_pct": -34.88,
-      "currency": "HKD",
-      "fetched_at": "2026-08-17T10:37:52.538907+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.153865+08:00"
     },
     {
       "ticker": "688041.SS",
@@ -169,17 +97,9 @@
       "weight": 5,
       "tier": "theme",
       "thesis": "PE 260x 仅小仓位",
-      "price": 282.1,
-      "change_pct": 0.4,
-      "pe_ttm": 208.96297,
-      "pe_forward": 101.47482,
-      "market_cap": 655695806464,
-      "week52_high": 395.17,
-      "week52_low": 146.77,
-      "from_high_pct": -28.61,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:52.700078+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.318328+08:00"
     },
     {
       "ticker": "688256.SS",
@@ -187,17 +107,9 @@
       "weight": 3,
       "tier": "theme",
       "thesis": "PE 348x 仅小仓位",
-      "price": 1124.0,
-      "change_pct": 2.84,
-      "pe_ttm": 214.09525,
-      "pe_forward": 57.84601,
-      "market_cap": 706201321472,
-      "week52_high": 1620.0,
-      "week52_low": 604.03,
-      "from_high_pct": -30.62,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:52.857430+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.490119+08:00"
     },
     {
       "ticker": "002261.SZ",
@@ -205,17 +117,9 @@
       "weight": 0,
       "tier": "avoid",
       "thesis": "PE 500x+ 严格回避",
-      "price": 26.04,
-      "change_pct": -1.51,
-      "pe_ttm": 651.00006,
-      "pe_forward": 137.05264,
-      "market_cap": 32809570304,
-      "week52_high": 45.43,
-      "week52_low": 24.52,
-      "from_high_pct": -42.68,
-      "currency": "CNY",
-      "fetched_at": "2026-08-17T10:37:53.036169+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.685887+08:00"
     }
   ],
   "us": [
@@ -225,17 +129,9 @@
       "weight": 25,
       "tier": "core",
       "thesis": "AI 算力代名词，PEG < 1",
-      "price": 225.16,
-      "change_pct": -0.06,
-      "pe_ttm": 34.480858,
-      "pe_forward": 17.59288,
-      "market_cap": 5453600260096,
-      "week52_high": 236.54,
-      "week52_low": 164.07,
-      "from_high_pct": -4.81,
-      "currency": "USD",
-      "fetched_at": "2026-08-17T10:37:53.239875+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.826261+08:00"
     },
     {
       "ticker": "GOOGL",
@@ -243,17 +139,9 @@
       "weight": 20,
       "tier": "core",
       "thesis": "估值最低 + Cloud +63%",
-      "price": 345.9,
-      "change_pct": -0.13,
-      "pe_ttm": 17.364458,
-      "pe_forward": 23.456905,
-      "market_cap": 4230334382080,
-      "week52_high": 408.61,
-      "week52_low": 196.6,
-      "from_high_pct": -15.35,
-      "currency": "USD",
-      "fetched_at": "2026-08-17T10:37:53.395499+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.903400+08:00"
     },
     {
       "ticker": "MSFT",
@@ -261,17 +149,9 @@
       "weight": 15,
       "tier": "core",
       "thesis": "企业 AI 龙头",
-      "price": 495.4,
-      "change_pct": -0.3,
-      "pe_ttm": 27.62967,
-      "pe_forward": 21.015318,
-      "market_cap": 3678615371776,
-      "week52_high": 553.72,
-      "week52_low": 349.2,
-      "from_high_pct": -10.53,
-      "currency": "USD",
-      "fetched_at": "2026-08-17T10:37:53.628976+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:02.979337+08:00"
     },
     {
       "ticker": "TSM",
@@ -279,17 +159,9 @@
       "weight": 15,
       "tier": "core",
       "thesis": "AI 芯片唯一代工商",
-      "price": 426.35,
-      "change_pct": -0.96,
-      "pe_ttm": 32.15309,
-      "pe_forward": 19.574158,
-      "market_cap": 2211253321728,
-      "week52_high": 479.0,
-      "week52_low": 223.7,
-      "from_high_pct": -10.99,
-      "currency": "USD",
-      "fetched_at": "2026-08-17T10:37:53.839612+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:03.081841+08:00"
     },
     {
       "ticker": "META",
@@ -297,17 +169,9 @@
       "weight": 10,
       "tier": "core",
       "thesis": "广告 AI 化最早兑现",
-      "price": 589.85,
-      "change_pct": -0.86,
-      "pe_ttm": 22.224941,
-      "pe_forward": 16.908413,
-      "market_cap": 1502646501376,
-      "week52_high": 790.8,
-      "week52_low": 520.26,
-      "from_high_pct": -25.41,
-      "currency": "USD",
-      "fetched_at": "2026-08-17T10:37:54.007954+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:03.153922+08:00"
     },
     {
       "ticker": "AVGO",
@@ -315,17 +179,9 @@
       "weight": 10,
       "tier": "satellite",
       "thesis": "ASIC 王者，$73B AI 订单",
-      "price": 392.99,
-      "change_pct": -5.94,
-      "pe_ttm": 65.38934,
-      "pe_forward": 20.121695,
-      "market_cap": 1869681393664,
-      "week52_high": 495.0,
-      "week52_low": 281.87,
-      "from_high_pct": -20.61,
-      "currency": "USD",
-      "fetched_at": "2026-08-17T10:37:54.211408+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:03.227991+08:00"
     },
     {
       "ticker": "AMD",
@@ -333,17 +189,9 @@
       "weight": 5,
       "tier": "satellite",
       "thesis": "NVIDIA 唯一对手",
-      "price": 514.39,
-      "change_pct": 6.5,
-      "pe_ttm": 131.55754,
-      "pe_forward": 33.272594,
-      "market_cap": 839728824320,
-      "week52_high": 584.73,
-      "week52_low": 149.22,
-      "from_high_pct": -12.03,
-      "currency": "USD",
-      "fetched_at": "2026-08-17T10:37:54.416444+08:00",
-      "status": "ok"
+      "status": "error",
+      "error": "Too Many Requests. Rate limited. Try after a while.",
+      "fetched_at": "2026-08-17T18:53:03.354811+08:00"
     }
   ]
 }
