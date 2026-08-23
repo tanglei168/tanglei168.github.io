@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-23T10:40:36.571927+08:00",
+  "last_updated": "2026-08-23T18:46:23.898733+08:00",
   "cn": [
     {
       "ticker": "9988.HK",
@@ -10,13 +10,13 @@
       "price": 123.0,
       "change_pct": -2.54,
       "pe_ttm": 28.472221,
-      "pe_forward": 13.123845,
+      "pe_forward": 13.125786,
       "market_cap": 2358523723776,
       "week52_high": 186.2,
       "week52_low": 88.65,
       "from_high_pct": -33.94,
       "currency": "HKD",
-      "fetched_at": "2026-08-23T10:40:37.856168+08:00",
+      "fetched_at": "2026-08-23T18:46:24.398357+08:00",
       "status": "ok"
     },
     {
@@ -34,7 +34,7 @@
       "week52_low": 49.32,
       "from_high_pct": -22.46,
       "currency": "HKD",
-      "fetched_at": "2026-08-23T10:40:38.365594+08:00",
+      "fetched_at": "2026-08-23T18:46:24.710179+08:00",
       "status": "ok"
     },
     {
@@ -52,7 +52,7 @@
       "week52_low": 76.78,
       "from_high_pct": -34.35,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:38.812898+08:00",
+      "fetched_at": "2026-08-23T18:46:25.009671+08:00",
       "status": "ok"
     },
     {
@@ -70,7 +70,7 @@
       "week52_low": 345.0,
       "from_high_pct": -26.2,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:39.255555+08:00",
+      "fetched_at": "2026-08-23T18:46:25.308133+08:00",
       "status": "ok"
     },
     {
@@ -88,7 +88,7 @@
       "week52_low": 99.61,
       "from_high_pct": -39.76,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:39.684915+08:00",
+      "fetched_at": "2026-08-23T18:46:25.598142+08:00",
       "status": "ok"
     },
     {
@@ -106,7 +106,7 @@
       "week52_low": 29.16,
       "from_high_pct": -24.58,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:40.125295+08:00",
+      "fetched_at": "2026-08-23T18:46:25.903162+08:00",
       "status": "ok"
     },
     {
@@ -124,7 +124,7 @@
       "week52_low": 288.0,
       "from_high_pct": -33.45,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:40.576758+08:00",
+      "fetched_at": "2026-08-23T18:46:26.287765+08:00",
       "status": "ok"
     },
     {
@@ -142,7 +142,7 @@
       "week52_low": 34.58,
       "from_high_pct": -31.0,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:41.026057+08:00",
+      "fetched_at": "2026-08-23T18:46:26.598143+08:00",
       "status": "ok"
     },
     {
@@ -160,7 +160,7 @@
       "week52_low": 411.0,
       "from_high_pct": -33.09,
       "currency": "HKD",
-      "fetched_at": "2026-08-23T10:40:41.465586+08:00",
+      "fetched_at": "2026-08-23T18:46:26.949781+08:00",
       "status": "ok"
     },
     {
@@ -178,7 +178,7 @@
       "week52_low": 169.33,
       "from_high_pct": -37.7,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:41.898465+08:00",
+      "fetched_at": "2026-08-23T18:46:27.644343+08:00",
       "status": "ok"
     },
     {
@@ -196,7 +196,7 @@
       "week52_low": 649.66,
       "from_high_pct": -36.11,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:42.357922+08:00",
+      "fetched_at": "2026-08-23T18:46:27.962296+08:00",
       "status": "ok"
     },
     {
@@ -214,7 +214,7 @@
       "week52_low": 24.52,
       "from_high_pct": -43.87,
       "currency": "CNY",
-      "fetched_at": "2026-08-23T10:40:42.794629+08:00",
+      "fetched_at": "2026-08-23T18:46:28.246894+08:00",
       "status": "ok"
     }
   ],
@@ -234,7 +234,7 @@
       "week52_low": 164.07,
       "from_high_pct": -9.22,
       "currency": "USD",
-      "fetched_at": "2026-08-23T10:40:43.241126+08:00",
+      "fetched_at": "2026-08-23T18:46:28.560004+08:00",
       "status": "ok"
     },
     {
@@ -252,7 +252,7 @@
       "week52_low": 205.28,
       "from_high_pct": -15.61,
       "currency": "USD",
-      "fetched_at": "2026-08-23T10:40:43.691743+08:00",
+      "fetched_at": "2026-08-23T18:46:28.842501+08:00",
       "status": "ok"
     },
     {
@@ -270,7 +270,7 @@
       "week52_low": 349.2,
       "from_high_pct": -12.73,
       "currency": "USD",
-      "fetched_at": "2026-08-23T10:40:44.161037+08:00",
+      "fetched_at": "2026-08-23T18:46:29.233131+08:00",
       "status": "ok"
     },
     {
@@ -288,7 +288,7 @@
       "week52_low": 225.63,
       "from_high_pct": -12.54,
       "currency": "USD",
-      "fetched_at": "2026-08-23T10:40:44.625146+08:00",
+      "fetched_at": "2026-08-23T18:46:29.530583+08:00",
       "status": "ok"
     },
     {
@@ -306,7 +306,7 @@
       "week52_low": 520.26,
       "from_high_pct": -30.46,
       "currency": "USD",
-      "fetched_at": "2026-08-23T10:40:45.062050+08:00",
+      "fetched_at": "2026-08-23T18:46:29.841002+08:00",
       "status": "ok"
     },
     {
@@ -324,7 +324,7 @@
       "week52_low": 287.17,
       "from_high_pct": -25.57,
       "currency": "USD",
-      "fetched_at": "2026-08-23T10:40:45.581013+08:00",
+      "fetched_at": "2026-08-23T18:46:30.170560+08:00",
       "status": "ok"
     },
     {
@@ -342,7 +342,7 @@
       "week52_low": 149.22,
       "from_high_pct": -19.07,
       "currency": "USD",
-      "fetched_at": "2026-08-23T10:40:46.009174+08:00",
+      "fetched_at": "2026-08-23T18:46:30.448485+08:00",
       "status": "ok"
     }
   ]
