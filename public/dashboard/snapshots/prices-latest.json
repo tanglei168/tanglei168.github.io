@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-08-29T15:59:23.641526+08:00",
+  "last_updated": "2026-08-29T23:08:37.944585+08:00",
   "cn": [
     {
       "ticker": "9988.HK",
@@ -16,7 +16,7 @@
       "week52_low": 88.65,
       "from_high_pct": -38.83,
       "currency": "HKD",
-      "fetched_at": "2026-08-29T15:59:24.217517+08:00",
+      "fetched_at": "2026-08-29T23:08:38.368495+08:00",
       "status": "ok"
     },
     {
@@ -34,7 +34,7 @@
       "week52_low": 49.32,
       "from_high_pct": -24.97,
       "currency": "HKD",
-      "fetched_at": "2026-08-29T15:59:24.457663+08:00",
+      "fetched_at": "2026-08-29T23:08:38.684928+08:00",
       "status": "ok"
     },
     {
@@ -52,7 +52,7 @@
       "week52_low": 76.78,
       "from_high_pct": -33.02,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:24.731045+08:00",
+      "fetched_at": "2026-08-29T23:08:38.958309+08:00",
       "status": "ok"
     },
     {
@@ -70,7 +70,7 @@
       "week52_low": 345.0,
       "from_high_pct": -27.94,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:25.036524+08:00",
+      "fetched_at": "2026-08-29T23:08:39.267995+08:00",
       "status": "ok"
     },
     {
@@ -88,7 +88,7 @@
       "week52_low": 101.1,
       "from_high_pct": -36.02,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:25.291048+08:00",
+      "fetched_at": "2026-08-29T23:08:39.599939+08:00",
       "status": "ok"
     },
     {
@@ -106,7 +106,7 @@
       "week52_low": 30.26,
       "from_high_pct": -24.73,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:25.568303+08:00",
+      "fetched_at": "2026-08-29T23:08:39.889147+08:00",
       "status": "ok"
     },
     {
@@ -124,7 +124,7 @@
       "week52_low": 337.0,
       "from_high_pct": -39.42,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:25.831112+08:00",
+      "fetched_at": "2026-08-29T23:08:40.242230+08:00",
       "status": "ok"
     },
     {
@@ -142,7 +142,7 @@
       "week52_low": 34.58,
       "from_high_pct": -34.2,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:26.118377+08:00",
+      "fetched_at": "2026-08-29T23:08:40.601629+08:00",
       "status": "ok"
     },
     {
@@ -153,14 +153,14 @@
       "thesis": "防御性 + AI 期权",
       "price": 455.2,
       "change_pct": 1.65,
-      "pe_ttm": 15.331761,
+      "pe_ttm": 15.336927,
       "pe_forward": 12.583176,
       "market_cap": 4098172125184,
       "week52_high": 683.0,
       "week52_low": 411.0,
       "from_high_pct": -33.35,
       "currency": "HKD",
-      "fetched_at": "2026-08-29T15:59:26.404616+08:00",
+      "fetched_at": "2026-08-29T23:08:41.007770+08:00",
       "status": "ok"
     },
     {
@@ -178,7 +178,7 @@
       "week52_low": 169.33,
       "from_high_pct": -37.88,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:26.654309+08:00",
+      "fetched_at": "2026-08-29T23:08:41.362799+08:00",
       "status": "ok"
     },
     {
@@ -196,7 +196,7 @@
       "week52_low": 649.66,
       "from_high_pct": -35.39,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:26.893910+08:00",
+      "fetched_at": "2026-08-29T23:08:41.663110+08:00",
       "status": "ok"
     },
     {
@@ -214,7 +214,7 @@
       "week52_low": 24.52,
       "from_high_pct": -42.12,
       "currency": "CNY",
-      "fetched_at": "2026-08-29T15:59:27.142871+08:00",
+      "fetched_at": "2026-08-29T23:08:41.981859+08:00",
       "status": "ok"
     }
   ],
@@ -227,14 +227,14 @@
       "thesis": "AI 算力代名词，PEG < 1",
       "price": NaN,
       "change_pct": NaN,
-      "pe_ttm": 27.503162,
+      "pe_ttm": 28.81457,
       "pe_forward": 14.213399,
       "market_cap": 5253179637760,
       "week52_high": 236.54,
       "week52_low": 164.07,
       "from_high_pct": NaN,
       "currency": "USD",
-      "fetched_at": "2026-08-29T15:59:27.440550+08:00",
+      "fetched_at": "2026-08-29T23:08:42.280870+08:00",
       "status": "ok"
     },
     {
@@ -252,7 +252,7 @@
       "week52_low": 206.2,
       "from_high_pct": NaN,
       "currency": "USD",
-      "fetched_at": "2026-08-29T15:59:27.685484+08:00",
+      "fetched_at": "2026-08-29T23:08:42.561187+08:00",
       "status": "ok"
     },
     {
@@ -263,14 +263,14 @@
       "thesis": "企业 AI 龙头",
       "price": NaN,
       "change_pct": NaN,
-      "pe_ttm": 28.640827,
+      "pe_ttm": 28.169502,
       "pe_forward": 21.78441,
       "market_cap": 3813240733696,
       "week52_high": 553.72,
       "week52_low": 349.2,
       "from_high_pct": NaN,
       "currency": "USD",
-      "fetched_at": "2026-08-29T15:59:27.978798+08:00",
+      "fetched_at": "2026-08-29T23:08:42.873025+08:00",
       "status": "ok"
     },
     {
@@ -281,14 +281,14 @@
       "thesis": "AI 芯片唯一代工商",
       "price": NaN,
       "change_pct": NaN,
-      "pe_ttm": 31.111773,
+      "pe_ttm": 31.847445,
       "pe_forward": 19.168764,
       "market_cap": 2165456502784,
       "week52_high": 479.0,
       "week52_low": 225.63,
       "from_high_pct": NaN,
       "currency": "USD",
-      "fetched_at": "2026-08-29T15:59:28.320809+08:00",
+      "fetched_at": "2026-08-29T23:08:43.339897+08:00",
       "status": "ok"
     },
     {
@@ -306,7 +306,7 @@
       "week52_low": 520.26,
       "from_high_pct": NaN,
       "currency": "USD",
-      "fetched_at": "2026-08-29T15:59:28.597910+08:00",
+      "fetched_at": "2026-08-29T23:08:43.652827+08:00",
       "status": "ok"
     },
     {
@@ -317,14 +317,14 @@
       "thesis": "ASIC 王者，$73B AI 订单",
       "price": NaN,
       "change_pct": NaN,
-      "pe_ttm": 61.2608,
+      "pe_ttm": 61.773872,
       "pe_forward": 18.905115,
       "market_cap": 1754548011008,
       "week52_high": 495.0,
       "week52_low": 287.17,
       "from_high_pct": NaN,
       "currency": "USD",
-      "fetched_at": "2026-08-29T15:59:28.872675+08:00",
+      "fetched_at": "2026-08-29T23:08:44.009061+08:00",
       "status": "ok"
     },
     {
@@ -342,7 +342,7 @@
       "week52_low": 149.22,
       "from_high_pct": NaN,
       "currency": "USD",
-      "fetched_at": "2026-08-29T15:59:29.111544+08:00",
+      "fetched_at": "2026-08-29T23:08:44.321118+08:00",
       "status": "ok"
     }
   ]
