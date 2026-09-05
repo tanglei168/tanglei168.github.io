@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-05T13:58:23.654036+08:00",
+  "last_updated": "2026-09-05T21:28:59.318916+08:00",
   "cn": [
     {
       "ticker": "9988.HK",
@@ -10,13 +10,13 @@
       "price": 110.1,
       "change_pct": 2.42,
       "pe_ttm": 25.427252,
-      "pe_forward": 11.741626,
+      "pe_forward": 11.74448,
       "market_cap": 2189337165824,
       "week52_high": 186.2,
       "week52_low": 88.65,
       "from_high_pct": -40.87,
       "currency": "HKD",
-      "fetched_at": "2026-09-05T13:58:25.562048+08:00",
+      "fetched_at": "2026-09-05T21:28:59.785489+08:00",
       "status": "ok"
     },
     {
@@ -29,12 +29,12 @@
       "change_pct": -1.25,
       "pe_ttm": 65.882355,
       "pe_forward": 38.09772,
-      "market_cap": 575286149120,
+      "market_cap": 575309414400,
       "week52_high": 93.5,
       "week52_low": 49.32,
       "from_high_pct": -28.13,
       "currency": "HKD",
-      "fetched_at": "2026-09-05T13:58:26.066265+08:00",
+      "fetched_at": "2026-09-05T21:29:00.132341+08:00",
       "status": "ok"
     },
     {
@@ -52,7 +52,7 @@
       "week52_low": 76.78,
       "from_high_pct": -35.46,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:26.497172+08:00",
+      "fetched_at": "2026-09-05T21:29:00.387451+08:00",
       "status": "ok"
     },
     {
@@ -67,10 +67,10 @@
       "pe_forward": 44.299732,
       "market_cap": 463113060352,
       "week52_high": 968.0,
-      "week52_low": 346.0,
+      "week52_low": 353.02,
       "from_high_pct": -34.07,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:26.871614+08:00",
+      "fetched_at": "2026-09-05T21:29:00.685008+08:00",
       "status": "ok"
     },
     {
@@ -81,14 +81,14 @@
       "thesis": "毛利率 71%",
       "price": 187.7,
       "change_pct": -1.22,
-      "pe_ttm": 72.19231,
+      "pe_ttm": 71.91571,
       "pe_forward": 44.178425,
       "market_cap": 229094981632,
       "week52_high": 332.9,
-      "week52_low": 102.48,
+      "week52_low": 107.71,
       "from_high_pct": -43.62,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:27.231115+08:00",
+      "fetched_at": "2026-09-05T21:29:00.987926+08:00",
       "status": "ok"
     },
     {
@@ -106,7 +106,7 @@
       "week52_low": 31.1,
       "from_high_pct": -32.86,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:27.630303+08:00",
+      "fetched_at": "2026-09-05T21:29:01.273871+08:00",
       "status": "ok"
     },
     {
@@ -119,12 +119,12 @@
       "change_pct": 0.12,
       "pe_ttm": 44.45658,
       "pe_forward": 12.241384,
-      "market_cap": 958818418688,
+      "market_cap": 952164024320,
       "week52_high": 1416.88,
       "week52_low": 337.0,
       "from_high_pct": -42.55,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:28.001668+08:00",
+      "fetched_at": "2026-09-05T21:29:01.562676+08:00",
       "status": "ok"
     },
     {
@@ -135,14 +135,14 @@
       "thesis": "封装多元",
       "price": 67.36,
       "change_pct": -5.49,
-      "pe_ttm": 62.37037,
+      "pe_ttm": 66.039215,
       "pe_forward": 45.275208,
       "market_cap": 120534966272,
       "week52_high": 113.87,
       "week52_low": 34.58,
       "from_high_pct": -40.84,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:28.496503+08:00",
+      "fetched_at": "2026-09-05T21:29:01.821454+08:00",
       "status": "ok"
     },
     {
@@ -153,14 +153,14 @@
       "thesis": "防御性 + AI 期权",
       "price": 442.8,
       "change_pct": 2.26,
-      "pe_ttm": 14.929197,
+      "pe_ttm": 14.904073,
       "pe_forward": 12.273745,
       "market_cap": 3990081241088,
       "week52_high": 683.0,
       "week52_low": 411.0,
       "from_high_pct": -35.17,
       "currency": "HKD",
-      "fetched_at": "2026-09-05T13:58:28.900515+08:00",
+      "fetched_at": "2026-09-05T21:29:02.111214+08:00",
       "status": "ok"
     },
     {
@@ -171,14 +171,14 @@
       "thesis": "PE 260x 仅小仓位",
       "price": 243.67,
       "change_pct": -1.03,
-      "pe_ttm": 180.49629,
+      "pe_ttm": 179.16911,
       "pe_forward": 87.65108,
       "market_cap": 566371483648,
       "week52_high": 395.17,
       "week52_low": 173.5,
       "from_high_pct": -38.34,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:29.267736+08:00",
+      "fetched_at": "2026-09-05T21:29:02.372279+08:00",
       "status": "ok"
     },
     {
@@ -189,14 +189,14 @@
       "thesis": "PE 348x 仅小仓位",
       "price": 1072.0,
       "change_pct": -2.54,
-      "pe_ttm": 203.03029,
+      "pe_ttm": 204.19048,
       "pe_forward": 55.748898,
       "market_cap": 674131476480,
       "week52_high": 1620.0,
       "week52_low": 649.66,
       "from_high_pct": -33.83,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:29.760288+08:00",
+      "fetched_at": "2026-09-05T21:29:02.676766+08:00",
       "status": "ok"
     },
     {
@@ -209,12 +209,12 @@
       "change_pct": 0.28,
       "pe_ttm": 637.0,
       "pe_forward": 134.10526,
-      "market_cap": 32102969344,
+      "market_cap": 32103987200,
       "week52_high": 44.06,
       "week52_low": 24.52,
       "from_high_pct": -42.17,
       "currency": "CNY",
-      "fetched_at": "2026-09-05T13:58:30.127986+08:00",
+      "fetched_at": "2026-09-05T21:29:03.004226+08:00",
       "status": "ok"
     }
   ],
@@ -234,7 +234,7 @@
       "week52_low": 164.27,
       "from_high_pct": -2.61,
       "currency": "USD",
-      "fetched_at": "2026-09-05T13:58:30.500888+08:00",
+      "fetched_at": "2026-09-05T21:29:03.265637+08:00",
       "status": "ok"
     },
     {
@@ -245,14 +245,14 @@
       "thesis": "估值最低 + Cloud +63%",
       "price": 338.46,
       "change_pct": -1.11,
-      "pe_ttm": 16.982437,
+      "pe_ttm": 16.97392,
       "pe_forward": 22.785429,
       "market_cap": 4139343675392,
       "week52_high": 408.61,
-      "week52_low": 231.9,
+      "week52_low": 233.23,
       "from_high_pct": -17.17,
       "currency": "USD",
-      "fetched_at": "2026-09-05T13:58:30.850501+08:00",
+      "fetched_at": "2026-09-05T21:29:03.537448+08:00",
       "status": "ok"
     },
     {
@@ -263,14 +263,14 @@
       "thesis": "企业 AI 龙头",
       "price": 499.7,
       "change_pct": -2.04,
-      "pe_ttm": 28.408188,
+      "pe_ttm": 27.853958,
       "pe_forward": 21.19773,
       "market_cap": 3710545297408,
       "week52_high": 553.72,
       "week52_low": 349.2,
       "from_high_pct": -9.76,
       "currency": "USD",
-      "fetched_at": "2026-09-05T13:58:31.239293+08:00",
+      "fetched_at": "2026-09-05T21:29:03.945416+08:00",
       "status": "ok"
     },
     {
@@ -281,14 +281,14 @@
       "thesis": "AI 芯片唯一代工商",
       "price": 428.91,
       "change_pct": 2.85,
-      "pe_ttm": 30.968231,
+      "pe_ttm": 31.841871,
       "pe_forward": 19.619719,
       "market_cap": 2224530653184,
       "week52_high": 479.0,
       "week52_low": 241.62,
       "from_high_pct": -10.46,
       "currency": "USD",
-      "fetched_at": "2026-09-05T13:58:31.834679+08:00",
+      "fetched_at": "2026-09-05T21:29:04.278941+08:00",
       "status": "ok"
     },
     {
@@ -299,14 +299,14 @@
       "thesis": "广告 AI 化最早兑现",
       "price": 616.77,
       "change_pct": 1.0,
-      "pe_ttm": 22.988073,
+      "pe_ttm": 23.221764,
       "pe_forward": 17.642334,
       "market_cap": 1571225468928,
       "week52_high": 790.8,
       "week52_low": 520.26,
       "from_high_pct": -22.01,
       "currency": "USD",
-      "fetched_at": "2026-09-05T13:58:32.187112+08:00",
+      "fetched_at": "2026-09-05T21:29:04.501757+08:00",
       "status": "ok"
     },
     {
@@ -317,14 +317,14 @@
       "thesis": "ASIC 王者，$73B AI 订单",
       "price": 357.9,
       "change_pct": 0.21,
-      "pe_ttm": 45.475857,
+      "pe_ttm": 45.64987,
       "pe_forward": 18.474785,
       "market_cap": 1702714146816,
       "week52_high": 495.0,
       "week52_low": 289.96,
       "from_high_pct": -27.7,
       "currency": "USD",
-      "fetched_at": "2026-09-05T13:58:32.564719+08:00",
+      "fetched_at": "2026-09-05T21:29:04.797862+08:00",
       "status": "ok"
     },
     {
@@ -342,7 +342,7 @@
       "week52_low": 149.22,
       "from_high_pct": -18.33,
       "currency": "USD",
-      "fetched_at": "2026-09-05T13:58:32.906752+08:00",
+      "fetched_at": "2026-09-05T21:29:05.016079+08:00",
       "status": "ok"
     }
   ]
