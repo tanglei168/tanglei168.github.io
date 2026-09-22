@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K1–K12 知识图谱与项目式学习地图 · 余杭家庭版</title>
+<style>
+:root{
+  --bg:#faf5ec; --card:#fffdf8; --ink:#3b332a; --ink2:#6f6355;
+  --accent:#c26a3d; --accent-soft:#f3e2d3; --green:#7a9b5e; --green-soft:#e9f0df;
+  --blue:#5b7fa6; --blue-soft:#e3ebf3; --gold:#b98a2f; --gold-soft:#f5ecd7;
+  --line:#e8ddc9; --shadow:0 1px 3px rgba(90,70,40,.08),0 4px 14px rgba(90,70,40,.06);
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Source Han Sans SC","Microsoft YaHei",sans-serif;
+  background:var(--bg); color:var(--ink); line-height:1.75; font-size:15.5px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 80px}
+/* ---------- header ---------- */
+header.site{
+  position:sticky;top:0;z-index:50;background:rgba(250,245,236,.94);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+}
+header.site .bar{max-width:1180px;margin:0 auto;padding:12px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.logo{font-weight:700;font-size:17px;letter-spacing:.5px}
+.logo small{display:block;font-weight:400;font-size:11.5px;color:var(--ink2);letter-spacing:0}
+nav.tabs{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+nav.tabs button{
+  border:1px solid var(--line);background:var(--card);color:var(--ink2);
+  padding:7px 16px;border-radius:999px;font-size:14px;cursor:pointer;font-family:inherit;
+  transition:all .18s ease;
+}
+nav.tabs button:hover{border-color:var(--accent);color:var(--accent)}
+nav.tabs button.active{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+section.page{display:none;padding-top:26px}
+section.page.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ---------- common ---------- */
+h2.sec{font-size:22px;margin:34px 0 6px;display:flex;align-items:center;gap:10px}
+h2.sec::before{content:"";width:6px;height:22px;border-radius:3px;background:var(--accent)}
+p.sub{color:var(--ink2);font-size:14px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px}
+.grid{display:grid;gap:14px}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.3px}
+.chip{display:inline-block;padding:3px 11px;border-radius:999px;font-size:12.5px;background:var(--accent-soft);color:var(--accent);margin:2px 4px 2px 0}
+.chip.g{background:var(--green-soft);color:#5c7c42}
+.chip.b{background:var(--blue-soft);color:#47688c}
+.chip.y{background:var(--gold-soft);color:#8f6b20}
+/* hero */
+.hero{
+  background:linear-gradient(135deg,#fdf3e3 0%,#f8e8d8 55%,#f3e0cf 100%);
+  border:1px solid #efd9bd;border-radius:20px;padding:34px 32px;margin-top:24px;box-shadow:var(--shadow);
+}
+.hero h1{font-size:27px;line-height:1.4;margin-bottom:8px}
+.hero p.lead{color:var(--ink2);max-width:760px}
+.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.stat{background:rgba(255,255,255,.75);border:1px solid #efd9bd;border-radius:12px;padding:10px 18px;text-align:center;min-width:96px}
+.stat b{display:block;font-size:24px;color:var(--accent)}
+.stat span{font-size:12.5px;color:var(--ink2)}
+/* version table */
+.table-scroll{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+table.vt{border-collapse:collapse;width:100%;font-size:13.5px;min-width:860px}
+table.vt th{background:#f4ead8;color:#5a4a34;padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+table.vt td{padding:10px 12px;border-bottom:1px solid #f1e8d8;vertical-align:top}
+table.vt tr:last-child td{border-bottom:none}
+table.vt tr td:first-child{font-weight:600;white-space:nowrap}
+ul.notes{padding-left:20px;color:var(--ink2);font-size:14px}
+ul.notes li{margin:6px 0}
+/* dims */
+.dims-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.dim-card{display:flex;gap:12px;align-items:flex-start}
+.dim-card .num{
+  flex:0 0 40px;height:40px;border-radius:12px;background:var(--accent-soft);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;
+}
+.dim-card h3{font-size:15.5px;margin-bottom:2px}
+.dim-card p{font-size:13px;color:var(--ink2);line-height:1.6}
+.dim-card .ev{display:block;margin-top:6px;font-size:12px;color:var(--green);background:var(--green-soft);border-radius:8px;padding:4px 8px}
+/* how to read */
+.how-grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.how-card h3{font-size:15px;color:var(--accent);margin-bottom:6px}
+.how-card p{font-size:13.5px;color:var(--ink2)}
+/* ---------- graph page ---------- */
+.mode-toggle{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.mode-toggle button{border:none;background:transparent;padding:8px 20px;font-size:14px;cursor:pointer;color:var(--ink2);font-family:inherit}
+.mode-toggle button.active{background:var(--accent);color:#fff;font-weight:600}
+.band-selector{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.band-btn{
+  border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 16px;cursor:pointer;
+  text-align:left;font-family:inherit;transition:all .18s ease;min-width:120px;
+}
+.band-btn b{display:block;font-size:15px}
+.band-btn span{font-size:11.5px;color:var(--ink2)}
+.band-btn:hover{border-color:var(--accent)}
+.band-btn.active{background:var(--accent);border-color:var(--accent)}
+.band-btn.active b,.band-btn.active span{color:#fff}
+.band-intro{background:var(--gold-soft);border:1px solid #ecdcb8;border-radius:12px;padding:14px 18px;font-size:14px;margin-bottom:16px}
+.subj-grid{grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.subj-card h3{font-size:15.5px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--accent-soft)}
+.subj-card .pts{font-size:13px;color:var(--ink);white-space:pre-line}
+.subj-card .goal{margin-top:10px;font-size:12.5px;color:#5c7c42;background:var(--green-soft);border-radius:8px;padding:6px 10px}
+.subj-card .goal b{margin-right:4px}
+/* vertical timeline */
+.vt-picker{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}
+.vt-btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;cursor:pointer;font-size:14px;font-family:inherit}
+.vt-btn:hover{border-color:var(--accent)}
+.vt-btn.active{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.vt-summary{background:var(--blue-soft);border:1px solid #cfdeeb;border-radius:12px;padding:12px 16px;font-size:14px;margin-bottom:14px}
+.timeline{position:relative;padding-left:26px}
+.timeline::before{content:"";position:absolute;left:8px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl-node{position:relative;margin-bottom:14px}
+.tl-node::before{content:"";position:absolute;left:-24px;top:22px;width:12px;height:12px;border-radius:50%;background:var(--card);border:3px solid var(--blue)}
+.tl-node .card{padding:14px 18px}
+.tl-node h4{font-size:14px;color:var(--blue);margin-bottom:4px}
+.tl-node .pts{font-size:13px;white-space:pre-line;color:var(--ink)}
+.tl-node .goal{margin-top:8px;font-size:12.5px;color:#5c7c42;background:var(--green-soft);border-radius:8px;padding:5px 10px}
+.vt-links{margin-top:16px;background:var(--gold-soft);border:1px solid #ecdcb8;border-radius:12px;padding:14px 18px;font-size:13.5px}
+.vt-links b{color:var(--gold)}
+/* anchors */
+.anchor-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.anchor-card{display:flex;gap:12px;align-items:flex-start}
+.anchor-card .ano{flex:0 0 30px;height:30px;border-radius:8px;background:var(--gold-soft);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.anchor-card h3{font-size:14.5px;margin-bottom:3px}
+.anchor-card .lk{font-size:12.5px;color:var(--ink2);line-height:1.65}
+.anchor-card .pj{margin-top:5px}
+/* ---------- projects ---------- */
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:16px 0;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+.filters label{font-size:13px;color:var(--ink2)}
+.filters select{
+  border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:14px;background:#fff;font-family:inherit;color:var(--ink);
+}
+.filters .count{margin-left:auto;font-size:13px;color:var(--ink2)}
+.proj-grid{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.proj-card{display:flex;flex-direction:column;gap:10px}
+.proj-card .head{display:flex;align-items:flex-start;gap:10px}
+.proj-card .pid{
+  flex:0 0 auto;background:var(--accent);color:#fff;border-radius:10px;padding:5px 9px;font-weight:700;font-size:13px;
+}
+.proj-card h3{font-size:16px;line-height:1.4}
+.proj-card .meta{font-size:12.5px;color:var(--ink2)}
+.field{font-size:13px}
+.field .flabel{display:block;font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.5px;margin-bottom:2px}
+.field p{color:var(--ink)}
+.proj-card details{border-top:1px dashed var(--line);padding-top:8px}
+.proj-card summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--blue);outline:none}
+.proj-card details ol{margin:8px 0 0 20px;font-size:13px;color:var(--ink)}
+.proj-card details ol li{margin:4px 0}
+.outcome{font-size:13px;background:var(--green-soft);border-radius:10px;padding:8px 12px}
+.outcome b{color:#5c7c42;font-size:12px;display:block;margin-bottom:2px}
+.proj-card .foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:4px}
+.routes{margin-top:30px}
+.route-card{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.route-card .ric{flex:0 0 44px;height:44px;border-radius:12px;background:var(--gold-soft);display:flex;align-items:center;justify-content:center;font-size:22px}
+.route-card h3{font-size:15px;margin-bottom:2px}
+.route-card .chain{font-size:13px;color:var(--ink)}
+.route-card .rnote{font-size:12.5px;color:var(--ink2);margin-top:4px}
+/* ---------- guide ---------- */
+.tree-grid{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.tree-card{display:flex;gap:12px}
+.tree-card .tno{flex:0 0 30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.tree-card p{font-size:13.5px}
+.q-list{counter-reset:q}
+.q-item{display:flex;gap:12px;margin-bottom:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;font-size:14.5px}
+.q-item::before{counter-increment:q;content:counter(q);flex:0 0 28px;height:28px;border-radius:50%;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700}
+.pit-list{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.pit{background:#fdf1ee;border:1px solid #f3d5cc;border-radius:12px;padding:12px 16px;font-size:13.5px}
+.pit b{color:#b0512f;margin-right:6px}
+/* reflection sheet */
+#reflectionSheet{
+  background:#fff;border:2px solid var(--ink);border-radius:4px;max-width:720px;margin:0 auto;padding:30px 34px;
+  font-size:14px;line-height:1.9;
+}
+#reflectionSheet h3{text-align:center;letter-spacing:8px;font-size:18px;margin-bottom:14px}
+#reflectionSheet .row{display:flex;flex-wrap:wrap;gap:18px;border-bottom:1px solid #999;padding:6px 2px}
+#reflectionSheet .row span{flex:1;min-width:140px;color:var(--ink)}
+#reflectionSheet .q{padding:8px 2px 2px;font-weight:600}
+#reflectionSheet .wlines div{border-bottom:1px solid #bbb;height:30px}
+#reflectionSheet .note{margin-top:12px;font-size:12px;color:#777;text-align:center}
+.print-btn{
+  display:block;margin:14px auto 0;border:none;background:var(--accent);color:#fff;font-size:15px;font-weight:600;
+  padding:11px 30px;border-radius:999px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow);
+}
+.print-btn:hover{background:#a95730}
+footer{margin-top:50px;text-align:center;font-size:12.5px;color:var(--ink2);border-top:1px solid var(--line);padding-top:20px}
+#errBadge{position:fixed;bottom:12px;right:12px;background:#b33;color:#fff;font-size:12px;padding:6px 12px;border-radius:8px;display:none;z-index:99;max-width:70vw}
+/* ---------- print ---------- */
+@media print{
+  body{background:#fff}
+  body *{visibility:hidden}
+  #reflectionSheet,#reflectionSheet *{visibility:visible}
+  #reflectionSheet{position:absolute;left:0;top:0;width:100%;border:2px solid #000;box-shadow:none;margin:0}
+}
+@media (max-width:640px){
+  .hero{padding:22px 18px}.hero h1{font-size:21px}
+  nav.tabs button{padding:6px 12px;font-size:13px}
+  .wrap{padding:0 14px 60px}
+}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="bar">
+    <div class="logo">K1–K12 知识图谱与项目地图<small>杭州余杭家庭版 · 教材同步 · 40 个项目</small></div>
+    <nav class="tabs" id="tabs">
+      <button data-page="overview" class="active">总览</button>
+      <button data-page="graph">知识图谱</button>
+      <button data-page="projects">项目地图</button>
+      <button data-page="guide">执行指南</button>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+
+  <!-- ============ 总览 ============ -->
+  <section class="page active" id="page-overview">
+    <div class="hero">
+      <h1>一张图看懂孩子 13 年的学习路线</h1>
+      <p class="lead">基于余杭区实际在用教材（小学：语文统编 / 数学北师大 / 英语 PEP / 科学教科；初中：数学·科学浙教版；高中：生物浙科版 / 地理湘教版 / 信息技术浙教版），把 K1 学前到 G12 高三的知识进阶、跨学科项目和家长执行方法整合在一页。</p>
+      <div class="stats">
+        <div class="stat"><b>6</b><span>学段带</span></div>
+        <div class="stat"><b>10</b><span>学科纵线</span></div>
+        <div class="stat"><b>8</b><span>能力维度</span></div>
+        <div class="stat"><b>40</b><span>项目卡</span></div>
+        <div class="stat"><b>5</b><span>主题路线</span></div>
+      </div>
+    </div>
+
+    <h2 class="sec">教材版本总表</h2>
+    <p class="sub">学段 × 学科 × 版本（余杭区公办校实际在用，2026 年基线）</p>
+    <div class="table-scroll"><table class="vt" id="versionTable"></table></div>
+
+    <h2 class="sec">版本要点 · 家长须知</h2>
+    <div class="card"><ul class="notes" id="versionNotes"></ul></div>
+
+    <h2 class="sec">八维能力模型</h2>
+    <p class="sub">知识会遗忘，能力可迁移——40 个项目全部用这 8 个维度标注目标</p>
+    <div class="grid dims-grid" id="dimsGrid"></div>
+
+    <h2 class="sec">这张图谱怎么读</h2>
+    <div class="grid how-grid" id="howGrid"></div>
+  </section>
+
+  <!-- ============ 知识图谱 ============ -->
+  <section class="page" id="page-graph">
+    <h2 class="sec">知识图谱</h2>
+    <p class="sub">两种看法：<b>按学段</b>——选定阶段带看各学科知识点簇；<b>按学科</b>——选定学科看 K1→G12 进阶纵线与衔接点。</p>
+    <div class="mode-toggle" id="graphMode">
+      <button data-mode="band" class="active">按学段看</button>
+      <button data-mode="subject">按学科看</button>
+    </div>
+    <div id="graphBandView">
+      <div class="band-selector" id="bandSelector"></div>
+      <div class="band-intro" id="bandIntro"></div>
+      <div class="grid subj-grid" id="bandSubjects"></div>
+    </div>
+    <div id="graphSubjectView" style="display:none">
+      <div class="vt-picker" id="vtPicker"></div>
+      <div id="vtContent"></div>
+    </div>
+
+    <h2 class="sec">跨学科横联锚点 · 17 个高价值主题</h2>
+    <p class="sub">同一真实主题挂在多个学科的相近年级上，是 PBL 项目的天然接口——「对应项目」列可直达第三部分项目卡</p>
+    <div class="anchor-list" id="anchorList"></div>
+  </section>
+
+  <!-- ============ 项目地图 ============ -->
+  <section class="page" id="page-projects">
+    <h2 class="sec">项目地图 · 40 个项目卡</h2>
+    <p class="sub">每张卡的「调用知识点」均可回溯到教材清单；按学段、能力维度、类型筛选。</p>
+    <div class="filters" id="projFilters">
+      <label>学段 <select id="fBand"><option value="">全部</option></select></label>
+      <label>能力维度 <select id="fDim"><option value="">全部</option></select></label>
+      <label>类型 <select id="fCat"><option value="">全部</option></select></label>
+      <span class="count" id="projCount"></span>
+    </div>
+    <div class="grid proj-grid" id="projGrid"></div>
+
+    <div class="routes">
+      <h2 class="sec">跨学段主题路线 · 项目连续剧</h2>
+      <p class="sub">孩子着迷某个主题，就沿路线从幼儿园「追」到高中</p>
+      <div id="routesList"></div>
+    </div>
+  </section>
+
+  <!-- ============ 执行指南 ============ -->
+  <section class="page" id="page-guide">
+    <h2 class="sec">如何选择起点项目</h2>
+    <p class="sub">按孩子当前年级的决策树——拿不准就选最后一条万能答案</p>
+    <div class="grid tree-grid" id="treeGrid"></div>
+
+    <h2 class="sec">家长角色 · 脚手架 5 个万能追问句式</h2>
+    <p class="sub">提问代替给答案：支撑但不替代，孩子跳一跳够得着的给梯子不给答案</p>
+    <div id="scaffoldList"></div>
+
+    <h2 class="sec">避坑清单</h2>
+    <div class="pit-list" id="pitList"></div>
+
+    <h2 class="sec">项目反思单（可打印）</h2>
+    <p class="sub">每个项目结束填一页，装进项目档案袋——13 年的项目史是最珍贵的成长档案</p>
+    <div id="reflectionSheet"></div>
+    <button class="print-btn" id="printBtn">🖨 打印反思单</button>
+
+    <footer>
+      数据底本：《K1–K12知识图谱与项目式学习地图.md》（余杭区教材版本知识点清单）· 学前段依据《3–6岁儿童学习与发展指南》<br>
+      教材改版时单元名可微调，学科主线结构长期稳定 · v1.0
+    </footer>
+  </section>
+</div>
+<div id="errBadge"></div>
+<script>
+"use strict";
+/* ===== error collector (also used by headless verification) ===== */
+window.__jsErrors = [];
+(function(){
+  function push(msg){
+    window.__jsErrors.push(String(msg));
+    var b = document.getElementById('errBadge');
+    if (b){ b.style.display = 'block'; b.textContent = '页面脚本出现错误：' + String(msg).slice(0,120); }
+  }
+  window.addEventListener('error', function(e){ push(e.message || 'unknown error'); });
+  window.addEventListener('unhandledrejection', function(e){ push(e.reason); });
+})();
+
+const DATA = {"versionTable": [["学段", "语文", "数学", "英语", "科学 / 理化生", "社会类", "其他"], ["K1 学前（3–6岁）", "—（《3–6岁儿童学习与发展指南》五大领域）", "—", "—", "—", "—", "—"], ["小学 G1–G6", "统编版（部编）", "北师大版", "一二年级：杭州地方课程《English for KIDS》；三至六年级：人教版 PEP", "教科版（2017 新版）", "道德与法治·统编版", "—"], ["初中 G7–G9", "统编版", "浙教版", "人教版（Go for it! 新目标体系）", "浙教版（综合科学，含物理化学生物地学）", "历史·统编版 + 人教版《历史与社会》（人文地理）；道法·统编版", "—"], ["高中 G10–G12", "统编版", "人教A版", "人教版 2019", "物理·人教版2019；化学·人教版2019；生物·浙科版", "政治·统编版；历史·统编版；地理·湘教版", "信息技术·浙教版（与通用技术合卷为\"技术\"选考科目）"]], "versionNotes": ["小学数学是北师大版不是人教版：认识人民币在二上、时分秒二下、分数初步三下、方程四下、鸡兔同笼五上、绘制校园平面图六下——切勿用人教版单元序预习。", "初中数学、科学都是浙教版：科学是综合科学（不分理化生课本），七上从「科学入门」起步，八年级进入定量科学，九年级封顶酸碱盐与能量守恒。", "高中版本有浙江特色：生物用浙科版、地理用湘教版、信息技术用浙教版且属高考选考科目（Python 编程）；选考 7 选 3，语数英用全国新高考 I 卷。", "英语小学「双段制」：一二年级《English for KIDS》只听说不拼写，三年级 PEP 从 26 个字母正式起步。", "中考背景：2024 年起浙江全省统一命题（语120/数120/英120/科学160/社会100，2026 年起社会闭卷），杭州另有体育约 30 分。"], "dims": [{"n": "①", "name": "观察与探究", "desc": "用感官和工具系统地看世界，提出问题并用实验/调查回答", "ev": "能连续观察并记录，能设计对比实验"}, {"n": "②", "name": "逻辑与计算思维", "desc": "抽象、推理、算法化地解决问题", "ev": "能分解问题、找规律、写步骤让计算机执行"}, {"n": "③", "name": "语言表达与沟通", "desc": "用母语和外语清晰、得体、有目的地表达", "ev": "能讲清一件事、做一次演讲、写一份报告"}, {"n": "④", "name": "空间与工程建构", "desc": "在头脑中操作图形，把设计变成实物并迭代改进", "ev": "能读图画图、搭建结构、测试并优化作品"}, {"n": "⑤", "name": "数据与证据素养", "desc": "收集、整理、呈现数据，用证据支持结论", "ev": "能做统计图、辨别数据陷阱、引用证据"}, {"n": "⑥", "name": "审美与创造", "desc": "感受美、鉴赏美并创造有个人风格的作品", "ev": "能创作诗文/图画/音乐/设计并说明意图"}, {"n": "⑦", "name": "协作与社会责任", "desc": "在团队中工作，理解规则、权利与义务，关心公共事务", "ev": "能分工合作、遵守契约、参与社区议题"}, {"n": "⑧", "name": "自主学习与元认知", "desc": "会学、会问、会反思，管理自己的学习过程", "ev": "能制定计划、复盘得失、迁移方法到新领域"}], "howToRead": [{"t": "纵线 = 学科进阶主线", "d": "同一学科从 K1 到 G12 的能力爬升路径。例：数学从学前分类数数，到高中函数建模。在「知识图谱」页按学科查看。"}, {"t": "横联 = 跨学科锚点", "d": "同一真实主题挂在多个学科同一年级上，是 PBL 项目的天然接口。例：天气小站 = 科学三上《天气》× 数学三下统计 × 语文写日记。"}, {"t": "衔接边 = 学段过渡", "d": "三个最易掉队的关口：幼升小、小升初、初升高。图谱中为每个关口给出风险点与家庭准备清单。"}, {"t": "一句话记忆", "d": "纵线看进度，横联做项目，衔接边防掉队。纵线定位 → 横联选题 → 衔接边调难度 → 卡片落地。"}], "bandOrder": ["K1", "G12", "G34", "G56", "G79", "G1012"], "bandMeta": {"K1": {"label": "K1 学前", "sub": "3–6岁 · 游戏即学习"}, "G12": {"label": "G1–2", "sub": "小学低段 · 从游戏到学科"}, "G34": {"label": "G3–4", "sub": "小学中段 · 思维分水岭"}, "G56": {"label": "G5–6", "sub": "小学高段 · 系统与建模"}, "G79": {"label": "G7–9", "sub": "初中 · 学科化与抽象化"}, "G1012": {"label": "G10–12", "sub": "高中 · 从学习到研究"}}, "bandIntro": {"K1": {"title": "K1 学前段（3–6 岁）：游戏即学习", "intro": "3–6 岁儿童以具体形象思维为主，通过直接感知、实际操作和亲身体验获得经验。《3–6 岁儿童学习与发展指南》明确指出：严禁\"小学化\"（提前教拼音、写字、算术），核心是保护好奇心、发展动作与语言、建立安全感与规则意识。学习重点不是\"学了多少知识\"，而是五大领域的经验积累——健康（动作发展、生活习惯）、语言（倾听与表达、前阅读前书写）、社会（交往、规则、归属感）、科学（亲近自然、感知数量与形状）、艺术（感受与表现美）。为 G1 做准备的真正内容是：会听指令、能坐住 15–20 分钟、敢开口、会握笔涂鸦、数物对应到 10、对图书有兴趣。"}, "G12": {"title": "小学低段 G1–G2：从游戏到学科", "intro": "6–8 岁儿童注意力约 15–25 分钟，仍以形象思维为主，\"玩中学\"依然是最有效的方式。学习重心：语文识字写字是压倒性任务（两年累计认识约 1600 字、会写 800 字），拼音一上必须过关；数学建立数感与运算直觉（20 以内→100 以内加减、乘法口诀）；英语只做听说唱游；科学以感官观察和简单测量为主。习惯养成比知识进度更重要：读写姿势、按时完成任务、整理书包。"}, "G34": {"title": "小学中段 G3–G4：思维的分水岭", "intro": "9–10 岁是从\"学习阅读\"转向\"通过阅读学习\"的关键期，抽象逻辑思维开始萌发。语文由识字转向阅读策略（三上预测、四上提问与批注）与篇章习作；数学出现第一批抽象概念——小数、分数、面积、运算律、方程（北师大四下）；英语 PEP 正式起步（字母→词句→小段）；科学进入因果探究：控制变量实验（溶解）、长期观察（天气日历、养蚕、凤仙花）、工程制作（过山车、小乐器、电路）。这两年掉队的高发点是：数学应用题理解、语文习作\"没话写\"、英语零基础焦虑——对策都在\"多体验、多说话、多动手\"。"}, "G56": {"title": "小学高段 G5–G6：系统与建模的萌芽", "intro": "11–12 岁抽象思维趋于成熟，能进行假设—演绎推理，是培养研究型学习的黄金期。语文进入策略化阅读（提速、创造性复述、名著方法）与综合表达（说明文、研究报告、演讲、倡议书）；数学完成分数四则体系并引入比例、百分数、正反比例——这些都是初中函数的前经验；英语从对话转向语段（there be、进行时、将来时、过去时、比较级）；科学走向系统与模型：生态系统（生态瓶）、地球运动、能量转化、微观世界（显微镜）、完整工程流程（造船、塔台）。六年级还有一项隐形任务：小初衔接（详见 2.10）。"}, "G79": {"title": "初中段 G7–G9：学科化与抽象化", "intro": "12–15 岁进入形式运算阶段，能处理纯抽象符号，同时经历青春期——学习动机、同伴关系、自我管理成为成绩之外的变量。学业上三个结构性跃迁：①数学从算术思维转向代数与证明（浙教版七年级有理数/实数/代数式/一元一次方程一年四跳，八年级全等三角形开启几何证明，九年级函数与圆综合封顶）；②科学从现象观察转向定量规律（八上浮力 F浮=ρ液gV排、欧姆定律、化学式与化学方程式；九上酸碱盐与能量守恒）；③学科数量骤增——语文英语之外新增系统历史（七年级中国古代史→九年级世界史）、人文地理、道法（八下宪法专册为中考核心）。中考（省卷）压力真实存在，但项目式学习恰恰是理科大题（实验探究、建模应用）的最好准备。"}, "G1012": {"title": "高中段 G10–G12：从学习到研究", "intro": "16–18 岁具备成人级抽象能力，学习形态从\"掌握学科\"升级为\"用学科研究真实世界\"，同时面临选科（浙江 7 选 3，含技术）与升学规划。学业结构：高一打地基（数学必修一二的函数主线、物理必修一二的力学、化学必修一二的元素与原理、生物浙科版必修 1/2、语文必修上下含整本书阅读《乡土中国》《红楼梦》）；高二分流深化（数学选必的解析几何/导数/概率、物理选必电磁学、化学选必反应原理、各学科选择性必修）；高三综合应考（学考 + 选考 + 全国新高考 I 卷）。家庭 PBL 在此阶段不是\"课外调剂\"，而是选考科目（尤其技术、生物、地理）和研究性学习/综合素质评价的直接素材。"}}, "bands": {"K1": {"header": ["领域", "核心经验簇（《指南》五大领域）", "阶段能力落点"], "rows": [["健康", "大动作（跑跳钻爬投掷平衡）；精细动作（剪纸、串珠、握笔涂画）；生活自理（穿衣、收拾、安全常识）", "身体协调、能自理、知道危险边界"], ["语言", "倾听与回应；完整句子表达；前阅读（亲子共读、指认封面书名）；前书写（涂鸦、画符号、写自己的名字）", "敢表达、爱听故事、知道\"字是有意义的\""], ["社会", "轮流与分享；规则游戏；认识家庭成员与社区角色；情绪命名与简单调节", "能和同伴玩、懂基本规则、说出\"我怎么了\""], ["科学", "自然观察（动植物、天气、季节）；分类与比较（大小多少高矮）；数物对应 10 以内、简单排序与规律；感知形状与空间方位", "会问\"为什么\"、会按特征分堆、数到 10 不乱"], ["艺术", "涂鸦与手工；唱游与律动；欣赏自然与生活中的美", "敢画敢唱、有自己喜欢的\"作品\""]]}, "G12": {"header": ["学科", "核心知识点簇（教材单元级）", "阶段能力落点"], "rows": [["语文（统编）", "一上：拼音（23 声母、24 韵母、16 整体认读）、识字一/二（天地人、日月水火、对韵歌）；一下：姓氏歌、猜字谜、《静夜思》；二上：小蝌蚪找妈妈、场景歌（数量词）、坐井观天；二下：传统节日、\"贝\"的故事、中国美食、寓言二则；写话：看图写话、留言条", "累计认 1600/写 800；会部首查字法；能看图写 3–5 句通顺的话；朗读有语气"], ["数学（北师大）", "一上：生活中的数、加与减（一）、分类、位置与顺序、认识图形、认识钟表；一下：20 以内退位减、100 以内数、有趣的图形（七巧板）；二上：购物（元角分）、数一数与乘法、2–5/6–9 乘法口诀、测量（厘米米）；二下：有余数除法、方向与位置（东南西北）、时分秒、调查与记录（画\"正\"字）；数学好玩：分扣子、班级旧物市场、身体上的数学秘密", "20 以内口算 8–10 题/分；表内乘除脱口而出；会用尺子量、认钱算账、认钟"], ["英语（English for KIDS）", "一年级话题：问候与名字、数字 1–10、颜色、动物、身体、家人、玩具；二年级话题：文具、动作能力（I can…）、衣物、天气（sunny/rainy）、感受、交通、节日；形式：歌曲歌谣、TPR 动作、角色扮演", "能听懂课堂指令、跟唱 10+ 首歌谣、用单词短句应答；不考核拼写"], ["科学（教科版）", "一上：植物（观察叶、校园里的植物）、比较与测量（用手测量、测量纸带）；一下：我们周围的物体（给物体分类、溶解初感）、动物（观察鱼、给动物建\"家\"）；二上：我们的地球家园（土壤、太阳的位置、观察月相、天气与季节）、材料（神奇的纸、做一顶帽子）；二下：磁铁（两极、做指南针）、我们自己（感官、测试反应快慢）", "会有序观察并用图画记录；会比较轻重长短；知道\"预测—验证\"的游戏规则"], ["道法（统编）", "一上：我是小学生啦、校园生活；一下：我的好习惯、我爱我家；二上：我们的节假日、公共场所；二下：绿色小卫士（环保启蒙）", "适应学校、有安全意识、爱护环境的初步意识"]]}, "G34": {"header": ["学科", "核心知识点簇（教材单元级）", "阶段能力落点"], "rows": [["语文（统编）", "三上：预测策略单元、观察单元（搭船的鸟）、写日记起步；三下：寓言单元（守株待兔、陶罐和铁罐）、传统文化（纸的发明、赵州桥）、习作\"我做了一项小实验\"\"中华传统节日\"；四上：提问策略（一个豆荚里的五粒豆）、连续观察（爬山虎的脚）、神话单元（盘古开天地、精卫填海）、习作\"写观察日记\"；四下：科普单元（琥珀、纳米技术）、现代诗（繁星、绿）、综合性学习\"轻叩诗歌大门\"、文言文二则（囊萤夜读、铁杵成针）", "两年各认 500/写 500；能写 300 字左右记实与想象作文；会用预测、提问、批注读课文"], ["数学（北师大）", "三上：混合运算、周长、年月日、认识小数（文具店·元角分载体）；三下：两三位数除以一位数、两位数乘两位数、面积（cm²/dm²/m²）、千克克吨、认识分数（分一分、比大小）、数据的整理和表示（小小鞋店）；四上：认识更大的数（亿以内、近似数）、线与角（角的度量）、运算律（交换结合分配律）、除法（路程时间速度）、生活中的负数、可能性；四下：小数的意义和加减法、小数乘法、认识三角形和四边形（内角和）、认识方程（字母表示数、天平游戏）、数据的表示和分析（条形/折线统计图、平均数）；数学好玩：搭配中的学问、滴水实验、编码、密铺、优化", "竖式计算过关；建立小数分数直观；会用字母表示简单数量关系；能读画条形折线图"], ["英语（PEP 起点）", "三上：Hello!/Colours/Look at me!/We love animals/Let's eat!/Happy birthday!（字母、颜色、身体、动物、食物、数字1-10）；三下：My family/At the zoo/Where is my car?/Do you like pears?/How many?（方位介词、喜好、数字11-20）；四上：My classroom/My friends/My home/Dinner's ready/Meet my family!；四下：My school/What time is it?/Weather/At the farm/My clothes/Shopping；语音：字母音→短元音→长元音 a-e/i-e/o-e/u-e", "词汇每册 60–90 个；能进行 4–6 句对话；书写规范（大小写标点）；初步自然拼读"], ["科学（教科版）", "三上：水（蒸发沸腾结冰、溶解、混合与分离）、空气（占据空间、热气球、风的成因）、天气（气温计、降水量、观测风、天气日历）；三下：物体的运动（直线曲线运动、我们的\"过山车\"）、动物的一生（养蚕全周期）、太阳地球月球（影子、月相）；四上：声音（产生与传播、音量音高、制作小乐器）、呼吸与消化（肺活量、食物营养）、运动和力（气球/橡皮筋驱动小车、摩擦力、设计制作小车）；四下：植物的生长变化（种植凤仙花全周期）、电路（点亮小灯泡、导体绝缘体、模拟安装照明电路）、岩石与土壤（制作标本、比较土壤）", "会做控制变量对比实验；会用气温计/测力计等仪器；能完成\"设计—制作—测试\"小工程；坚持长期观察记录"], ["道法（统编）", "三上：快乐学习、安全护我成长；三下：我在这里长大（社区）、我们的公共生活；四上：为父母分担、信息万花筒（媒介素养）、让生活多一些绿色；四下：做聪明的消费者、感受家乡文化", "懂公共规则、初步消费与媒介意识、热爱家乡"]]}, "G56": {"header": ["学科", "核心知识点簇（教材单元级）", "阶段能力落点"], "rows": [["语文（统编）", "五上：提高阅读速度（搭石、将相和）、民间故事、说明文单元（太阳、松鼠）、习作\"介绍一种事物\"\"推荐一本书\"；五下：古典名著单元（草船借箭、景阳冈）、综合性学习\"遨游汉字王国\"（字谜、谐音、汉字演变、研究报告）、思维单元（自相矛盾、田忌赛马）、习作\"学写简单的研究报告\"\"中国的世界文化遗产\"；六上：有目的地阅读（故宫博物院）、小说单元（桥、穷人）、保护环境（只有一个地球）、走近鲁迅、习作\"学写倡议书\"\"围绕中心意思写\"；六下：外国名著（鲁滨逊漂流记·梗概）、科学精神单元（真理诞生于一百个问号之后）、文言文（学弈、两小儿辩日）、综合性学习\"难忘小学生活\"、口语交际\"演讲\"\"辩论\"", "累计认 3000/写 2500；每分钟默读 300+ 字；能写 400–500 字记叙/说明/议论雏形；会做资料型研究报告"], ["数学（北师大）", "五上：小数除法（含循环小数）、倍数与因数（2/5/3 倍数特征、质数）、分数的意义（真假带分数、约分通分）、多边形的面积（平行四边形/三角形/梯形）、组合图形面积（公顷平方千米）、可能性（公平性）、鸡兔同笼（尝试与猜测）；五下：分数加减法、分数乘法、分数除法、长方体（表面积、体积容积、排水法）、确定位置（方向+距离）、用方程解决问题（邮票的张数、相遇问题）、复式统计图；六上：圆（周长面积、圆周率的历史）、分数混合运算、百分数（合格率、折扣利率）、比的认识、数据处理（扇形统计图）、观察物体（观察的范围）；六下：圆柱与圆锥、比例（比例尺、图形放大缩小）、正比例与反比例、图形的运动；数学好玩：设计秋游方案、包装的学问、反弹高度、绘制校园平面图、神奇的莫比乌斯带", "分数四则熟练；会用比例尺与正反比例描述变化；能算体积表面积；完成小初衔接的三个桥头堡：方程（四下五下）→七上代数式；负数（四上）→七上有理数；比例（六下）→八上函数"], ["英语（PEP）", "五上：What's he like?/My week/What would you like?/What can you do?/There is a big bed/In a nature park（can、there be）；五下：My day/My favourite season/When is the art show?/Whose dog is it?/Work quietly!（现在进行时、物主代词、序数词）；六上：How can I get there?/Ways to go to school/My weekend plan/I have a pen pal/What does he do?/How do you feel?（be going to、问路、职业）；六下：How tall are you?/Last weekend/Where did you go?/Then and now（比较级、一般过去时）；语音：元音组合与辅音组合拼读系统化", "六年累计词汇 600–700；能读 60–80 词短文、写 5 句连贯语段；掌握四大时态雏形与比较级"], ["科学（教科版）", "五上：光（反射折射、制作潜望镜）、地球表面的变化（地震火山、风水作用）、计量时间（水钟、摆的快慢、制作钟摆）、健康生活（心脏血液、制订健康计划）；五下：生物与环境（种子发芽实验、食物链食物网、设计和制作生态瓶）、船的研究（浮的材料/沉的材料造船、增加载重量、给船装动力、设计制作测试小船）、环境与我们（珍惜水资源、解决垃圾问题、分析一个实际的环境问题）、热（热传递三方式、做个保温杯）；六上：微小世界（显微镜、洋葱表皮细胞、水中微生物）、地球的运动（昼夜交替、公转四季、影长四季变化）、工具与技术（斜面、杠杆、印刷术）、能量（电和磁、电磁铁、小电动机）；六下：小小工程师（建造塔台全流程）、生物的多样性（校园生物大搜索、制作分布图）、宇宙（太阳系、日食、星座）、物质的变化（厨房里的物质变化、产生气体的变化——化学启蒙）", "能完成\"问题—设计—制作—测试—改进\"完整工程流程；会用显微镜；建立生态系统与能量模型；用证据解释化学变化"], ["道法（统编）", "五上：我们的国土我们的家园、骄人祖先灿烂文化；五下：我们一家人（家风）、百年追梦复兴中华；六上：我们的守护者（法律）、我们是公民、国家机构；六下：爱护地球共同责任、多样文明多彩生活", "初步法治与公民意识、家国认同、全球视野"]]}, "G79": {"header": ["学科", "核心知识点簇（章级）", "阶段能力落点"], "rows": [["语文（统编）", "七上：写景抒情（《春》《济南的冬天》）、亲情（《秋天的怀念》《散步》）、《论语》十二章、名著《朝花夕拾》《西游记》；七下：杰出人物（《邓稼先》）、家国情怀（《黄河颂》《木兰诗》）、《骆驼祥子》《海底两万里》；八上：活动·探究\"新闻\"（消息二则→新闻采访与写作）、回忆性散文与传记（《藤野先生》）、说明文（《中国石拱桥》《苏州园林》）、《红星照耀中国》《昆虫记》；八下：事理说明文（《大自然的语言》）、活动·探究\"演讲\"、游记（《壶口瀑布》）、《经典常谈》《钢铁是怎样炼成的》；九上：活动·探究\"诗歌\"、议论文（《敬业与乐业》《怀疑与学问》）、小说（《故乡》）、古典小说（《智取生辰纲》《范进中举》）、《艾青诗选》《水浒传》；九下：小说（《孔乙己》）、活动·探究\"戏剧\"（《屈原》《天下第一楼》）、文言史传（《曹刿论战》《邹忌讽齐王纳谏》）、《儒林外史》《简·爱》", "阅读：记叙→实用类（新闻/说明/演讲）→议论与文学鉴赏；写作：记事写人→说明与实用文体→议论文；三年课内文言约 37 篇、古诗词约 85 首、12 部必读名著"], ["数学（浙教版）", "七上：有理数、有理数的运算、实数（平方根立方根）、代数式（整式）、一元一次方程、图形的初步知识；七下：平行线（判定与性质）、二元一次方程组、整式的乘除（乘法公式）、因式分解、分式、数据与统计图表；八上：三角形的初步知识（全等 SSS/SAS/ASA/AAS）、特殊三角形（等腰、勾股定理）、一元一次不等式、图形与坐标、一次函数；八下：二次根式、一元二次方程（四种解法、判别式）、数据分析初步（平均数中位数众数方差）、平行四边形、特殊平行四边形、反比例函数；九上：二次函数（图象与最值应用）、简单事件的概率（列表/树状图）、圆的基本性质（垂径定理、圆周角）、相似三角形（测高测距）；九下：解直角三角形（仰角俯角坡度）、直线与圆的位置关系、三视图与表面展开图", "数与式—方程不等式—函数三线并进；几何从直观到证明到综合；中考压轴：二次函数综合 + 几何综合（圆+相似+三角函数）"], ["英语（人教 Go for it）", "七上：be 动词、指示代词、一般疑问句、where 问句、have/has、like、购物 how much、序数词日期；七下：can、时刻与作息、交通方式、祈使句与 must、现在进行时、there be 与问路、外貌描述、would like 点餐、一般过去时；八上：过去时综合、频率副词、比较级最高级、不定式、be going to/will 将来时、if 条件状语从句；八下：should 提建议、动词短语、could 礼貌请求、过去进行时、叙事连词（讲述中国故事 U6）、大数字、现在完成时（yet/already/ever/for/since）；九年级（全一册）：by+doing、宾语从句、used to、被动语态（三段式）、情态动词推测、定语从句、be supposed to 礼仪、过去完成时、环保话题 U13", "词汇累计 1500–1600；三大基础时态→时态闭环（完成时）→三大从句+被动语态；能写 80 词左右应用文与话题作文"], ["科学（浙教版·综合）", "七上：科学入门（观察测量、探究环节）、观察生物（显微镜与细胞、结构层次、分类）、人类的家园——地球（地球仪地图、岩石、板块、等高线）、物质的特性（分子论、密度 ρ=m/V、比热、物态变化）；七下：代代相传的生命（生殖与青春期、生命周期）、对环境的察觉（声、光的反射折射、凸透镜成像）、运动和力（速度、牛顿第一定律、二力平衡、摩擦力、压强）、地球与宇宙（自转公转、月相、日食月食、太阳系）；八上：水和水的溶液（浮力阿基米德原理、溶解度、溶液分离）、天气与气候（大气压、风降水、天气预报）、生命活动的调节（激素、神经反射弧）、电路探秘（电流电压电阻、欧姆定律、串并联）；八下：电与磁（奥斯特实验、电磁铁、电动机、磁生电、家庭用电）、微粒的模型与符号（分子原子离子、元素符号、化学式与化合价）、空气与生命（氧气、燃烧、化学方程式与质量守恒、二氧化碳、呼吸与光合作用）、植物与土壤（根吸收、茎运输、蒸腾）；九上：物质及其变化（酸碱盐、pH、中和反应）、物质转化与材料利用（金属活动性、有机物）、能量的转化与守恒（机械能、功与功率、简单机械、内能、电功电功率焦耳定律）、代谢与平衡（消化吸收、血液循环）；九下：演化的自然（宇宙与生命起源、进化）、生物与环境（生态系统结构与功能）、人的健康（免疫）、可持续发展（低碳生活）", "以\"科学探究\"为轴：七年级观察测量分类→八年级定量规律（浮力/欧姆/化学方程式）→九年级综合封顶（酸碱盐、能量守恒）；中考 160 分锚点：电学综合、浮力压强、酸碱盐推断、实验探究（控制变量）"], ["历史与社会", "历史（统编）：七年级中国古代史（史前文明→明清，主线\"统一多民族国家的形成与发展\"）；八上中国近代史（1840 鸦片战争→新民主主义革命）；八下中国现代史（新中国成立→改革开放→新时代）；九年级世界史（古代文明→两次世界大战→全球化）。人文地理（人教《历史与社会》）：社区与地图三要素、大洲大洋与世界气候、\"因地制宜\"区域案例、中国疆域地形气候与区域差异", "时空观念 + 史料实证；能用地图与年表组织知识；社会卷（中考 100 分，2026 起闭卷）重材料分析"], ["道法（统编）", "七年级：成长的节拍、友谊、师长情谊、生命的思考、青春时光、情绪管理、集体生活、走进法治天地；八上：走进社会生活、遵守社会规则、勇担社会责任、维护国家利益；八下（宪法专册）：坚持宪法至上、理解权利义务、人民当家作主、崇尚法治精神；九上：富强与创新、民主与法治、文明与家园、和谐与梦想；九下：我们共同的世界、世界舞台上的中国", "法治意识与公共参与；中考重心：八下宪法 + 九上国情，情境材料分析题"]]}, "G1012": {"header": ["学科", "核心知识点簇（章级）", "阶段能力落点"], "rows": [["语文（统编）", "必修上：青春激扬（现代诗+小说）、劳动光荣（人物通讯→新闻采访）、生命的诗意（古诗词专题）、家乡文化生活（社区口述史/方言调查）、整本书《乡土中国》、学习之道（议论文）、自然情怀（散文）；必修下：中华文明之光（诸子史传）、良知与悲悯（戏剧《雷雨》《哈姆莱特》）、探索与创新（科学说明文）、媒介素养（辨识媒介信息）、抱负与使命（演讲）、整本书《红楼梦》；选必上：革命传统作品、百家争鸣（论语/老子/兼爱）、外国小说、逻辑的力量（概念判断推理、逻辑谬误）；选必中：理论的价值（政论文）、中国现当代文学、史传文学（屈原列传、过秦论）、外国戏剧诗歌；选必下：诗的国度（氓/离骚/望海潮/扬州慢——杭州文学地图）、时代镜像（阿Q正传、茶馆）、至情至性（陈情表、兰亭集序、石钟山记）、求真求实（自然选择的证明）", "四大任务群：文学阅读与写作、思辨性阅读与表达、实用性阅读与交流、整本书阅读；背诵约 60 篇（首）；高考 I 卷：多文本比对、情境化思辨作文"], ["数学（人教A版）", "必修一：集合与常用逻辑用语、一元二次函数方程不等式（基本不等式）、函数的概念与性质（单调性奇偶性幂函数、分段函数建模）、指数函数与对数函数（增长模型、二分法）、三角函数（y=Asin(ωx+φ)、三角恒等变换、周期现象建模）；必修二：平面向量（余弦/正弦定理解三角形）、复数、立体几何初步、统计（抽样、百分位数、频率分布直方图）、概率（古典概型）；选必一：空间向量与立体几何、直线和圆的方程、圆锥曲线（椭圆双曲线抛物线）；选必二：数列（等差等比——复利房贷模型）、导数及其应用（单调性极值最值、优化问题）；选必三：计数原理（排列组合、二项式定理）、随机变量及其分布（条件概率、贝叶斯公式、二项/超几何/正态分布）、成对数据的统计分析（一元线性回归、独立性检验）", "函数思想为主轴贯穿三年；几何代数化（向量、解析几何）；概率统计从描述到推断；落点是数学建模解决真实问题"], ["英语（人教2019）", "主题语境：必修1 Teenage Life/Travelling Around/Natural Disasters；必修2 Cultural Heritage（西湖申遗）/The Internet/Music；必修3 Festivals/Diverse Cultures/Space Exploration；选必1 People of Achievement/Working the Land；选必2 Science and Scientists/First Aid；选必3 Art/Environmental Protection/Poems；选必4 Science Fiction/Launching Your Career。语法脊柱：必修1 句子成分+时态复习+定语从句→必修2 定语从句进阶→必修3 名词性从句→选必1 非谓语动词系统+虚拟语气→选必2 倒装强调省略→选必3–4 综合+读后续写高级句式", "词汇 3000→3500+；高考 I 卷双写作：应用文 15 分 + 读后续写 25 分（情节推断+情感描写，区分度最高）"], ["物理（人教2019）", "必修1：运动的描述（质点、加速度、图象）、匀变速直线运动（自由落体）、相互作用——力（力的合成分解）、运动和力的关系（牛顿三定律）；必修2：抛体运动（平抛）、圆周运动（向心力）、万有引力与宇宙航行（开普勒、宇宙速度）、机械能守恒定律；必修3：静电场（库仑定律）、静电场中的能量（电势电容）、电路及其应用（电阻定律、多用电表）、电能 能量守恒定律（闭合电路欧姆定律）、电磁场与电磁波初步；选必1：动量守恒定律（碰撞、反冲火箭）、机械振动（单摆、共振）、机械波（多普勒）、光（折射全反射、干涉衍射偏振）；选必2：安培力与洛伦兹力（质谱仪回旋加速器）、电磁感应（楞次定律、法拉第定律）、交变电流（变压器、电能输送）、电磁振荡与电磁波、传感器（制作自动控制装置——联动信息技术选必6）；选必3：分子动理论、气体实验定律、热力学定律、原子结构与波粒二象性、原子核（裂变聚变——秦山核电站在浙江嘉兴）", "\"实验探究+模型建构\"双轮：运动→动力学→守恒观（能量动量电荷）→场与波；选考双支柱：电磁学+力学"], ["化学（人教2019）", "必修一：物质及其变化（胶体、离子反应、氧化还原——三大理论工具）、海水中的重要元素钠和氯（物质的量——化学计算核心）、铁 金属材料、物质结构 元素周期律（位-构-性）；必修二：化工生产中的重要非金属（硫氮硅——酸雨、合成氨）、化学反应与能量（原电池）、有机化合物（甲烷乙烯苯、乙醇乙酸、糖类油脂蛋白质）、化学与可持续发展；选必1 化学反应原理：反应热与焓变（盖斯定律）、反应速率与化学平衡（K、勒夏特列）、水溶液中的离子反应（pH、盐类水解、Ksp、中和滴定）、电化学（电解池、金属腐蚀防护）；选必2 物质结构与性质：电子排布、VSEPR 与杂化轨道、氢键、四大晶体；选必3 有机化学基础：官能团与同分异构、烃及衍生物（卤代烃醇酚醛酮羧酸酯）、生物大分子、合成高分子（可降解塑料）", "三重表征（宏观-微观-符号）；必修建观念、选必1 定量化（K/Ksp/pH）；选考：实验探究+原理综合+有机推断"], ["生物（浙科版）", "必修1《分子与细胞》：细胞的分子组成（蛋白质核酸、成分检测实验）、细胞的结构（膜与细胞器、显微镜）、细胞的代谢（ATP、酶、细胞呼吸、光合作用）、细胞的生命历程（有丝分裂、分化癌变）；必修2《遗传与进化》：孟德尔定律（假说-演绎法）、伴性遗传、DNA 分子结构与复制、基因表达、变异与育种、进化理论；选必1《稳态与调节》：内环境与稳态、神经调节（反射弧、动作电位）、体液调节（血糖）、免疫调节（疫苗）、植物激素（向光性）；选必2《生物与环境》：种群（J 形 S 形增长）、群落与演替、生态系统（能量流动 10%–20% 传递效率）、人与环境（生态工程——西溪湿地修复、千岛湖保水渔业）；选必3《生物技术与工程》：发酵工程（果酒果醋腐乳泡菜——可家庭实操）、细胞工程（组织培养）、基因工程（限制酶、PCR）、生物技术安全与伦理", "四组大概念：稳态与平衡、结构与功能、物质与能量、进化与适应；实验密度极高且多可家庭化（发酵、种植、遗传调查）；选考热门科目"], ["政治（统编）", "必修1《中国特色社会主义》；必修2《经济与社会》（所有制、社会主义市场经济、新发展理念——浙江共同富裕示范区）；必修3《政治与法治》（党的领导、人民当家作主、全面依法治国）；必修4《哲学与文化》（唯物论、辩证法、认识论、历史唯物主义；文化自信）；选必1《当代国际政治与经济》（模拟联合国）；选必2《法律与生活》（民法典：物权合同侵权、家庭婚姻、就业创业——最具生活实用性）；选必3《逻辑与思维》（形式逻辑三律、辩证思维——联动语文\"逻辑的力量\"）", "政治认同→科学精神→法治意识→公共参与；浙江卷常结合数字经济、共同富裕、枫桥经验命题"], ["历史（统编）", "纲要上（中国史）：中华文明起源→秦汉→隋唐制度创新→宋元经济重心南移（江南与杭州）→明清→晚清救亡→新民主主义革命→新中国与改革开放；纲要下（世界史）：古代文明→中古→全球联系建立→资本主义制度确立→工业革命与马克思主义→两次世界大战→冷战与全球化；选必1《国家制度与社会治理》（科举、基层治理）；选必2《经济与社会生活》（三次工业革命、货币信贷、城市化）；选必3《文化交流与传播》（丝绸之路、世界遗产——西湖/大运河/良渚）", "五大素养：唯物史观、时空观念、史料实证、历史解释、家国情怀；浙江选考重史料情境与乡土史（良渚、南宋、浙商）"], ["地理（湘教版）", "必修1：宇宙中的地球、地球上的大气（热力环流）、地球上的水（水循环、海水运动——钱塘江涌潮）、植被与土壤（剖面采样）；必修2：人口、城镇和乡村（城镇化）、产业区位选择、区域发展战略、人地关系；选必1《自然地理基础》：地球运动（时差、正午太阳高度）、岩石圈与地表形态、大气运动与天气气候（季风、锋面、台风）、陆地水与洋流、地域分异规律（天目山垂直带谱）；选必2《区域发展》：区域转型、长三角一体化；选必3《资源、环境与国家安全》：耕地与粮食安全、能源安全、碳达峰碳中和（家庭碳足迹）", "区域认知+综合思维+地理实践力+人地协调观；选考：图表题与区域综合题，常考季风、洋流、区位"], ["信息技术（浙教版）", "必修1《数据与计算》：数字化与编码（二进制、ASCII）、算法与 Python（数据类型、顺序分支循环、函数）、数据处理与可视化；必修2《信息系统与社会》：信息系统组成、网络技术基础（TCP/IP、DNS）、信息安全；选必1《数据与数据结构》：栈队列树图、查找与排序算法（技术选考压轴核心）；选必2《网络基础》；选必3《数据管理与分析》（SQL）；选必4《人工智能初步》（机器学习概念）；选必5《三维设计与创意》；选必6《开源硬件项目设计（Arduino/掌控板/行空板、传感器与执行器）》", "计算思维（抽象、建模、算法、自动化）；技术选考（与通用技术合卷 100 分）重 Python 程序阅读与算法设计"]]}}, "verticals": [{"id": "yuwen", "name": "语文", "icon": "文", "summary": "从「说一句完整的话」到「用语文参与社会」：识字写字→篇章阅读→策略化阅读→文体扩容→任务群整合", "links": "六下文言文（学弈、两小儿辩日）与议论文雏形 → 七上文言文与议论文阅读；名著梗概 → 初中整本书阅读（朝花夕拾、西游记）；九年级议论文 → 高一必修上思辨单元；初中新闻/演讲活动探究 → 高中必修下媒介素养单元", "bands": {"K1": {"points": "倾听与回应；完整句子表达；前阅读（亲子共读、指认封面书名）；前书写（涂鸦、画符号、写自己的名字）", "goal": "敢表达、爱听故事、知道\"字是有意义的\""}, "G12": {"points": "一上：拼音（23 声母、24 韵母、16 整体认读）、识字一/二（天地人、日月水火、对韵歌）；一下：姓氏歌、猜字谜、《静夜思》；二上：小蝌蚪找妈妈、场景歌（数量词）、坐井观天；二下：传统节日、\"贝\"的故事、中国美食、寓言二则；写话：看图写话、留言条", "goal": "累计认 1600/写 800；会部首查字法；能看图写 3–5 句通顺的话；朗读有语气"}, "G34": {"points": "三上：预测策略单元、观察单元（搭船的鸟）、写日记起步；三下：寓言单元（守株待兔、陶罐和铁罐）、传统文化（纸的发明、赵州桥）、习作\"我做了一项小实验\"\"中华传统节日\"；四上：提问策略（一个豆荚里的五粒豆）、连续观察（爬山虎的脚）、神话单元（盘古开天地、精卫填海）、习作\"写观察日记\"；四下：科普单元（琥珀、纳米技术）、现代诗（繁星、绿）、综合性学习\"轻叩诗歌大门\"、文言文二则（囊萤夜读、铁杵成针）", "goal": "两年各认 500/写 500；能写 300 字左右记实与想象作文；会用预测、提问、批注读课文"}, "G56": {"points": "五上：提高阅读速度（搭石、将相和）、民间故事、说明文单元（太阳、松鼠）、习作\"介绍一种事物\"\"推荐一本书\"；五下：古典名著单元（草船借箭、景阳冈）、综合性学习\"遨游汉字王国\"（字谜、谐音、汉字演变、研究报告）、思维单元（自相矛盾、田忌赛马）、习作\"学写简单的研究报告\"\"中国的世界文化遗产\"；六上：有目的地阅读（故宫博物院）、小说单元（桥、穷人）、保护环境（只有一个地球）、走近鲁迅、习作\"学写倡议书\"\"围绕中心意思写\"；六下：外国名著（鲁滨逊漂流记·梗概）、科学精神单元（真理诞生于一百个问号之后）、文言文（学弈、两小儿辩日）、综合性学习\"难忘小学生活\"、口语交际\"演讲\"\"辩论\"", "goal": "累计认 3000/写 2500；每分钟默读 300+ 字；能写 400–500 字记叙/说明/议论雏形；会做资料型研究报告"}, "G79": {"points": "七上：写景抒情（《春》《济南的冬天》）、亲情（《秋天的怀念》《散步》）、《论语》十二章、名著《朝花夕拾》《西游记》；七下：杰出人物（《邓稼先》）、家国情怀（《黄河颂》《木兰诗》）、《骆驼祥子》《海底两万里》；八上：活动·探究\"新闻\"（消息二则→新闻采访与写作）、回忆性散文与传记（《藤野先生》）、说明文（《中国石拱桥》《苏州园林》）、《红星照耀中国》《昆虫记》；八下：事理说明文（《大自然的语言》）、活动·探究\"演讲\"、游记（《壶口瀑布》）、《经典常谈》《钢铁是怎样炼成的》；九上：活动·探究\"诗歌\"、议论文（《敬业与乐业》《怀疑与学问》）、小说（《故乡》）、古典小说（《智取生辰纲》《范进中举》）、《艾青诗选》《水浒传》；九下：小说（《孔乙己》）、活动·探究\"戏剧\"（《屈原》《天下第一楼》）、文言史传（《曹刿论战》《邹忌讽齐王纳谏》）、《儒林外史》《简·爱》", "goal": "阅读：记叙→实用类（新闻/说明/演讲）→议论与文学鉴赏；写作：记事写人→说明与实用文体→议论文；三年课内文言约 37 篇、古诗词约 85 首、12 部必读名著"}, "G1012": {"points": "必修上：青春激扬（现代诗+小说）、劳动光荣（人物通讯→新闻采访）、生命的诗意（古诗词专题）、家乡文化生活（社区口述史/方言调查）、整本书《乡土中国》、学习之道（议论文）、自然情怀（散文）；必修下：中华文明之光（诸子史传）、良知与悲悯（戏剧《雷雨》《哈姆莱特》）、探索与创新（科学说明文）、媒介素养（辨识媒介信息）、抱负与使命（演讲）、整本书《红楼梦》；选必上：革命传统作品、百家争鸣（论语/老子/兼爱）、外国小说、逻辑的力量（概念判断推理、逻辑谬误）；选必中：理论的价值（政论文）、中国现当代文学、史传文学（屈原列传、过秦论）、外国戏剧诗歌；选必下：诗的国度（氓/离骚/望海潮/扬州慢——杭州文学地图）、时代镜像（阿Q正传、茶馆）、至情至性（陈情表、兰亭集序、石钟山记）、求真求实（自然选择的证明）", "goal": "四大任务群：文学阅读与写作、思辨性阅读与表达、实用性阅读与交流、整本书阅读；背诵约 60 篇（首）；高考 I 卷：多文本比对、情境化思辨作文"}}}, {"id": "shuxue", "name": "数学", "icon": "数", "summary": "从数物对应到数学建模：数感运算→小数分数→比例方程→代数与证明→函数思想主轴", "links": "四下认识方程 → 七上一元一次方程；四上负数 → 七上有理数；六下正反比例 → 八上一次函数/八下反比例函数；九上二次函数 → 高一函数的概念与性质（抽象化大坎）；九下解直角三角形 → 高一正弦余弦定理", "bands": {"K1": {"points": "科学领域前经验：分类与比较、数物对应 10 以内、简单排序与规律、感知形状与空间方位", "goal": ""}, "G12": {"points": "一上：生活中的数、加与减（一）、分类、位置与顺序、认识图形、认识钟表；一下：20 以内退位减、100 以内数、有趣的图形（七巧板）；二上：购物（元角分）、数一数与乘法、2–5/6–9 乘法口诀、测量（厘米米）；二下：有余数除法、方向与位置（东南西北）、时分秒、调查与记录（画\"正\"字）；数学好玩：分扣子、班级旧物市场、身体上的数学秘密", "goal": "20 以内口算 8–10 题/分；表内乘除脱口而出；会用尺子量、认钱算账、认钟"}, "G34": {"points": "三上：混合运算、周长、年月日、认识小数（文具店·元角分载体）；三下：两三位数除以一位数、两位数乘两位数、面积（cm²/dm²/m²）、千克克吨、认识分数（分一分、比大小）、数据的整理和表示（小小鞋店）；四上：认识更大的数（亿以内、近似数）、线与角（角的度量）、运算律（交换结合分配律）、除法（路程时间速度）、生活中的负数、可能性；四下：小数的意义和加减法、小数乘法、认识三角形和四边形（内角和）、认识方程（字母表示数、天平游戏）、数据的表示和分析（条形/折线统计图、平均数）；数学好玩：搭配中的学问、滴水实验、编码、密铺、优化", "goal": "竖式计算过关；建立小数分数直观；会用字母表示简单数量关系；能读画条形折线图"}, "G56": {"points": "五上：小数除法（含循环小数）、倍数与因数（2/5/3 倍数特征、质数）、分数的意义（真假带分数、约分通分）、多边形的面积（平行四边形/三角形/梯形）、组合图形面积（公顷平方千米）、可能性（公平性）、鸡兔同笼（尝试与猜测）；五下：分数加减法、分数乘法、分数除法、长方体（表面积、体积容积、排水法）、确定位置（方向+距离）、用方程解决问题（邮票的张数、相遇问题）、复式统计图；六上：圆（周长面积、圆周率的历史）、分数混合运算、百分数（合格率、折扣利率）、比的认识、数据处理（扇形统计图）、观察物体（观察的范围）；六下：圆柱与圆锥、比例（比例尺、图形放大缩小）、正比例与反比例、图形的运动；数学好玩：设计秋游方案、包装的学问、反弹高度、绘制校园平面图、神奇的莫比乌斯带", "goal": "分数四则熟练；会用比例尺与正反比例描述变化；能算体积表面积；完成小初衔接的三个桥头堡：方程（四下五下）→七上代数式；负数（四上）→七上有理数；比例（六下）→八上函数"}, "G79": {"points": "七上：有理数、有理数的运算、实数（平方根立方根）、代数式（整式）、一元一次方程、图形的初步知识；七下：平行线（判定与性质）、二元一次方程组、整式的乘除（乘法公式）、因式分解、分式、数据与统计图表；八上：三角形的初步知识（全等 SSS/SAS/ASA/AAS）、特殊三角形（等腰、勾股定理）、一元一次不等式、图形与坐标、一次函数；八下：二次根式、一元二次方程（四种解法、判别式）、数据分析初步（平均数中位数众数方差）、平行四边形、特殊平行四边形、反比例函数；九上：二次函数（图象与最值应用）、简单事件的概率（列表/树状图）、圆的基本性质（垂径定理、圆周角）、相似三角形（测高测距）；九下：解直角三角形（仰角俯角坡度）、直线与圆的位置关系、三视图与表面展开图", "goal": "数与式—方程不等式—函数三线并进；几何从直观到证明到综合；中考压轴：二次函数综合 + 几何综合（圆+相似+三角函数）"}, "G1012": {"points": "必修一：集合与常用逻辑用语、一元二次函数方程不等式（基本不等式）、函数的概念与性质（单调性奇偶性幂函数、分段函数建模）、指数函数与对数函数（增长模型、二分法）、三角函数（y=Asin(ωx+φ)、三角恒等变换、周期现象建模）；必修二：平面向量（余弦/正弦定理解三角形）、复数、立体几何初步、统计（抽样、百分位数、频率分布直方图）、概率（古典概型）；选必一：空间向量与立体几何、直线和圆的方程、圆锥曲线（椭圆双曲线抛物线）；选必二：数列（等差等比——复利房贷模型）、导数及其应用（单调性极值最值、优化问题）；选必三：计数原理（排列组合、二项式定理）、随机变量及其分布（条件概率、贝叶斯公式、二项/超几何/正态分布）、成对数据的统计分析（一元线性回归、独立性检验）", "goal": "函数思想为主轴贯穿三年；几何代数化（向量、解析几何）；概率统计从描述到推断；落点是数学建模解决真实问题"}}}, {"id": "yingyu", "name": "英语", "icon": "英", "summary": "从唱游到学术英语：听说启蒙→词句起步→语段表达→系统语法→主题语境与双写作", "links": "六下一般过去时+比较级 → 七上系统时态；词汇量 600–700 → 初中 1500–1600 → 高中 3500+ 两次跳档；初中 80 词应用文 → 高中读后续写 150 词（情节+情感）", "bands": {"K1": {"points": "磨耳朵：英文儿歌、绘本音频；不考核、不拼写", "goal": ""}, "G12": {"points": "一年级话题：问候与名字、数字 1–10、颜色、动物、身体、家人、玩具；二年级话题：文具、动作能力（I can…）、衣物、天气（sunny/rainy）、感受、交通、节日；形式：歌曲歌谣、TPR 动作、角色扮演", "goal": "能听懂课堂指令、跟唱 10+ 首歌谣、用单词短句应答；不考核拼写"}, "G34": {"points": "三上：Hello!/Colours/Look at me!/We love animals/Let's eat!/Happy birthday!（字母、颜色、身体、动物、食物、数字1-10）；三下：My family/At the zoo/Where is my car?/Do you like pears?/How many?（方位介词、喜好、数字11-20）；四上：My classroom/My friends/My home/Dinner's ready/Meet my family!；四下：My school/What time is it?/Weather/At the farm/My clothes/Shopping；语音：字母音→短元音→长元音 a-e/i-e/o-e/u-e", "goal": "词汇每册 60–90 个；能进行 4–6 句对话；书写规范（大小写标点）；初步自然拼读"}, "G56": {"points": "五上：What's he like?/My week/What would you like?/What can you do?/There is a big bed/In a nature park（can、there be）；五下：My day/My favourite season/When is the art show?/Whose dog is it?/Work quietly!（现在进行时、物主代词、序数词）；六上：How can I get there?/Ways to go to school/My weekend plan/I have a pen pal/What does he do?/How do you feel?（be going to、问路、职业）；六下：How tall are you?/Last weekend/Where did you go?/Then and now（比较级、一般过去时）；语音：元音组合与辅音组合拼读系统化", "goal": "六年累计词汇 600–700；能读 60–80 词短文、写 5 句连贯语段；掌握四大时态雏形与比较级"}, "G79": {"points": "七上：be 动词、指示代词、一般疑问句、where 问句、have/has、like、购物 how much、序数词日期；七下：can、时刻与作息、交通方式、祈使句与 must、现在进行时、there be 与问路、外貌描述、would like 点餐、一般过去时；八上：过去时综合、频率副词、比较级最高级、不定式、be going to/will 将来时、if 条件状语从句；八下：should 提建议、动词短语、could 礼貌请求、过去进行时、叙事连词（讲述中国故事 U6）、大数字、现在完成时（yet/already/ever/for/since）；九年级（全一册）：by+doing、宾语从句、used to、被动语态（三段式）、情态动词推测、定语从句、be supposed to 礼仪、过去完成时、环保话题 U13", "goal": "词汇累计 1500–1600；三大基础时态→时态闭环（完成时）→三大从句+被动语态；能写 80 词左右应用文与话题作文"}, "G1012": {"points": "主题语境：必修1 Teenage Life/Travelling Around/Natural Disasters；必修2 Cultural Heritage（西湖申遗）/The Internet/Music；必修3 Festivals/Diverse Cultures/Space Exploration；选必1 People of Achievement/Working the Land；选必2 Science and Scientists/First Aid；选必3 Art/Environmental Protection/Poems；选必4 Science Fiction/Launching Your Career。语法脊柱：必修1 句子成分+时态复习+定语从句→必修2 定语从句进阶→必修3 名词性从句→选必1 非谓语动词系统+虚拟语气→选必2 倒装强调省略→选必3–4 综合+读后续写高级句式", "goal": "词汇 3000→3500+；高考 I 卷双写作：应用文 15 分 + 读后续写 25 分（情节推断+情感描写，区分度最高）"}}}, {"id": "kexue", "name": "科学", "icon": "科", "summary": "从感官观察到证据解释：观察比较分类测量→因果探究→系统与模型→定量规律（初中综合科学）", "links": "六下物质的变化（化学变化证据）→ 初中化学启蒙；六上能量·电和磁 → 八下电与磁；六上微小世界 → 七上观察生物；小学实验经验 → 七上科学入门要求升级为「会写实验报告」", "bands": {"K1": {"points": "自然观察（动植物、天气、季节）；分类与比较（大小多少高矮）；数物对应 10 以内、简单排序与规律；感知形状与空间方位", "goal": "会问\"为什么\"、会按特征分堆、数到 10 不乱"}, "G12": {"points": "一上：植物（观察叶、校园里的植物）、比较与测量（用手测量、测量纸带）；一下：我们周围的物体（给物体分类、溶解初感）、动物（观察鱼、给动物建\"家\"）；二上：我们的地球家园（土壤、太阳的位置、观察月相、天气与季节）、材料（神奇的纸、做一顶帽子）；二下：磁铁（两极、做指南针）、我们自己（感官、测试反应快慢）", "goal": "会有序观察并用图画记录；会比较轻重长短；知道\"预测—验证\"的游戏规则"}, "G34": {"points": "三上：水（蒸发沸腾结冰、溶解、混合与分离）、空气（占据空间、热气球、风的成因）、天气（气温计、降水量、观测风、天气日历）；三下：物体的运动（直线曲线运动、我们的\"过山车\"）、动物的一生（养蚕全周期）、太阳地球月球（影子、月相）；四上：声音（产生与传播、音量音高、制作小乐器）、呼吸与消化（肺活量、食物营养）、运动和力（气球/橡皮筋驱动小车、摩擦力、设计制作小车）；四下：植物的生长变化（种植凤仙花全周期）、电路（点亮小灯泡、导体绝缘体、模拟安装照明电路）、岩石与土壤（制作标本、比较土壤）", "goal": "会做控制变量对比实验；会用气温计/测力计等仪器；能完成\"设计—制作—测试\"小工程；坚持长期观察记录"}, "G56": {"points": "五上：光（反射折射、制作潜望镜）、地球表面的变化（地震火山、风水作用）、计量时间（水钟、摆的快慢、制作钟摆）、健康生活（心脏血液、制订健康计划）；五下：生物与环境（种子发芽实验、食物链食物网、设计和制作生态瓶）、船的研究（浮的材料/沉的材料造船、增加载重量、给船装动力、设计制作测试小船）、环境与我们（珍惜水资源、解决垃圾问题、分析一个实际的环境问题）、热（热传递三方式、做个保温杯）；六上：微小世界（显微镜、洋葱表皮细胞、水中微生物）、地球的运动（昼夜交替、公转四季、影长四季变化）、工具与技术（斜面、杠杆、印刷术）、能量（电和磁、电磁铁、小电动机）；六下：小小工程师（建造塔台全流程）、生物的多样性（校园生物大搜索、制作分布图）、宇宙（太阳系、日食、星座）、物质的变化（厨房里的物质变化、产生气体的变化——化学启蒙）", "goal": "能完成\"问题—设计—制作—测试—改进\"完整工程流程；会用显微镜；建立生态系统与能量模型；用证据解释化学变化"}, "G79": {"points": "七上：科学入门（观察测量、探究环节）、观察生物（显微镜与细胞、结构层次、分类）、人类的家园——地球（地球仪地图、岩石、板块、等高线）、物质的特性（分子论、密度 ρ=m/V、比热、物态变化）；七下：代代相传的生命（生殖与青春期、生命周期）、对环境的察觉（声、光的反射折射、凸透镜成像）、运动和力（速度、牛顿第一定律、二力平衡、摩擦力、压强）、地球与宇宙（自转公转、月相、日食月食、太阳系）；八上：水和水的溶液（浮力阿基米德原理、溶解度、溶液分离）、天气与气候（大气压、风降水、天气预报）、生命活动的调节（激素、神经反射弧）、电路探秘（电流电压电阻、欧姆定律、串并联）；八下：电与磁（奥斯特实验、电磁铁、电动机、磁生电、家庭用电）、微粒的模型与符号（分子原子离子、元素符号、化学式与化合价）、空气与生命（氧气、燃烧、化学方程式与质量守恒、二氧化碳、呼吸与光合作用）、植物与土壤（根吸收、茎运输、蒸腾）；九上：物质及其变化（酸碱盐、pH、中和反应）、物质转化与材料利用（金属活动性、有机物）、能量的转化与守恒（机械能、功与功率、简单机械、内能、电功电功率焦耳定律）、代谢与平衡（消化吸收、血液循环）；九下：演化的自然（宇宙与生命起源、进化）、生物与环境（生态系统结构与功能）、人的健康（免疫）、可持续发展（低碳生活）", "goal": "以\"科学探究\"为轴：七年级观察测量分类→八年级定量规律（浮力/欧姆/化学方程式）→九年级综合封顶（酸碱盐、能量守恒）；中考 160 分锚点：电学综合、浮力压强、酸碱盐推断、实验探究（控制变量）"}, "G1012": {"points": "高中拆分为物理·化学·生物三科（见对应学科纵线）；「实验探究+模型建构」的科学方法主线贯穿始终，是选考实验大题的共同底盘", "goal": ""}}}, {"id": "shehui", "name": "社会（历史·道法）", "icon": "社", "summary": "从「我爱我家」到「家国天下」：家庭集体社会→家国法治→系统史学与宪法→通史与政治理论", "links": "六上法律/国家机构 → 八下宪法专册；五下百年追梦 → 八年级中国近现代史；四下感受家乡文化 → 初中良渚研学 → 高中选必3世界遗产考察；2026 年起社会闭卷", "bands": {"K1": {"points": "轮流与分享；规则游戏；认识家庭成员与社区角色；情绪命名与简单调节", "goal": "能和同伴玩、懂基本规则、说出\"我怎么了\""}, "G12": {"points": "一上：我是小学生啦、校园生活；一下：我的好习惯、我爱我家；二上：我们的节假日、公共场所；二下：绿色小卫士（环保启蒙）", "goal": "适应学校、有安全意识、爱护环境的初步意识"}, "G34": {"points": "三上：快乐学习、安全护我成长；三下：我在这里长大（社区）、我们的公共生活；四上：为父母分担、信息万花筒（媒介素养）、让生活多一些绿色；四下：做聪明的消费者、感受家乡文化", "goal": "懂公共规则、初步消费与媒介意识、热爱家乡"}, "G56": {"points": "五上：我们的国土我们的家园、骄人祖先灿烂文化；五下：我们一家人（家风）、百年追梦复兴中华；六上：我们的守护者（法律）、我们是公民、国家机构；六下：爱护地球共同责任、多样文明多彩生活", "goal": "初步法治与公民意识、家国认同、全球视野"}, "G79": {"points": "【历史与社会】历史（统编）：七年级中国古代史（史前文明→明清，主线\"统一多民族国家的形成与发展\"）；八上中国近代史（1840 鸦片战争→新民主主义革命）；八下中国现代史（新中国成立→改革开放→新时代）；九年级世界史（古代文明→两次世界大战→全球化）。人文地理（人教《历史与社会》）：社区与地图三要素、大洲大洋与世界气候、\"因地制宜\"区域案例、中国疆域地形气候与区域差异\n【道法（统编）】七年级：成长的节拍、友谊、师长情谊、生命的思考、青春时光、情绪管理、集体生活、走进法治天地；八上：走进社会生活、遵守社会规则、勇担社会责任、维护国家利益；八下（宪法专册）：坚持宪法至上、理解权利义务、人民当家作主、崇尚法治精神；九上：富强与创新、民主与法治、文明与家园、和谐与梦想；九下：我们共同的世界、世界舞台上的中国", "goal": "时空观念 + 史料实证；能用地图与年表组织知识；社会卷（中考 100 分，2026 起闭卷）重材料分析；法治意识与公共参与；中考重心：八下宪法 + 九上国情，情境材料分析题"}, "G1012": {"points": "【政治（统编）】必修1《中国特色社会主义》；必修2《经济与社会》（所有制、社会主义市场经济、新发展理念——浙江共同富裕示范区）；必修3《政治与法治》（党的领导、人民当家作主、全面依法治国）；必修4《哲学与文化》（唯物论、辩证法、认识论、历史唯物主义；文化自信）；选必1《当代国际政治与经济》（模拟联合国）；选必2《法律与生活》（民法典：物权合同侵权、家庭婚姻、就业创业——最具生活实用性）；选必3《逻辑与思维》（形式逻辑三律、辩证思维——联动语文\"逻辑的力量\"）\n【历史（统编）】纲要上（中国史）：中华文明起源→秦汉→隋唐制度创新→宋元经济重心南移（江南与杭州）→明清→晚清救亡→新民主主义革命→新中国与改革开放；纲要下（世界史）：古代文明→中古→全球联系建立→资本主义制度确立→工业革命与马克思主义→两次世界大战→冷战与全球化；选必1《国家制度与社会治理》（科举、基层治理）；选必2《经济与社会生活》（三次工业革命、货币信贷、城市化）；选必3《文化交流与传播》（丝绸之路、世界遗产——西湖/大运河/良渚）", "goal": "政治认同→科学精神→法治意识→公共参与；浙江卷常结合数字经济、共同富裕、枫桥经验命题；五大素养：唯物史观、时空观念、史料实证、历史解释、家国情怀；浙江选考重史料情境与乡土史（良渚、南宋、浙商）"}}}, {"id": "wuli", "name": "物理", "icon": "物", "summary": "运动→力→能量→电磁→场与波：高中独立成科，小初融合于科学课", "links": "三下物体运动/四上运动和力 → 七下运动和力 → 九上能量转化与守恒 → 高一牛顿定律与机械能守恒 → 高二电磁学（选考双支柱之一）", "bands": {"K1": {"points": "感官探索：沉浮、滚动、声音、光影（融合于五大领域）", "goal": ""}, "G12": {"points": "科学：物体轻重、磁铁、材料（教科版一、二年级）", "goal": ""}, "G34": {"points": "科学三下《物体的运动》（过山车）、四上《运动和力》（小车）、四下《电路》（照明小屋）", "goal": ""}, "G56": {"points": "科学五下《热》（保温杯）与《船的研究》、六上《能量》（电磁铁、小电动机）", "goal": ""}, "G79": {"points": "浙教科学：七下《运动和力》（速度、牛顿第一定律、压强）、八上《电路探秘》（欧姆定律）、八下《电与磁》、九上《能量的转化与守恒》（功、功率、电功率）", "goal": ""}, "G1012": {"points": "必修1：运动的描述（质点、加速度、图象）、匀变速直线运动（自由落体）、相互作用——力（力的合成分解）、运动和力的关系（牛顿三定律）；必修2：抛体运动（平抛）、圆周运动（向心力）、万有引力与宇宙航行（开普勒、宇宙速度）、机械能守恒定律；必修3：静电场（库仑定律）、静电场中的能量（电势电容）、电路及其应用（电阻定律、多用电表）、电能 能量守恒定律（闭合电路欧姆定律）、电磁场与电磁波初步；选必1：动量守恒定律（碰撞、反冲火箭）、机械振动（单摆、共振）、机械波（多普勒）、光（折射全反射、干涉衍射偏振）；选必2：安培力与洛伦兹力（质谱仪回旋加速器）、电磁感应（楞次定律、法拉第定律）、交变电流（变压器、电能输送）、电磁振荡与电磁波、传感器（制作自动控制装置——联动信息技术选必6）；选必3：分子动理论、气体实验定律、热力学定律、原子结构与波粒二象性、原子核（裂变聚变——秦山核电站在浙江嘉兴）", "goal": "\"实验探究+模型建构\"双轮：运动→动力学→守恒观（能量动量电荷）→场与波；选考双支柱：电磁学+力学"}}}, {"id": "huaxue", "name": "化学", "icon": "化", "summary": "溶解→化学变化→化学式→酸碱盐→反应原理：从厨房现象到定量化工程思维", "links": "三上溶解 → 六下物质的变化 → 八下化学式与化学方程式 → 九上酸碱盐 → 高一离子反应/氧化还原/物质的量（摩尔是高一最大坎）", "bands": {"K1": {"points": "厨房小实验：冰块融化、溶解游戏（P03）", "goal": ""}, "G12": {"points": "科学一下《观察一瓶水》《它们去哪里了》（溶解初感）", "goal": ""}, "G34": {"points": "科学三上《水》单元：溶解、加快溶解、混合与分离（控制变量起步）", "goal": ""}, "G56": {"points": "科学六下《物质的变化》：厨房里的物质变化、产生气体的变化——化学启蒙", "goal": ""}, "G79": {"points": "浙教科学：八下《微粒的模型与符号》（化学式、化合价）与《空气与生命》（化学方程式、质量守恒）、九上《物质及其变化》（酸碱盐、pH）", "goal": ""}, "G1012": {"points": "必修一：物质及其变化（胶体、离子反应、氧化还原——三大理论工具）、海水中的重要元素钠和氯（物质的量——化学计算核心）、铁 金属材料、物质结构 元素周期律（位-构-性）；必修二：化工生产中的重要非金属（硫氮硅——酸雨、合成氨）、化学反应与能量（原电池）、有机化合物（甲烷乙烯苯、乙醇乙酸、糖类油脂蛋白质）、化学与可持续发展；选必1 化学反应原理：反应热与焓变（盖斯定律）、反应速率与化学平衡（K、勒夏特列）、水溶液中的离子反应（pH、盐类水解、Ksp、中和滴定）、电化学（电解池、金属腐蚀防护）；选必2 物质结构与性质：电子排布、VSEPR 与杂化轨道、氢键、四大晶体；选必3 有机化学基础：官能团与同分异构、烃及衍生物（卤代烃醇酚醛酮羧酸酯）、生物大分子、合成高分子（可降解塑料）", "goal": "三重表征（宏观-微观-符号）；必修建观念、选必1 定量化（K/Ksp/pH）；选考：实验探究+原理综合+有机推断"}}}, {"id": "shengwu", "name": "生物", "icon": "生", "summary": "养蚕种花→生态瓶→细胞→遗传与稳态→发酵工程：最适合家庭实验的学科", "links": "养蚕/凤仙花（G3–4）→ 生态瓶（G5）→ 七上细胞与分类 → 九上代谢与平衡 → 浙科必修1《分子与细胞》（ATP、酶、光合呼吸）→ 选必3 发酵工程（可家庭实操）", "bands": {"K1": {"points": "亲近动植物：自然寻宝、照顾小植物（P02/P07 前经验）", "goal": ""}, "G12": {"points": "科学一上《植物》、一下《动物》、二下《我们自己》（身体与感官）", "goal": ""}, "G34": {"points": "科学三下《动物的一生》（养蚕）、四下《植物的生长变化》（凤仙花）、四上《呼吸与消化》", "goal": ""}, "G56": {"points": "科学五下《生物与环境》（生态瓶、食物链）、六上《微小世界》（显微镜与细胞）、六下《生物的多样性》", "goal": ""}, "G79": {"points": "浙教科学：七上《观察生物》（显微镜、细胞、分类）、七下《代代相传的生命》、八下《植物与土壤》、九上《代谢与平衡》、九下《生物与环境》《人的健康》", "goal": ""}, "G1012": {"points": "必修1《分子与细胞》：细胞的分子组成（蛋白质核酸、成分检测实验）、细胞的结构（膜与细胞器、显微镜）、细胞的代谢（ATP、酶、细胞呼吸、光合作用）、细胞的生命历程（有丝分裂、分化癌变）；必修2《遗传与进化》：孟德尔定律（假说-演绎法）、伴性遗传、DNA 分子结构与复制、基因表达、变异与育种、进化理论；选必1《稳态与调节》：内环境与稳态、神经调节（反射弧、动作电位）、体液调节（血糖）、免疫调节（疫苗）、植物激素（向光性）；选必2《生物与环境》：种群（J 形 S 形增长）、群落与演替、生态系统（能量流动 10%–20% 传递效率）、人与环境（生态工程——西溪湿地修复、千岛湖保水渔业）；选必3《生物技术与工程》：发酵工程（果酒果醋腐乳泡菜——可家庭实操）、细胞工程（组织培养）、基因工程（限制酶、PCR）、生物技术安全与伦理", "goal": "四组大概念：稳态与平衡、结构与功能、物质与能量、进化与适应；实验密度极高且多可家庭化（发酵、种植、遗传调查）；选考热门科目"}}}, {"id": "dili", "name": "地理", "icon": "地", "summary": "方向感→天气土壤→地球运动→人文区位→人地协调：高中独立成科（湘教版）", "links": "小学天气日历 → 八上天气与气候；六上地球的运动 → 高中选必1地球运动（时差、正午太阳高度定量化）；初中人文地理「因地制宜」→ 高中产业区位", "bands": {"K1": {"points": "认识家附近的环境：小区、公园、四季变化（P02）", "goal": ""}, "G12": {"points": "数学二下《方向与位置》（东南西北）；语文二上「家乡」单元；科学二上《我们的地球家园》（土壤、月相、季节）", "goal": ""}, "G34": {"points": "科学三上《天气》（气温、降水、风——P14 天气小站）、四下《岩石与土壤》", "goal": ""}, "G56": {"points": "科学六上《地球的运动》（昼夜四季）、五下《环境与我们》（环境议题）；数学六下比例尺与平面图", "goal": ""}, "G79": {"points": "人教《历史与社会》人文地理：地图三要素、大洲大洋与世界气候、「因地制宜」区域案例、中国疆域地形气候与区域差异；浙教科学中的地学（七上地球仪地图等高线、八上天气与气候）", "goal": ""}, "G1012": {"points": "必修1：宇宙中的地球、地球上的大气（热力环流）、地球上的水（水循环、海水运动——钱塘江涌潮）、植被与土壤（剖面采样）；必修2：人口、城镇和乡村（城镇化）、产业区位选择、区域发展战略、人地关系；选必1《自然地理基础》：地球运动（时差、正午太阳高度）、岩石圈与地表形态、大气运动与天气气候（季风、锋面、台风）、陆地水与洋流、地域分异规律（天目山垂直带谱）；选必2《区域发展》：区域转型、长三角一体化；选必3《资源、环境与国家安全》：耕地与粮食安全、能源安全、碳达峰碳中和（家庭碳足迹）", "goal": "区域认知+综合思维+地理实践力+人地协调观；选考：图表题与区域综合题，常考季风、洋流、区位"}}}, {"id": "xinxi", "name": "信息技术", "icon": "信", "summary": "工具使用→图形化编程→Python→数据结构与开源硬件：浙江特有的高考选考科目", "links": "四上数学好玩·编码 → 初中 Python 启蒙（配合八上函数画图象）→ 高一必修1《数据与计算》Python 正式化 → 选必1 算法（技术选考压轴）/ 选必6 开源硬件（PBL 最强接口）", "bands": {"K1": {"points": "少屏幕、多实物操作；屏幕时间单次≤20 分钟", "goal": ""}, "G12": {"points": "不接触屏幕为主（保护视力优先）", "goal": ""}, "G34": {"points": "学校信息科技课起步（键盘、画图、搜索）；家庭可用 Scratch 图形化编程", "goal": ""}, "G56": {"points": "Scratch 做小项目（口诀游戏、电子海报）；数学四上《数学好玩·编码》思想启蒙", "goal": ""}, "G79": {"points": "学校课程：数据处理、简单编程；家庭可 Python 入门，配合八上一次函数画图象", "goal": ""}, "G1012": {"points": "必修1《数据与计算》：数字化与编码（二进制、ASCII）、算法与 Python（数据类型、顺序分支循环、函数）、数据处理与可视化；必修2《信息系统与社会》：信息系统组成、网络技术基础（TCP/IP、DNS）、信息安全；选必1《数据与数据结构》：栈队列树图、查找与排序算法（技术选考压轴核心）；选必2《网络基础》；选必3《数据管理与分析》（SQL）；选必4《人工智能初步》（机器学习概念）；选必5《三维设计与创意》；选必6《开源硬件项目设计（Arduino/掌控板/行空板、传感器与执行器）》", "goal": "计算思维（抽象、建模、算法、自动化）；技术选考（与通用技术合卷 100 分）重 Python 程序阅读与算法设计"}}}], "projects": [{"id": "P01", "name": "颜色分类大作战", "steps": ["家长拿出 8–10 双混在一起的袜子，请孩子\"帮袜子找朋友\"（配对）。", "升级：把积木倒在桌上，请孩子\"把一样的放一起\"，分完让他说说\"你是怎么分的\"。", "再升级：家长故意按另一个标准分一次（如孩子按颜色分，家长按大小分），让孩子猜\"妈妈是按什么分的\"。", "户外版：捡落叶按形状/颜色分类。", "收尾仪式：孩子当\"分类小老师\"，教毛绒玩具怎么分。"], "type": "游戏；每次 10–15 分钟，可反复玩一个学期", "knowledge": "《3–6 岁儿童学习与发展指南》科学领域\"感知形状与空间关系/初步的归类能力\"；对应小学科学一上《比较与测量》\"给物体分类\"、数学一上《分类》单元的前经验", "abilities": "①观察与探究：能按颜色/大小/形状中自选一个标准把 10 件物品分成 2–3 堆并说出标准；⑧自主学习与元认知：能换一种标准重新分一遍，发现\"同一堆东西可以有不同的分法\"", "materials": "袜子、积木、纽扣、水果、玩具车等家中物品；¥0", "outcome": "无实物成果，观察即可。评估清单：①能自定一个标准完成分类；②能说出分类标准；③能接受并尝试第二种标准；④游戏中专注 10 分钟以上。", "advance": "升级为\"两个标准同时分\"（又大又红的放这里），这就是小学\"分类与整理\"统计单元的雏形。", "textbook": "随时可玩；与 G1 数学一上《分类》、科学一下《给物体分类》直接衔接。", "band": "K1", "cat": "游戏", "dims": [0, 7]}, {"id": "P02", "name": "小区自然寻宝图", "steps": ["家长提前画好寻宝卡：一片锯齿边的叶子、一朵小花、一根羽毛、一块圆圆的石头、一只小虫（只看不抓）等。", "到小区绿地或附近公园（余杭可选：西溪湿地外围绿道、梦想小镇周边绿地），把卡片交给孩子。", "孩子每找到一样，在格子里打勾或贴贴纸。", "找齐后坐在草地上，请孩子挑出\"最喜欢的一个发现\"，说说为什么。", "回家把叶子石头摆在桌上，拍一张\"今日收获\"照片存档。"], "type": "户外游戏；每次 30–45 分钟，四季各玩一次最佳", "knowledge": "《指南》健康领域\"动作发展\"与科学领域\"亲近自然，喜欢探究\"；对应科学一上《植物》\"校园里的植物\"、二上《我们的地球家园》\"不同的季节\"的前经验", "abilities": "①观察与探究：能按图卡找到 5 种指定自然物（如\"一片黄色的叶子\"\"一块光滑的石头\"）；③语言表达与沟通：回家能向家人描述 2–3 个\"今天找到的东西\"", "materials": "家长手绘寻宝卡（画 6–9 个格子，每格画/写一样要找的东西）；小篮子一个；¥0–5", "outcome": "寻宝卡+照片。评估清单：①完成寻宝卡；②能描述 2 个以上发现；③能说出一种植物/石头的特征（颜色、形状、触感）。", "advance": "四季重复同一地点寻宝，对比\"春天和秋天找到的东西有什么不一样\"——种下\"季节变化\"的前概念，衔接二上《不同的季节》。", "textbook": "四季皆可；秋季版可衔接 G1 语文一上课文《秋天》。", "band": "K1", "cat": "游戏", "dims": [0, 2]}, {"id": "P03", "name": "厨房小实验：冰块去哪了", "steps": ["让孩子摸一摸冰块，说说感觉（冷、硬、滑）。", "三个杯子各放一块冰：一杯放桌上、一杯放阳台太阳下、一杯倒进温水里。", "请孩子猜：\"哪块冰先消失？\"把猜测画下来。", "每隔 10–20 分钟去看一次，用贴纸在水面处做标记。", "冰块融化后对比三杯水，让孩子说\"哪块最快，为什么\"。", "反向玩：把一杯水放进冰箱冷冻，第二天看\"水又变回冰了\"。"], "type": "小实验游戏；单次 20 分钟 + 半天的间歇观察", "knowledge": "《指南》科学领域\"感知和发现物体的物理特性\"；对应科学三上《水》单元\"水到哪里去了（蒸发）、冰融化了\"的前经验", "abilities": "①观察与探究：能观察并说出\"冰块慢慢变小、变成了水\"；⑤数据与证据素养（萌芽）：能用贴贴纸的方式标记水位变化", "materials": "冰块、透明玻璃杯 2–3 个、温水、贴纸；¥0", "outcome": "画有猜测的纸 + 标记贴纸的杯子照片。评估清单：①能做出猜测；②能描述融化过程；③能发现\"热的/晒的地方化得快\"。", "advance": "夏天玩\"盐能不能让冰化得更快\"（撒盐实验）；上小学后可升级为三上《水》单元的正规对比实验。", "textbook": "随时；与 G3 科学三上《水》单元、一下《观察一瓶水》呼应。", "band": "K1", "cat": "游戏", "dims": [0, 4]}, {"id": "P04", "name": "绘本小剧场", "steps": ["亲子共读绘本 1–2 遍。", "第二遍时，家长读旁白，孩子负责某一个角色的台词（哪怕只是\"我饿！\"）。", "一起用纸盘/丝巾做简单道具。", "正式\"演出\"：全家当观众，孩子（+家长配角）完整演一遍。", "彩蛋：问孩子\"故事还可以有别的结尾吗？\"鼓励编一个新结尾。"], "type": "表演游戏；每本绘本玩 2–3 次，每次 20–30 分钟", "knowledge": "《指南》语言领域\"前阅读与前书写\"、艺术领域\"表现与创造\"；对应语文一上口语交际\"听故事讲故事\"、快乐读书吧\"读书真快乐\"的前经验", "abilities": "③语言表达与沟通：能复述绘本中 2–3 个情节并用角色的声音表演；⑥审美与创造：能为角色设计一个动作或道具", "materials": "家中绘本若干（建议选角色少、对话多的，如《好饿的毛毛虫》类）、旧丝巾/纸盘做道具；¥0–20", "outcome": "一次家庭演出（可录视频存档）。评估清单：①能记住角色台词或大意；②敢在家人面前表演；③能参与编新结尾。", "advance": "升级为\"手偶剧场\"（纸袋手偶）；入小学后衔接口语交际\"听故事讲故事\"与二上快乐读书吧童话剧。", "textbook": "随时；为 G1 语文朗读与口语交际打底。", "band": "K1", "cat": "游戏", "dims": [2, 5]}, {"id": "P05", "name": "积木城市建造师", "steps": ["先自由搭 10 分钟，让孩子展示并介绍\"这是什么\"。", "家长给挑战任务：\"搭一座最高的塔，倒了就研究为什么倒。\"", "引导发现：底面大、重心低，塔更稳（用孩子的话：\"下面宽宽的就不倒\"）。", "合作任务：一起搭\"我们的小区\"——要有楼、路、桥、公园。", "搭完绕场一周\"验收\"，孩子当导游介绍每一栋。"], "type": "建构游戏；每次 20–40 分钟，长期反复", "knowledge": "《指南》科学领域\"感知形状与空间关系\"、健康领域\"精细动作\"；对应数学一上《认识图形》（长方体/正方体/圆柱/球）、一下《有趣的图形》的前经验", "abilities": "④空间与工程建构：能用积木搭出有\"门、桥、塔\"等结构的建筑并说出各部分名称；⑦协作与社会责任：能与家长分工（你搭路我搭桥）完成一座\"城市\"", "materials": "家中积木/乐高/磁力片，或纸巾筒、纸盒自制；¥0–100", "outcome": "建构作品+孩子导览视频。评估清单：①作品有 2 种以上结构；②塔倒后能说出原因并改进；③能分工合作；④能介绍作品。", "advance": "加\"对称\"挑战（桥的左右要一样），衔接二上《图形的变化》对称初感；加纸和笔画\"设计图\"，衔接工程流程。", "textbook": "随时；与 G1 数学图形单元、科学二上《做一顶帽子》呼应。", "band": "K1", "cat": "游戏", "dims": [3, 6]}, {"id": "P06", "name": "身体运动挑战赛", "steps": ["地面贴一条胶带当\"独木桥\"，练习沿线走、沿线跳。", "拍球挑战：连续拍球，家长大声数数，记录最高纪录。", "跳绳挑战：从甩绳跳一个开始，逐步加。", "反应游戏：家长抛软球让孩子接，或\"红绿灯\"（喊绿灯跑红灯停）。", "把每次成绩画在墙上的\"成长图\"上（贴贴纸或画格子）。"], "type": "运动游戏；每周 2–3 次，每次 15–20 分钟", "knowledge": "《指南》健康领域\"具有一定的平衡能力，动作协调、灵敏\"；对应体育 G1 跳绳拍球、科学二下《我们自己》\"测试反应快慢\"的前经验", "abilities": "健康底色：连续完成 3 项运动挑战；⑤数据与证据素养（萌芽）：能用\"今天跳了 8 下，昨天 5 下\"比较多与少", "materials": "跳绳、皮球、胶带（地上贴平衡线）；¥0–30", "outcome": "成长记录图。评估清单：①平衡线走稳；②拍球/跳绳次数逐周上升；③愿意重复挑战；④能说出\"我比上次多了几下\"。", "advance": "升级为\"家庭运动会\"（设 3 个项目发奖牌）；入小学后衔接跳绳达标与二下《测试反应快慢》实验。", "textbook": "随时；为小学体育达标（跳绳）打底。", "band": "K1", "cat": "游戏", "dims": [4]}, {"id": "P07", "name": "我的植物观察员", "steps": ["和孩子一起把绿豆（或蒜瓣）种进透明杯，贴墙根放棉花加水，或埋进土里。", "给植物起名字，做一张\"观察牌\"。", "每周固定一天（如周日），孩子画下植物现在的样子，家长帮忙写日期。", "引导孩子用\"我发现……\"说一个变化（长高了/多了两片叶/根变长了）。", "4–6 周把画按日期排成一排，讲一遍\"它的成长故事\"。"], "type": "长期观察；4–6 周，每天 5 分钟", "knowledge": "科学·一上《植物》单元\"观察一棵植物、观察叶、植物是'活'的吗\"；语文·一上口语交际\"我说你做\"、一下写话萌芽（说一句完整的话）", "abilities": "①观察与探究：能每周用图画记录植物的叶数/高度变化；③语言表达与沟通：能用\"我发现……\"句式说出每周的一个新发现", "materials": "绿豆/大蒜一头、透明杯、棉花或土；¥0–5", "outcome": "一册《植物成长画册》。评估清单：①有 4 次以上带日期记录；②能指出根、茎、叶；③能讲出 3 个变化；④主动浇水照料。", "advance": "同时种两杯，一杯放窗台一杯放柜子里，比较\"阳光对植物的影响\"（控制变量萌芽）；二年级升级为观察蚕宝宝或月相。", "textbook": "最佳同步：一年级上册科学《植物》单元学期内（约秋季学期第 2–8 周）。", "band": "G12", "cat": "长期项目", "dims": [0, 2]}, {"id": "P08", "name": "家庭购物小当家", "steps": ["家长给 6–8 件家中物品贴价格签（1 元、2 元 5 角等），开\"家庭小超市\"。", "孩子当顾客，给 10 元\"预算\"，买 2–3 样东西，练习付钱、找零。", "角色互换：孩子当收银员，负责算钱找钱（家长故意算错让他纠正）。", "实战：去超市给孩子 20 元买\"今晚的水果\"，自己挑、自己算、自己付款。", "复盘：钱花完了吗？买了\"需要的\"还是\"想要的\"？"], "type": "游戏+实践；2 周，每周 2 次\"购物游戏\"+ 1 次真实采购", "knowledge": "数学·二上《购物》单元\"认识人民币（元角分）、简单购物计算\"；英语·一年级《English for KIDS》Numbers 1–10；道法·二下萌芽/四下《做聪明的消费者》前经验", "abilities": "②逻辑与计算思维：能完成 10 元以内的付款与找零；⑦协作与社会责任：能按\"购物清单\"采购不超预算，体验\"需要 vs 想要\"", "materials": "人民币教具或真零钱、家中商品贴价格签；¥0–20", "outcome": "一张购物小票+复盘对话。评估清单：①认清元角分；②10 以内付款找零正确；③能说出\"够不够\"；④真实采购不超预算。", "advance": "三年级衔接\"认识小数\"（文具店·货比三家）玩比价游戏；英语加练\"How much?\"句型（PEP 四下 Shopping 单元前置体验）。", "textbook": "最佳同步：二年级上册数学《购物》单元教学月。", "band": "G12", "cat": "游戏", "dims": [1, 6]}, {"id": "P09", "name": "月相观察日记", "steps": ["从农历初一后开始，每隔 2–3 天晚饭后带孩子到阳台/楼下找月亮。", "在记录表当天格子里画出月亮的样子（涂黑看不见的部分）。", "阴天看不到就画云朵标记，并查天气预报验证。", "半个月后回看：\"月亮在变胖还是变瘦？\"", "月末把所有格子连起来看，发现\"新月→满月→新月\"的循环。", "彩蛋：关灯用手电筒照皮球，家长举球孩子当地球，模拟月相成因。"], "type": "长期观察；一个农历月（约 30 天），每隔 2–3 天观察一次", "knowledge": "科学·二上《我们的地球家园》单元\"观察月相\"；语文·二上写话（用一两句话记录）；数学·二下《时、分、秒》时间记录", "abilities": "①观察与探究：能连续一个月在固定时间观察并画出月亮形状；⑤数据与证据素养：能把 10 次以上的月相图按日期排序，发现\"圆了又缺\"的规律", "materials": "月相记录表（自制格子纸）、手电筒（阴雨天模拟用）；¥0", "outcome": "一张完整月相记录表。评估清单：①记录 10 次以上；②图画与实际月相基本吻合；③能说出\"月亮圆了又缺，缺了又圆\"；④坚持完成整月。", "advance": "三年级下衔接《太阳、地球和月球》单元\"月相变化的规律\"，用科学语言重新解释自己的记录。", "textbook": "最佳同步：二年级上册科学《我们的地球家园》单元（建议配合农历月启动）。", "band": "G12", "cat": "长期项目", "dims": [0, 4]}, {"id": "P10", "name": "身体上的数学秘密", "steps": ["先认识\"身体尺\"：一拃（张开大拇指到中指）、一庹（两臂展开）、一脚长。", "用身体尺估测：床有几庹？书桌有几拃？记下来。", "再用真尺子量同一个物体，对比\"身体尺\"和\"标准尺\"的结果。", "测量全家人的身高、脚长、一拃长，填进表格。", "找秘密：脚长和身高大约有什么关系？（引导孩子发现\"身高≈7 个脚长\"的趣闻并亲自验证）。"], "type": "测量游戏；1 周，3 次活动每次 20 分钟", "knowledge": "数学·二上《数学好玩》\"寻找身体上的数学'秘密'\"（拃、庹、脚长与身高的关系）+《测量》单元（厘米和米）；科学·二下《我们自己》\"观察我们的身体\"", "abilities": "⑤数据与证据素养：能用尺子正确测量并记录 5 组身体数据；②逻辑与计算思维：能发现\"一拃×几次≈桌子长\"这类倍数关系", "materials": "软尺/卷尺、记录纸；¥0–10", "outcome": "一张《身体数据表》。评估清单：①会用尺子从 0 刻度测量；②记录 5 组以上数据；③能说出一次\"估测 vs 实测\"的差异；④发现一个倍数关系。", "advance": "用同样的方法测量身高增长（每季度一次），数据留到四年级画折线统计图（衔接四下《数据的表示和分析》）。", "textbook": "最佳同步：二年级上册数学《测量》单元+\"数学好玩\"周。", "band": "G12", "cat": "游戏", "dims": [1, 4]}, {"id": "P11", "name": "磁铁寻宝与自制指南针", "steps": ["寻宝测试：列一张预测表（会被吸/不会吸），孩子先预测再用磁铁逐一验证。", "发现规律：被吸的都是什么材料？（引导说出\"铁的\"，注意区分铝、铜不被吸）。", "玩两极：两块磁铁靠近，感受\"有时候推开有时候拉手\"，认识同极相斥异极相吸。", "做指南针：把缝衣针在磁铁上同方向摩擦 20 次磁化，插在泡沫上浮在水面，观察针慢慢停下指向南北。", "验证：和手机指南针 App 对比方向，带孩子在家找\"北\"。"], "type": "实验游戏；1–2 周，3 次活动", "knowledge": "科学·二下《磁铁》单元\"磁铁能吸引什么、磁铁的两极、磁极与方向、做一个指南针、磁极间的相互作用\"", "abilities": "①观察与探究：能按\"预测—验证\"流程测试 10 种材料是否被磁铁吸引并记录；④空间与工程建构：能完成一个能指南的简易指南针", "materials": "条形/环形磁铁 1–2 块（¥10）、缝衣针、泡沫小块、一碗水、各种小物件（钥匙、硬币、回形针、木块、塑料尺、铝箔等）", "outcome": "预测验证表+自制指南针。评估清单：①预测表完整且有修正；②能说出\"铁的东西会被吸\"；③指南针能稳定指南北；④知道\"同极相斥\"。", "advance": "做\"磁铁迷宫\"（磁铁在桌下引导回形针走迷宫）；高年级衔接六上《能量》\"电和磁\"（电磁铁）。", "textbook": "最佳同步：二年级下册科学《磁铁》单元学期内。", "band": "G12", "cat": "游戏", "dims": [0, 3]}, {"id": "P12", "name": "七巧板图形设计师", "steps": ["先认识七块板：几个三角形？哪个是正方形？哪个是平行四边形？", "自由拼 10 分钟，拼什么都行，给作品起名字。", "按图纸挑战：从简单（两个三角拼成正方形）到复杂（完整图案）。", "影子拼图：家长只给轮廓剪影，孩子猜怎么摆。", "自创关卡：孩子拼一个新图案，描下轮廓，考家长。"], "type": "拼图游戏；2 周，每周 2–3 次每次 15 分钟", "knowledge": "数学·一下《有趣的图形》单元\"长方形、正方形、三角形、圆的认识，七巧板\"；语文·二上口语交际\"做手工\"（边做边说步骤）", "abilities": "④空间与工程建构：能用七巧板拼出 5 种指定图案（房子、船、鱼、猫、人）+1 种自创图案；③语言表达与沟通：能按步骤教别人拼一种图案", "materials": "七巧板一副（¥5–15）或用卡纸按图自制", "outcome": "自创图案轮廓卡一套。评估清单：①认识七块板的形状；②完成 5 种指定拼图；③自创 1 个图案；④能用语言指导他人拼。", "advance": "二年级衔接《图形的变化》（对称），拼\"对称的图案\"；四年级衔接\"认识三角形和四边形\"时用七巧板验证内角和直觉。", "textbook": "最佳同步：一年级下册数学《有趣的图形》单元；二年级可复玩升级。", "band": "G12", "cat": "游戏", "dims": [2, 3]}, {"id": "P13", "name": "英语歌谣小主播", "steps": ["家长选 3 首歌谣（如 Hello 歌、Head Shoulders Knees and Toes、Old MacDonald 动物歌）。", "第一周只听+做动作（TPR：唱到身体部位就指一指）。", "第二周跟唱，家长和孩子一人一句。", "开\"家庭电台\"：孩子当小主播，先报幕\"Hello! I'm ___. This is my song!\"再完整唱一首，手机录音。", "回听录音，让孩子自评\"哪个词唱得最清楚\"。"], "type": "唱游+录制游戏；2 周，每周 3 次每次 10 分钟", "knowledge": "英语·《English for KIDS》一年级话题 Greetings & Names / Colours / Animals / My Body（歌曲歌谣、TPR 动作反应）；为 PEP 三上 U1 Hello! / U2 Colours / U3 Look at me! 预热", "abilities": "③语言表达与沟通：能完整跟唱 2–3 首英文歌谣并配上动作；⑧自主学习与元认知：能自己按下录音键、回听并说\"这次哪里唱得更好\"", "materials": "手机（播放+录音）、可选手偶；¥0", "outcome": "2–3 段录音。评估清单：①能配动作跟唱完整首歌；②报幕句型完整；③录音后愿意回听并自评；④主动要求\"再唱一遍\"。", "advance": "二年级升级为\"英语小剧场\"（两个人偶对话：What's your name? My name is…）；三年级 PEP 开学后无缝衔接。", "textbook": "一年级全年可用；升三年级的暑假用它预热 PEP 字母与问候单元。", "band": "G12", "cat": "游戏", "dims": [2, 7]}, {"id": "P14", "name": "家庭天气小站", "steps": ["选址建站：阳台固定位置放气温计（避免阳光直射），和孩子一起读数方法。", "做雨量器：剪掉塑料瓶上半截倒扣当漏斗，瓶身贴刻度纸条，雨后读降水量。", "做风向标：吸管一头插卡纸箭头一头插尾翼，中间用大头针固定在铅笔橡皮头上，插进花盆。", "每天固定时间记录：气温、天气（晴/阴/雨）、风向、云量，填入天气日历表。", "每周日晚，全家开 5 分钟\"天气发布会\"，孩子播报本周天气（可加英文：It was sunny on Monday…）。", "第 4 周末，把 28 天气温画成折线图，回答：最热哪天？最冷哪天？整体在变热还是变冷？"], "type": "长期项目；4 周每天 10 分钟（固定在放学时段）", "knowledge": "科学·三上《天气》单元\"认识气温计、测量气温、测量降水量、观测风、观察云、整理天气日历\"；数学·三下《数据的整理和表示》（小小鞋店——用图示整理数据）；语文·三上习作\"写日记\"；英语·四下 U3 Weather（sunny/rainy/windy，可做英文播报）", "abilities": "①观察与探究：能正确使用气温计、自制雨量器和风向标进行观测；⑤数据与证据素养：能连续 28 天记录天气日历，并把气温数据画成折线图，说出最高温、最低温和变化趋势；③语言表达与沟通：能做一次 1 分钟\"家庭天气预报\"", "materials": "气温计（¥10–20）、直筒塑料瓶做雨量器（刻度贴纸条）、吸管+卡纸做风向标、天气日历表；合计约 ¥20", "outcome": "完整天气日历 + 气温折线图 + 一次播报视频。评估清单：①记录不缺 5 天以上；②气温读数方法正确；③折线图横纵轴正确；④能说出 2 条数据结论；⑤完成一次正式播报。", "advance": "对比手机天气预报，讨论\"预报是怎样制作出来的\"（教材原题）；五年级升级为研究\"我们面临的环境问题\"中的极端天气。", "textbook": "最佳同步：三年级上册科学《天气》单元教学月（通常秋季学期第 9–16 周）。", "band": "G34", "cat": "长期项目", "dims": [0, 2, 4]}, {"id": "P15", "name": "蚕的一生", "steps": ["准备蚕房：纸盒垫白纸，讨论\"蚕需要什么样的家\"（干净、通风、有桑叶）。", "蚁蚕到家后，每天换桑叶、清理蚕沙，孩子负责并记录日期。", "每蜕一次皮（眠）拍一张照片，量一次体长，记入《养蚕日志》。", "结茧期：给熟蚕搭\"山\"（纸格/蛋托），观察吐丝结茧全过程。", "破茧成蛾后观察交配产卵，算一算\"从卵到蛾一共多少天\"。", "收尾：把所有照片和记录整理成《蚕的一生》手抄报或小册子。"], "type": "长期饲养项目；6–8 周（春季），每天 5–10 分钟", "knowledge": "科学·三下《动物的一生》单元\"迎接蚕宝宝的到来、蚕长大了、蚕变了新模样、茧中钻出了蚕蛾、蚕的一生、动物的繁殖\"；语文·三上\"观察\"单元（搭船的鸟、金色的草地）的观察方法 + 三下写话记录；数学·二下\"重复的规律\"/三上《年、月、日》日期推算", "abilities": "①观察与探究：能连续记录蚕的四个阶段（卵→幼虫→蛹→蛾）并各配一幅图；⑤数据与证据素养：能统计蚕的龄期天数、体长变化；③语言表达与沟通：能完成一份《蚕的一生》图文报告并向家人讲解", "materials": "蚕卵/蚕宝宝（网上或花鸟市场，¥10–20）、新鲜桑叶（小区桑树或网购）、纸盒+隔板做\"蚕房\"；合计约 ¥30", "outcome": "养蚕日志 + 阶段照片 + 总结报告。评估清单：①四个阶段记录齐全；②有体长/日期数据；③能说出生命周期概念；④独立完成日常照料；⑤报告图文对应。", "advance": "对比\"蚕的一生\"与\"凤仙花的一生\"（四下），建立动植物生命周期通式；读语文课文中的动物主题习作并仿写。", "textbook": "最佳同步：三年级下册科学《动物的一生》单元（春季开学后，正是养蚕季）。", "band": "G34", "cat": "长期项目", "dims": [0, 2, 4]}, {"id": "P16", "name": "轨道过山车工程师", "steps": ["热身实验：同一个小球从不同坡度的斜面滚下，哪次滚得远？记录发现\"越陡越快\"。", "画设计图：过山车要有起点高台、下坡、弯道、终点，先画在纸上。", "搭建：纸条折 U 形槽，胶带连接，书堆做高度。", "测试：弹珠从起点释放，记录\"脱轨点\"，讨论原因（弯太急？坡不够？）。", "改进后复测，至少两轮，直到全程不脱轨。", "计时挑战：用秒表测全程用时，调坡度让过山车\"更快\"或\"更慢\"，体会控制变量。"], "type": "工程制作；1–2 周，3–4 次搭建每次 40 分钟", "knowledge": "科学·三下《物体的运动》单元\"直线运动和曲线运动、物体在斜面上运动、比较运动的快慢、我们的'过山车'、测试'过山车'\"；数学·三下《面积》单元测量意识", "abilities": "④空间与工程建构：能用纸槽搭出含直线轨道+曲线轨道+斜坡的过山车，小球全程不脱轨；①观察与探究：能通过调整坡度控制小球快慢并解释原因；⑧自主学习与元认知：经历\"测试—失败—改进\"至少 2 轮迭代", "materials": "卡纸/旧挂历裁纸条折成 U 形槽、胶带、剪刀、玻璃弹珠、积木/书做支架；约 ¥10", "outcome": "过山车实物 + 设计图 + 测试记录。评估清单：①有直线和曲线两种轨道；②小球全程不脱轨；③完成 2 轮以上改进；④能解释坡度与快慢的关系；⑤设计图与实物对应。", "advance": "四年级衔接《运动和力》，给过山车加\"小车\"并研究摩擦力；高年级用\"能量\"（六上）语言重新解释：高度=能量的储备。", "textbook": "最佳同步：三年级下册科学《物体的运动》单元教学月。", "band": "G34", "cat": "制作工程", "dims": [0, 3, 7]}, {"id": "P17", "name": "班级/家庭旧物市集", "steps": ["筹备会：全家（或约 1–2 个同学家庭）盘点旧物，讨论\"什么样的东西还能卖、卖多少钱\"。", "定价：每件贴价格签，引导孩子思考\"原价 50 的旧玩具卖 5 元合理吗\"。", "分工：海报设计、收银员、记账员、推销员各就各位。", "英语演练：练习三句交易英语——\"Can I help you?\" \"How much is it?\" \"It's five yuan.\"", "开市：邀请邻居小朋友或在小区跳蚤市场实战。", "结算复盘：总收入多少？哪件最受欢迎？盈余怎么办（捐款/买书/存入储蓄罐）？"], "type": "游戏+真实实践；准备 1 周 + 开市半天", "knowledge": "数学·二上《数学好玩》\"班级旧物市场\"（三、四年级复玩升级：三下两位数乘法算总价、四下小数加减找零）；英语·四下 U6 Shopping（Can I help you? How much is it?）；道法·四下《做聪明的消费者》；语文·三上口语交际\"商量\"", "abilities": "②逻辑与计算思维：能定价、算总价、正确找零（三年级整数乘法/四年级小数）；③语言表达与沟通：能用中英文完成一次买卖对话；⑦协作与社会责任：分工完成海报、收银、记账，盈余集体决定用途", "materials": "闲置玩具书籍若干、价格标签、桌布、收款二维码或零钱盒；¥0", "outcome": "市集活动 + 收支账单。评估清单：①定价有依据；②计算无误（按年级对应难度）；③完成中英文买卖对话；④团队分工落实；⑤复盘有数据有结论。", "advance": "五年级升级为\"利润率\"讨论（六上百分数的应用：折扣）；初中衔接八上一次函数\"销售利润\"应用题。", "textbook": "二年级配合\"数学好玩\"；三、四年级升级复玩（配合乘法/小数单元）；英语同步四下 U6。", "band": "G34", "cat": "实践研学", "dims": [1, 2, 6]}, {"id": "P18", "name": "一粒种子的旅程（凤仙花）", "steps": ["播种前解剖一粒浸泡过的种子，看种皮里面的胚（教材\"种子里孕育着新生命\"）。", "播种：每盆 2–3 粒，覆薄土浇水，贴标签记日期。", "出苗后每周固定时间量株高，记入表格（日期、株高、叶数、备注）。", "关键节点各写一篇观察日记：破土、长真叶、现蕾、开花、结果、种子成熟弹射。", "观察根：用透明杯补种一株，看根向下生长。", "收种子：果皮变黄时轻触观察\"弹射传播\"，收集种子留作明年。", "期末把株高数据画成折线图，找\"长得最快的是哪两周\"。"], "type": "长期种植项目；3–4 个月（春播夏收），每周 2 次照料+记录", "knowledge": "科学·四下《植物的生长变化》单元\"种子里孕育着新生命、种植凤仙花、种子长出了根、茎和叶、凤仙花开花了、果实和种子、种子的传播、凤仙花的一生\"；语文·三下习作\"我的植物朋友\"+ 四上习作\"写观察日记（连续观察）\"；数学·四下《数据的表示和分析》（栽蒜苗——条形/折线统计图）", "abilities": "①观察与探究：能完成从种子到种子的完整种植周期并记录 8 个关键节点；⑤数据与证据素养：能每周测量株高并画成折线图，说出生长快慢的规律；③语言表达与沟通：能写 3 篇以上有细节的观察日记", "materials": "凤仙花种子（¥5）、花盆+土（¥15）、直尺；约 ¥20", "outcome": "一盆开花结果结籽的凤仙花 + 观察日记 3 篇 + 株高折线图。评估清单：①完成完整生命周期；②8 个节点记录齐全；③折线图规范；④日记有连续观察的细节；⑤收获新种子。", "advance": "对比阳光下/背阴处两盆的生长差异（控制变量）；收集的种子用于明年\"种子的传播\"主题研究。", "textbook": "最佳同步：四年级下册科学《植物的生长变化》单元（春季）；语文观察日记习作同步布置。", "band": "G34", "cat": "长期项目", "dims": [0, 2, 4]}, {"id": "P19", "name": "纸电路与照明小屋", "steps": ["第一课\"点亮小灯泡\"：给孩子一节电池、一根导线、一个灯泡，让他自己试出至少一种点亮的接法，再试出\"点不亮的接法\"并比较（通路概念）。", "认识元件：电池盒、灯座、开关，组装一个标准\"简易电路\"。", "导体绝缘体测试：把钥匙、橡皮、木筷、硬币等接进电路，灯泡亮=导体，记录分类。", "故障排查游戏：家长故意制造 3 个故障（松导线、坏灯泡、断开关），孩子用替换法逐一排查。", "工程任务：用纸盒做小屋（屋顶用三角形更稳——衔接数学），在屋内安装照明电路，开关装在\"门口\"。", "验收：开灯仪式，孩子讲解电路路径。"], "type": "工程制作；2 周，3 次活动每次 40–60 分钟", "knowledge": "科学·四下《电路》单元\"点亮小灯泡、简易电路、电路出故障了、导体和绝缘体、电路中的开关、模拟安装照明电路\"；数学·四下《认识三角形和四边形》（小屋结构设计）", "abilities": "④空间与工程建构：能为自制小屋安装含开关的照明电路；①观察与探究：能用\"电路检测器\"思路排查断路故障；②逻辑与计算思维：能画出电路连接示意图（电池→开关→灯泡→电池）", "materials": "3V 小灯泡 2–3 个（¥5）、5 号电池盒+电池（¥10）、导线（¥8）、开关或自制回形针开关、纸盒做小屋；约 ¥30（全程 3V 安全电压，禁止用插座市电）", "outcome": "照明小屋 + 电路示意图。评估清单：①独立点亮灯泡；②正确分类导体绝缘体 5 种以上；③排查出全部故障；④小屋电路含开关且工作正常；⑤能画出并讲清电路图。", "advance": "加第二个灯泡尝试\"两灯都亮\"的不同接法（为八上串并联埋伏笔）；六年级衔接《能量》单元做电磁铁。", "textbook": "最佳同步：四年级下册科学《电路》单元教学月。", "band": "G34", "cat": "制作工程", "dims": [0, 1, 3]}, {"id": "P20", "name": "自制小乐器音乐会", "steps": ["找振动：摸喉咙说话、看橡皮筋拨动时的\"模糊影子\"、把碎纸屑放在鼓面上敲——发现\"发声的都在动\"。", "探究音高：同一根橡皮筋，拉长/缩短、拉紧/放松，听音高变化，记录规律。", "做水杯琴：玻璃杯装不同高度的水，敲击听音，按音高排队，试着敲出\"do re mi\"。", "做主乐器：纸盒+橡皮筋做皮筋吉他，用\"品\"（铅笔）改变弦长奏出不同音。", "调音排练：全家各持一件乐器，排练一首简单曲子（如《小星星》）。", "举办家庭音乐会：孩子主持+讲解原理+合奏，录像存档。"], "type": "制作+表演；2 周，制作 2 次+音乐会 1 次", "knowledge": "科学·四上《声音》单元\"声音是怎样产生的、声音的强与弱（音量）、声音的高与低（音高）、让弦发出高低不同的声音、制作我的小乐器\"；语文·口语交际\"做手工\"（说清楚步骤）；英语·《English for KIDS》歌曲表演", "abilities": "①观察与探究：能用对比方法验证\"物体振动产生声音\"\"弦越短/越紧音越高\"；⑥审美与创造：能制作一件可奏出高低不同音的乐器并参与合奏；③语言表达与沟通：能向观众介绍乐器的原理", "materials": "橡皮筋一盒、纸盒（吉他共鸣箱）、玻璃杯 4–6 个（水杯琴）、吸管（排箫）、米粒+瓶子（沙锤）；约 ¥15", "outcome": "2 件以上自制乐器 + 音乐会视频。评估清单：①说出\"振动产生声音\"；②说出音高与弦长短/松紧的关系；③水杯琴排出正确音序；④乐器能奏出至少 3 个不同音；⑤完成演出与讲解。", "advance": "用音量大小玩\"声音的强弱\"游戏；初中衔接七下《对环境的察觉》声与听觉，用更精确的语言重述当年发现。", "textbook": "最佳同步：四年级上册科学《声音》单元教学月。", "band": "G34", "cat": "制作工程", "dims": [0, 2, 5]}, {"id": "P21", "name": "造船工程师", "steps": ["需求定义：召开\"招标会\"——造一艘能载 20 枚螺母、浮 1 分钟不沉的船。", "第一轮（浮的材料）：泡沫板造船，测试载重，记录数据。", "第二轮（沉的材料）：铝箔/橡皮泥造船——发现\"形状决定沉浮\"：同一块橡皮泥捏成碗状就能浮。", "研究载重量：改变船底面积和舷高，测哪种方案载重最大（每加一个螺母记一次）。", "排水法实验：把船模型压入量杯测排水体积，衔接数学\"有趣的测量\"。", "动力升级（可选）：装橡皮筋动力或小电机螺旋桨。", "决赛+发布会：测速、载重两项比赛，孩子提交设计说明并宣读。"], "type": "完整工程项目；2–3 周，每周 2 次每次 60 分钟", "knowledge": "科学·五下《船的研究》单元\"船的历史、用浮的材料造船、用沉的材料造船、增加船的载重量、给船装上动力、设计我们的小船、制作与测试我们的小船\"；数学·五下《长方体（二）》\"体积与容积、体积单位的换算、有趣的测量/排水法\"；语文·五上习作单元\"学写说明性文章\"", "abilities": "④空间与工程建构：经历\"需求—设计—制作—测试—改进\"完整流程，造出一艘载重达标的小船；②逻辑与计算思维：能用排水法测不规则物体体积、估算船的容积；③语言表达与沟通：能写一篇《我的小船》说明文", "materials": "铝箔纸、泡沫板、橡皮泥、吸管、小电机+螺旋桨（可选，¥15）、一盆水/浴缸、螺母或硬币当\"货物\"；约 ¥30", "outcome": "小船实物 + 测试数据表 + 说明文一篇。评估清单：①船浮且载重达标；②至少 2 轮改进记录；③完成排水法体积测量；④说明文写清结构与原理；⑤流程完整（设计图→实物→测试）。", "advance": "初中衔接八上《水和水的溶液》浮力（阿基米德原理），用公式重新解释\"为什么碗状能浮\"；高中衔接物理必修二\"水流抛物线\"实验。", "textbook": "最佳同步：五年级下册科学《船的研究》单元教学月。", "band": "G56", "cat": "制作工程", "dims": [1, 2, 3]}, {"id": "P22", "name": "校园/小区寻宝平面图", "steps": ["选场地：自家小区或校园一角（约 50m×50m 范围）。", "实地勘测：确定主要地物（楼、花坛、滑梯、道路），用卷尺量关键距离，步测辅助（先测自己一步多长）。", "定比例尺：实际 50 米画到纸上 25 厘米，比例尺是多少？（1:200）让孩子自己算。", "绘图：铅笔打底稿，标注方向标、图例、比例尺，上色。", "藏宝游戏：家长在图上标一个\"宝藏点\"（写坐标或相对位置描述），孩子按图实地寻宝。", "英语任务：用 \"Go straight. Turn left at the playground. It's on your right.\" 句型指路，把路线画在图上。"], "type": "测绘项目；2 周，实测 2 次 + 绘图 2 次", "knowledge": "数学·六下《数学好玩》\"绘制校园平面图\"+《比例》单元\"比例尺、图形的放大与缩小\"；数学·二下《方向与位置》（东南西北，复习调用）；英语·六上 U1 How can I get there?（问路指路）；语文·五下习作\"中国的世界文化遗产\"的资料+说明写法（变体用于良渚）", "abilities": "④空间与工程建构：能用比例尺把真实空间缩绘成平面图，含方向标、图例；②逻辑与计算思维：能完成\"实际距离×比例尺=图上距离\"的换算；③语言表达与沟通：能用中英文按图指路", "materials": "卷尺（¥10）、A3 纸、指南针或手机、方格纸；约 ¥15", "outcome": "一幅比例平面图 + 寻宝记录。评估清单：①比例尺换算正确；②主要地物位置关系正确；③含方向标与图例；④能按图找到实地位置；⑤完成中英文指路。", "advance": "升级为\"良渚古城遗址导览图\"（结合五下\"中国的世界文化遗产\"习作与初中良渚研学）；初中衔接七上科学\"地球仪和地图\"的比例尺与等高线。", "textbook": "最佳同步：六年级下册数学\"数学好玩·绘制校园平面图\"周。", "band": "G56", "cat": "调查研究", "dims": [1, 2, 3]}, {"id": "P23", "name": "汉字寻根研究报告", "steps": ["选题：从孩子姓氏里的字入手（如\"张\"\"王\"），或选\"水、火、山、木\"等象形字。", "查资料：查每个字的甲骨文→金文→小篆→隶书→楷书形态（字典附录或\"汉典\"类网站），描下来。", "找规律：这些字为什么这样写？（象形/会意/形声）——回忆一上\"日月水火、口耳目\"的象形字启蒙。", "收集字谜和谐音故事（教材活动），编 2 条自己的字谜考家人。", "编码联动：玩\"给同学编学号\"游戏（呼应数学编码），讨论\"汉字也是一种编码吗\"。", "成稿：按研究报告四部分（问题的提出/研究方法/资料整理/研究结论）写成 1–2 页报告，配演变图。"], "type": "研究型项目；2–3 周，每周 2 次每次 40 分钟", "knowledge": "语文·五下综合性学习《遨游汉字王国》\"汉字真有趣（字谜、谐音、汉字演变）；我爱你，汉字（书法与研究报告）\" + 习作\"学写简单的研究报告\"；数学·四上《数学好玩·编码》（编码思想迁移）", "abilities": "③语言表达与沟通：能按\"问题—方法—资料—结论\"结构完成一份小型研究报告；①观察与探究：能从甲骨文到楷书梳理 3–5 个汉字的演变脉络；⑥审美与创造：能用毛笔或硬笔临摹一种字体并说出其特点", "materials": "字典、《汉字演变》类图书或权威网站、A4 纸装订、毛笔（可选）；约 ¥20", "outcome": "《汉字寻根研究报告》一份 + 字谜卡。评估清单：①报告结构完整；②至少 3 个字的演变脉络正确；③有自创字谜；④能口头汇报 3 分钟；⑤书写工整。", "advance": "参观一次书法展或博物馆文字展厅；初中衔接七上《世说新语》等文言文，讨论\"汉字古今义的变与不变\"。", "textbook": "最佳同步：五年级下册语文综合性学习《遨游汉字王国》教学周。", "band": "G56", "cat": "调查研究", "dims": [0, 2, 5]}, {"id": "P24", "name": "家庭节水行动", "steps": ["滴水实验（教材原型）：瓶底扎小孔模拟滴水龙头，量杯接水计时 10 分钟，测出滴水量。", "推算：10 分钟滴 X 毫升 → 1 小时 → 1 天 → 1 年浪费多少升？（让孩子自己列式，体验\"以小推大\"的统计思想）。", "家庭用水调查：查看 3 个月水费单，记录用水量；调查家里用水场景（洗漱、做饭、洗衣、冲厕），估算各占比例。", "画扇形统计图呈现家庭用水结构（衔接六上《数据处理》）。", "制定节水公约：全家头脑风暴 5 条措施（淘米水浇花、缩短淋浴时间等），签字上墙。", "执行 2 周后对比水表/水费单，验证效果。", "撰写《家庭节水倡议书》，向亲友/班级宣读。"], "type": "调查+行动项目；3–4 周", "knowledge": "数学·四上《数学好玩》\"滴水实验\"+ 六上《数据处理》\"扇形统计图、统计图的选择\"；科学·五下《环境与我们》\"珍惜水资源、分析一个实际的环境问题\"；语文·六上习作\"学写倡议书\"；道法·二下\"绿色小卫士\"/四上\"让生活多一些绿色\"", "abilities": "⑤数据与证据素养：能完成滴水实验测算并推算\"一个滴水龙头一年浪费多少水\"，用扇形统计图呈现家庭用水结构；⑦协作与社会责任：能发起并执行一项家庭节水公约；③语言表达与沟通：能撰写并宣读一份节水倡议书", "materials": "矿泉水瓶+大头针（滴水装置）、量杯/带刻度容器、秒表、水费单；约 ¥5", "outcome": "实验数据+推算过程、扇形统计图、倡议书、前后用水对比。评估清单：①实验与推算过程完整；②统计图规范；③公约执行 2 周；④倡议书格式正确有数据支撑；⑤能说出\"节约用水的证据\"。", "advance": "初中衔接八上《水和水的溶液》\"水资源的利用、开发和保护\"；高中升级为\"家庭碳足迹\"项目（P36）。", "textbook": "四上数学\"滴水实验\"周启动，五下科学《环境与我们》单元深化，六上完成统计图与倡议书（可分阶段跨年完成）。", "band": "G56", "cat": "调查研究", "dims": [2, 4, 6]}, {"id": "P25", "name": "生态瓶微世界", "steps": ["先学原理：复习食物链——生产者（水草）、消费者（鱼虾）、分解者（细菌、螺）。", "设计方案：孩子画生态瓶设计图，标注每层放什么、为什么（底部塘泥→水→水草→动物）。", "制作：铺泥、注水（晾晒 2 天除氯）、种水草、放动物，密封或半密封，放散射光处。", "观察记录：每周记录水草状态、动物活跃度、水的清澈度，拍照。", "变量实验（进阶）：做两个瓶，一个放阳光处一个放暗处，对比差异——验证\"光对生态系统的影响\"。", "若系统崩溃（水臭、生物死亡）：带孩子复盘原因（动物太多？光不足？），改进重建。", "总结：写一份《生态瓶研究报告》，用\"生产者—消费者—分解者\"框架解释成败。"], "type": "长期研究项目；制作 1 次 + 观察 1–3 个月", "knowledge": "科学·五下《生物与环境》单元\"种子发芽实验、蚯蚓的选择、当环境改变了、食物链和食物网、设计和制作生态瓶\"；语文·六上《只有一个地球》（生态观）；数学·五下复式折线统计图（多组数据对比）", "abilities": "①观察与探究：能设计并制作一个自维持生态瓶，持续观察并记录生物状态；⑤数据与证据素养：能用\"好/中/差\"分级记录并绘制水质与生物存活动态；⑧自主学习与元认知：生态瓶崩溃后能分析原因并重建", "materials": "大透明塑料瓶/玻璃罐（¥10–30）、塘泥或消毒土、水草（金鱼藻等，¥10）、小鱼小虾螺（¥10–20）、晾晒过的自来水；约 ¥50", "outcome": "生态瓶 + 观察记录 + 研究报告。评估清单：①设计图有生态角色标注；②观察记录持续 4 周以上；③能画出瓶内食物链；④能分析成败原因；⑤报告结构完整。", "advance": "初中衔接九下《生物与环境》生态系统的结构与功能；高中衔接浙科版选必2，把生态瓶升级为\"西溪湿地群落观察\"（P39 联动）。", "textbook": "最佳同步：五年级下册科学《生物与环境》单元教学月。", "band": "G56", "cat": "长期项目", "dims": [0, 4, 7]}, {"id": "P26", "name": "保温杯设计挑战", "steps": ["前置实验：金属勺、木筷、塑料勺同时插进热水杯，摸上端——哪种传热快？（热的良导体与不良导体）。", "提出问题：\"怎样让一杯热水凉得慢一些？\"孩子给出猜想。", "设计对比：三个同样的杯子装同样多的热水，分别不包、包棉布、包泡沫+铝箔，盖盖子。", "每 10 分钟测一次水温，记录 1 小时（注意防烫，家长倒水和监护）。", "画降温折线图（三条线同图对比），评选\"保温冠军\"。", "工程应用：用优胜材料给自家水杯做一个杯套，实测效果。", "讨论：为什么保温杯是双层+真空+镀银？（联系教材\"哪个传热快\"的结论）。"], "type": "工程项目；1–2 周，3 次活动", "knowledge": "科学·五下《热》单元\"温度与水的变化、热在金属中的传递、热在水中的传递、哪个传热快、做个保温杯\"；数学·四下《数据的表示和分析》（栽蒜苗——折线统计图记录降温曲线）", "abilities": "①观察与探究：能设计对比实验比较不同材料的保温效果（控制变量：同水量、同初温、同环境）；④空间与工程建构：能制作一个保温杯套使水温下降明显变慢；⑤数据与证据素养：能绘制多条降温折线图并据图评选最优方案", "materials": "相同杯子 2–3 个、温度计 2 支（¥20）、泡沫/棉布/铝箔/毛巾等包裹材料、热水（家长操作）；约 ¥30", "outcome": "降温曲线图 + 自制保温杯套。评估清单：①对比实验变量控制正确；②数据记录 6 组以上；③折线图规范可比；④杯套实测有效；⑤能用\"热传递\"解释原理。", "advance": "反向挑战\"让冰融化得最慢\"（保冷）；初中衔接七上《物质的特性》比热，高中衔接选必3 热力学定律。", "textbook": "最佳同步：五年级下册科学《热》单元教学月。", "band": "G56", "cat": "制作工程", "dims": [0, 3, 4]}, {"id": "P27", "name": "显微镜下的微观世界", "steps": ["先用放大镜观察邮票、盐粒、头发，体验\"放得更大\"。", "学显微镜：认识目镜物镜、学对光和调焦（先用现成玻片练习）。", "做洋葱表皮装片：撕内表皮→滴水→盖玻片（45° 防气泡）→稀释碘酒染色。", "观察并绘图：画下细胞的样子（一格一格的\"小房间\"），标注细胞壁、细胞核。", "扩展观察：池塘水一滴看微生物（草履虫等）、叶片下表皮看气孔。", "自选任务：孩子选一样\"我最想看的东西\"（唾液淀粉酶？面包霉？）完成观察并记录。", "讨论：微生物是好是坏？（衔接\"微生物与健康\"：做馒头的酵母 vs 致病的细菌）。"], "type": "观察研究项目；2 周 + 可长期保留爱好", "knowledge": "科学·六上《微小世界》单元\"放大镜、怎样放得更大、观察洋葱表皮细胞、观察更多的生物细胞、观察水中微小的生物、微生物与健康\"；语文·六下《表里的生物》（对微观世界的好奇）", "abilities": "①观察与探究：能正确操作显微镜（对光、调焦）观察到洋葱表皮细胞并绘图；⑤数据与证据素养：能用\"画图+标注\"的方式做科学记录；⑧自主学习与元认知：能自主提出\"还想观察什么\"并完成一次自选观察", "materials": "学生显微镜（¥150–300，本清单中最贵的投入，可用多年）、洋葱、载玻片盖玻片（¥10）、碘酒（稀释）、池塘水一滴；约 ¥200–300", "outcome": "细胞观察绘图 3 幅以上 + 观察记录。评估清单：①能独立对光调焦；②装片制作无明显气泡；③细胞绘图与实物相符有标注；④完成一次自选观察；⑤能说出\"细胞是生物体的基本单位\"。", "advance": "初中衔接七上《观察生物》（显微镜与细胞学说），设备直接复用；高中衔接浙科版必修1 显微摄影项目。", "textbook": "最佳同步：六年级上册科学《微小世界》单元教学月。", "band": "G56", "cat": "调查研究", "dims": [0, 4, 7]}, {"id": "P28", "name": "打车与水电：一次函数计费建模", "steps": ["收集真实资费：杭州出租车起步价+每公里单价；居民阶梯电价/水价的分档标准（从账单或官网查）。", "抽象建模：写出\"费用 y 关于里程/用量 x\"的表达式——起步价对应 b，单价对应 k，分段处断开。", "画图象：方格纸上画出分段函数图象，标出每段的 k、b 含义。", "验证模型：拿一张真实账单，用模型算一遍，对上即验证成功；对不上就检查分段点。", "方案比较：两个打车平台（或峰谷电 vs 普通电）何时哪个更划算？求出临界点。", "输出：一页《家庭计费模型报告》，含规则、表达式、图象、验证、结论。"], "type": "数学建模项目；1–2 周，3 次活动", "knowledge": "数学·八上第 5 章《一次函数》\"常量与变量、函数的概念与表示法、一次函数的图象与性质（k、b 的意义）、一次函数的应用（行程、计费、销售）\"；七下第 6 章《数据与统计图表》（数据收集）", "abilities": "②逻辑与计算思维：能把真实计费规则抽象为分段一次函数 y=kx+b 并画出图象；⑤数据与证据素养：能收集真实账单数据验证模型；⑧自主学习与元认知：能用模型比较两种计费方案的临界点", "materials": "家里近 3 个月电费/水费单、打车软件行程单（或官网资费标准）、方格纸或电脑；¥0", "outcome": "建模报告一页 + 函数图象。评估清单：①函数表达式正确；②图象分段正确；③用真实数据验证过；④求出方案临界点；⑤能用 k、b 解释现实含义。", "advance": "九年级升级为二次函数\"最大利润\"问题（九上《二次函数的应用》）；高中衔接必修一\"函数的应用（一）分段函数建模（出租车计费、个税）\"——本项目的大学版。", "textbook": "最佳同步：八年级上册数学第 5 章《一次函数》教学月。", "band": "G79", "cat": "调查研究", "dims": [1, 4, 7]}, {"id": "P29", "name": "测楼高：相似三角形与仰角实测", "steps": ["方法①影长法（相似）：晴天，同时测量孩子身高与影长、楼的影长，列比例式 楼高/楼影 = 身高/人影，求楼高。", "自制测角仪：量角器中心系棉线挂螺母，吸管粘在直边上，沿吸管瞄准楼顶，读出仰角。", "方法②仰角法（三角函数）：测量观测点到楼底距离 d，量仰角 α，楼高 = d×tanα + 眼睛高度。", "两法对比：结果差多少？讨论误差来源（地面不平、影长模糊、测角仪读数）。", "挑战题：测一条不能横渡的河宽/一棵无法靠近的树高。", "写《户外测量报告》：方法原理图、数据、计算、误差分析。"], "type": "户外实测项目；2 个周末各半天", "knowledge": "数学·九上第 4 章《相似三角形》\"相似三角形的性质（周长比、面积比）、相似的应用（测高、测距、影长）\"；九下第 1 章《解直角三角形》\"锐角三角函数、仰角俯角\"；七上科学第 1 章《科学入门》测量方法（复习调用）", "abilities": "②逻辑与计算思维：能用\"影长比例法\"和\"仰角正切法\"两种方法测同一栋楼高并互相验证；④空间与工程建构：能自制简易测角仪（量角器+吸管+重锤线）；⑤数据与证据素养：能分析两种方法的误差来源", "materials": "卷尺、量角器+吸管+棉线+螺母（自制测角仪）、计算器；约 ¥15", "outcome": "测量报告 + 自制测角仪。评估清单：①两种方法独立完成；②计算过程正确；③两法结果偏差在合理范围并分析原因；④测角仪制作可用；⑤报告有原理图。", "advance": "高中衔接必修二\"余弦定理/正弦定理解三角形\"，测更复杂的目标（对岸塔高）；地理选必1\"正午太阳高度\"可复用影长数据。", "textbook": "九上《相似三角形》教学月做方法①；九下《解直角三角形》教学月做方法②并对比。", "band": "G79", "cat": "调查研究", "dims": [1, 3, 4]}, {"id": "P30", "name": "土壤 pH 与径山茶", "steps": ["采样：在 4–5 个不同地点取土样（表层下 5cm），装袋贴标签（地点、日期）。", "配土液：每份土样按 1:5 加蒸馏水，搅拌静置 30 分钟。", "测 pH：用玻璃棒蘸上清液点在 pH 试纸上，比色读数，记入表格。", "查资料：茶树适宜 pH 4.5–5.5（酸性），常见蔬菜适宜 pH 范围，制作对照表。", "田野走访（可选但强烈推荐）：去余杭径山茶园，观察茶园地形土壤，向茶农/展板了解\"为什么径山适合种茶\"。", "结论与建议：哪份土适合种茶？哪份适合种菜？碱性土如何改良（腐叶/硫磺粉，了解即可不动手）？"], "type": "定量实验+田野项目；2–3 周（含一次径山或茶园走访）", "knowledge": "科学·九上第 1 章《物质及其变化》\"物质的酸碱性（指示剂、pH）\"；八下第 4 章《植物与土壤》\"土壤的成分、各种各样的土壤、保护土壤\"；九下第 4 章《可持续发展》（生态农业）", "abilities": "①观察与探究：能规范完成 5 种土壤的 pH 测定并控制取样变量；⑤数据与证据素养：能制作\"pH—植物适宜性\"对照表并给出种植建议；⑦协作与社会责任：能把实验结论与本地农业（径山茶喜酸性土壤）联系起来", "materials": "pH 试纸或 pH 计（试纸 ¥10）、蒸馏水、小铲、自封袋、不同地点土样（小区花坛、菜园、径山茶园周边、河边）；约 ¥20", "outcome": "土样 pH 数据表 + 《土壤与种植建议》报告。评估清单：①采样有代表性且记录规范；②测定操作正确；③数据与结论对应；④联系本地农业情境；⑤报告完整。", "advance": "高中衔接化学选必1\"盐类的水解与 pH\"、地理必修1\"土壤形成因素与剖面\"（校园土壤剖面采样）；生物选必2 生态议题。", "textbook": "最佳同步：九年级上册科学第 1 章（酸碱性）教学月；八下《植物与土壤》可先做定性版。", "band": "G79", "cat": "调查研究", "dims": [0, 4, 6]}, {"id": "P31", "name": "水火箭：能量与反冲", "steps": ["原理课：讨论\"火箭为什么能飞\"（向后喷出水，水推火箭向前——反冲），能量从哪来（打气储存的气压能）。", "制作：一个瓶做动力舱（装水+打气），另一个瓶剪开做整流罩，卡纸做 3–4 片对称尾翼（不对称会打转——自己试出来）。", "变量实验：固定 6 次打气，分别装 1/3、1/2、2/3 瓶水发射，测落点距离，找\"最佳水量\"。", "再变量：固定最佳水量，改变打气次数，记录射程。", "数据整理：水量—射程、气压—射程两张表，画趋势图。", "总结报告：用能量转化语言写清\"打气储能→水喷出→火箭获得动能→升高变慢（动能转势能）\"。"], "type": "工程+物理建模项目；2 个周末（制作+发射）", "knowledge": "科学·九上第 3 章《能量的转化与守恒》\"机械能（动能、势能及其转化）、能量转化的量度\"；七下第 3 章《运动和力》\"力的存在、牛顿第一定律\"（复习调用）；高中衔接：物理选必1《动量守恒定律》\"反冲/火箭\"", "abilities": "④空间与工程建构：能制作带整流罩和尾翼的水火箭并成功发射；①观察与探究：能通过改变水量和气压探究射程的影响因素（控制变量）；②逻辑与计算思维：能用\"气压能→动能\"的能量转化框架解释飞行过程", "materials": "1.25L 可乐瓶 2 个、自行车打气筒+水火箭发射塞（网购套件 ¥30–50）、卡纸做尾翼、胶带、护目镜；约 ¥50。安全：发射必须家长操作打气，孩子远离发射方向 10 米，戴护目镜。", "outcome": "水火箭 + 变量实验数据表 + 报告。评估清单：①火箭结构对称能直飞；②完成 2 组变量实验；③数据图表规范；④能量转化解释正确；⑤安全规范全程遵守。", "advance": "高中衔接选必1 动量守恒（定量计算反冲速度）；九上\"机械效率\"讨论：打进去的能量有多少变成了射程？", "textbook": "最佳同步：九年级上册科学第 3 章（能量）教学月；高中物理选必1 复习复做。", "band": "G79", "cat": "制作工程", "dims": [0, 1, 3]}, {"id": "P32", "name": "模拟法庭/模拟人大", "steps": ["选案：全家讨论一个生活案例（建议用虚构的\"狗狗咬人索赔案\"，权责清晰又有争议空间）。", "学法：一起查《民法典》相关条目（侵权责任、饲养动物责任——初中只需理解大意），这本身就是八下\"权利义务\"的活学。", "分工写稿：原告写起诉状要点，被告写答辩要点，\"代理人\"各写 2 分钟代理词。", "走程序：开庭→法庭调查（举证）→法庭辩论→宣判，全程按真实程序简化版走。", "模拟人大变体：议题改为\"社区要不要建充电桩\"，孩子当人大代表写提案，家长当政府部门现场答复。", "复盘：判决/决议合理吗？程序正义为什么重要？"], "type": "角色扮演项目；准备 2 周 + 正式开庭/议事 1 次（可约同学家庭联合）", "knowledge": "道法·八下（宪法专册）《坚持宪法至上》《理解权利义务》《人民当家作主》《崇尚法治精神》；语文·八下活动·探究\"演讲\"（撰写演讲稿）；历史·八下中国现代史（人民代表大会制度）", "abilities": "⑦协作与社会责任：能按角色分工（审判长、原告被告、代理人、书记员，或人大代表、政府部门）完成一次完整程序；③语言表达与沟通：能撰写并陈述一份 2 分钟的代理词/提案；⑤数据与证据素养：能围绕\"证据\"组织观点，区分事实与观点", "materials": "案例素材（自创贴近生活的：校园宠物伤人赔偿、小区广场舞噪音纠纷）、法槌可用木勺代替、名牌卡；¥0", "outcome": "代理词/提案文稿 + 庭审视频。评估清单：①程序完整；②文稿有观点有依据；③发言脱稿 2 分钟；④引用 1 条以上法律条文；⑤复盘能说出\"程序\"的意义。", "advance": "九年级衔接《民主与法治》，升级为\"模拟政协提案\"并真正提交社区；高中衔接政治必修3《政治与法治》模拟人大/政协提案、选必2《法律与生活》消费维权案例。", "textbook": "最佳同步：八年级下册道法（宪法专册）学期内。", "band": "G79", "cat": "实践研学", "dims": [2, 4, 6]}, {"id": "P33", "name": "良渚古城遗址研学（实证五千年）", "steps": ["行前准备：查资料回答三个问题——良渚人吃什么（稻作）？用什么（玉器、黑陶）？怎么证明这里有\"国家\"（城墙、水利系统、等级墓葬）？把问题写在研学本上。", "实地任务单：在博物院找到\"玉琮\"并画出神人兽面纹；在遗址公园找到莫角山宫殿区和反山王陵位置，在地图上标注（地图三要素实战）。", "证据思维：让孩子回答\"为什么说良渚已经进入文明社会？\"要求用 3 个看到的实物/遗迹作证据。", "水利工程重点看：外围水利系统——5000 年前的大型工程，讨论\"这需要什么样的社会组织\"。", "回程车上口头总结，回家写研学报告（初中版：新闻特写一篇；小学版：图文游记+世界文化遗产资料卡）。", "英语延伸：录制 1 分钟 \"Liangzhu: 5,000 Years of Chinese Civilization\" 双语讲解小视频。"], "type": "田野研学项目；准备 1 周 + 实地 1 天 + 成果 1 周", "knowledge": "历史·七上中国古代史\"史前文明\"（良渚是教材中中华文明起源的重要实证）；人文地理《历史与社会》\"人在社会中生活（地图三要素）、因地制宜\"；语文·八上活动·探究\"新闻\"（新闻采访与写作）或五下\"中国的世界文化遗产\"（小学可先做简化版）；英语·八下 U6\"用英语讲中国故事\"", "abilities": "①观察与探究：能带着预设问题参观并用\"展品+证据\"回答；③语言表达与沟通：能完成一篇研学报告（或新闻特写）+ 一段 1 分钟中英文双语讲解；⑦协作与社会责任：全家分工完成导览任务", "materials": "良渚古城遗址公园/良渚博物院门票（博物院免费，遗址公园门票+观光车约 ¥60–100/人）、笔记本；合计约 ¥200–300", "outcome": "研学报告/新闻特写 + 标注地图 + 双语讲解视频。评估清单：①三个预设问题都有答案；②报告引用 3 个以上实地证据；③地图标注规范；④完成双语输出；⑤能说出\"实证五千年文明\"的含义。", "advance": "高中衔接选必3《文化交流与传播》\"世界遗产\"，把良渚与西湖、大运河做成\"杭州三大世界遗产\"系列考察（P39）；与语文必修上\"家乡文化生活\"单元直接对接。", "textbook": "七年级上册历史\"史前文明\"单元教学月；小学五、六年级可先做简化版。", "band": "G79", "cat": "实践研学", "dims": [0, 2, 6]}, {"id": "P34", "name": "用英语讲中国故事", "steps": ["选故事：孩子挑一个最熟的中国故事，先用中文 1 分钟讲完（确保情节结构清晰）。", "搭支架：家长帮孩子列英文关键词表（人物、地点、3 个情节动词、结尾句），不代写全文。", "连词升级：把\"然后…然后…\"升级为 once upon a time / as soon as / so...that / finally 等教材连词。", "配图：给故事画 4 格插图（每格配 2 句英文）。", "排练录制：第一遍录音→回听找 3 个改进点→第二遍正式录。", "展示：发给英语老师或在家庭聚会表演，收集反馈。"], "type": "语言表达项目；2 周，每周 2–3 次", "knowledge": "英语·八下 U6《An old man tried to move the mountains》\"叙事连词（unless/as soon as/so...that）、讲述故事（愚公移山等中国故事英语表达）\"；语文·七下《木兰诗》/九上《岳阳楼记》等文化篇目；历史七年级中国古代史素材", "abilities": "③语言表达与沟通：能用 8–10 句英语完整讲述一个中国故事（含 as soon as、so...that 等连词）；⑥审美与创造：能为故事配图或做简单 PPT 并现场讲演；⑧自主学习与元认知：能通过\"录音—回听—修改\"打磨表达", "materials": "故事素材（愚公移山、花木兰、神笔马良、梁祝、白蛇传——选孩子熟悉的）、绘本纸或 PPT；¥0", "outcome": "4 格英文故事绘本 + 讲演视频。评估清单：①8–10 句结构完整；②用上 2 个以上目标连词；③发音可懂、有感情；④图文对应；⑤经过至少 1 轮修改。", "advance": "升级为\"良渚故事英文版\"（与 P33 联动）；九年级衔接 U2 宾语从句 \"I think that…\" 加入观点表达；高中衔接必修2 Cultural Heritage 西湖申遗英文解说。", "textbook": "最佳同步：八年级下册英语 U6 教学月。", "band": "G79", "cat": "实践研学", "dims": [2, 5, 7]}, {"id": "P35", "name": "钱塘江潮汐观测与三角函数拟合", "steps": ["数据获取：下载钱塘江某站点连续数日的潮汐预报表（高潮/低潮时刻与潮位）。", "观察周期：把时刻—潮位数据画成散点图，目测周期（约 12 小时 25 分，半日潮）。", "拟合：设模型 H=Asin(ωt+φ)+h，估算振幅 A（高低潮差一半）、h（平均潮位）、ω（由周期算）、φ（由某个高潮时刻定）。", "验证：用模型预测次日高潮时刻，与官方预报对比，算误差。", "实地观潮：农历八月十八大潮或每月大潮日，到正规观潮点看涌潮，记录实测时刻与预报的吻合度。", "地理联动：查资料解释\"为什么钱塘江涌潮特别大\"（喇叭口地形+天文大潮），写进报告。"], "type": "数学建模+野外观测；2–3 周（含 1–2 次实地观测）", "knowledge": "数学·必修一第 5 章《三角函数》\"y=Asin(ωx+φ)、三角函数应用（周期现象建模——教材明示'钱塘江潮汐拟合'）\"；地理·湘教版必修1《地球上的水》\"海水性质与运动——钱塘江涌潮\"；语文·四上《观潮》（童年记忆唤起）", "abilities": "②逻辑与计算思维：能用实测潮位数据拟合 y=Asin(ωx+φ) 模型并解释 A、ω、φ 的现实含义；⑤数据与证据素养：能从官方潮汐表获取数据并处理；①观察与探究：完成一次安全的实地观潮", "materials": "杭州潮汐预报数据（官方发布）、电脑（Excel/GeoGebra/Desmos 均可）、观潮交通费；约 ¥50–100。安全：只在正规观潮点（如钱塘江堤岸指定区域），严禁下堤。", "outcome": "数据表+拟合图+《潮汐建模报告》。评估清单：①散点图与模型曲线规范；②四个参数解释正确；③预测误差在合理范围；④完成安全实地观测；⑤能解释涌潮成因。", "advance": "加深为\"潮位发电潜力估算\"（联动物理必修3 能源）；或做\"摩天轮高度—时间模型\"对比练习（教材同单元另一案例）。", "textbook": "最佳同步：高一上数学必修一第 5 章《三角函数》教学月；地理必修1《地球上的水》同步。", "band": "G1012", "cat": "调查研究", "dims": [0, 1, 4]}, {"id": "P36", "name": "家庭碳足迹与能源审计", "steps": ["界定边界：确定核算范围——用电、燃气、私家车、外食/外卖（简化版可先只做电+行）。", "采集数据：抄录电费单度数、燃气立方数、估算月度行驶里程。", "换算碳排放：查找排放因子（如每度电约 0.5 kg CO₂ 量级——以官方发布为准），逐项换算并求和。", "可视化：用 Python（matplotlib）或 Excel 画碳排放结构饼图+月度趋势折线图（衔接信息技术必修1）。", "诊断：哪一块最大？为什么？（空调季？通勤方式？）", "行动：制定 3 项减碳措施（如空调调高 1℃、每周一天公共交通/骑行、减少外卖），全家执行。", "一个月后复测对比，写《家庭碳审计报告》：数据、模型、行动、效果。"], "type": "调查+建模项目；3–4 周", "knowledge": "地理·湘教版选必3《资源、环境与国家安全》\"碳排放与全球变暖——碳达峰碳中和\"；物理·必修3 第12章《电能 能量守恒定律》\"家庭能耗审计（教材明示）\"；信息技术·必修1《数据与计算》\"数据处理与可视化\"；政治·必修2《经济与社会》新发展理念", "abilities": "⑤数据与证据素养：能采集家庭电、气、行、食四类数据并按排放因子核算月度碳足迹；②逻辑与计算思维：能用 Python/Excel 完成数据清洗与可视化；⑦协作与社会责任：能提出并推动 3 项家庭减碳行动且一个月后复测", "materials": "近 3 个月电费单、燃气单、加油/出行记录；电脑；¥0", "outcome": "碳足迹核算表+可视化图表+审计报告。评估清单：①数据来源真实可追溯；②排放因子注明出处；③图表规范；④行动执行并有复测数据；⑤能连接\"碳达峰碳中和\"国家政策。", "advance": "扩展为\"小区/校园碳审计\"；与物理必修3\"能源与可持续发展\"章末呼应；优秀成果可作为研究性学习课题上报。", "textbook": "高二地理选必3 学期内；物理必修3 第 12 章教学月启动最佳。", "band": "G1012", "cat": "调查研究", "dims": [1, 4, 6]}, {"id": "P37", "name": "房贷与复利：家庭财务模型", "steps": ["情境导入：假设贷款 100 万、年利率 3.x%、30 年，猜一猜\"总共要还多少利息\"——先让孩子猜，结果往往出乎意料。", "等额本金：每月还固定本金+剩余本金利息——用等差数列求和算总利息（较简单，先做这个）。", "等额本息：设月供 A，列\"剩余本金递推式\"，用等比数列求和推出月供公式。", "建工具：Excel 或 Python 做还款计划表（360 行，每月本金、利息、剩余本金），参数可调。", "对比决策：两种方案总利息差多少？提前还款 10 万能省多少？画累计还款曲线对比图。", "现实讨论：向孩子解释\"复利是世界第八大奇迹\"的另一面——储蓄的复利（正面案例：从 18 岁开始每月定投的终值模拟）。"], "type": "数学建模项目；2 周，3 次活动", "knowledge": "数学·选必二第 4 章《数列》\"等差数列、等比数列（通项与前 n 项和）——教材明示'复利与房贷等额本息/本金模型'\"；必修一第 4 章《指数函数与对数函数》\"增长模型\"；信息技术·必修1 Python 计算；政治·必修2《经济与社会》（金融常识）", "abilities": "②逻辑与计算思维：能推导等额本息月供公式并用等比数列求和验证；⑤数据与证据素养：能对比\"等额本息 vs 等额本金\"两种方案的总利息；⑧自主学习与元认知：能用表格/Python 把纸面公式变成可调参数的决策工具", "materials": "电脑（Excel 或 Python 环境）、当前房贷利率（查银行官网）；¥0", "outcome": "可调参数的还款模型 + 一页对比分析报告。评估清单：①等差/等比求和运用正确；②月供公式推导或验证成功；③模型参数可调；④两方案对比结论正确；⑤能解释复利双刃剑。", "advance": "扩展\"教育储蓄/养老金规划\"模型；与必修一\"指数函数增长模型\"（人口、碳14 测年）做同一数学结构的横向串联。", "textbook": "最佳同步：高二数学选必二第 4 章《数列》教学月。", "band": "G1012", "cat": "调查研究", "dims": [1, 4, 7]}, {"id": "P38", "name": "智能浇花系统（开源硬件）", "steps": ["需求定义：假期全家出游，谁给花浇水？→ 目标：土壤干燥时自动浇水，湿润时停止。", "认识硬件：主控板、土壤湿度传感器（模拟量输入）、水泵（执行器）、继电器（用小电压控制水泵——呼应物理传感器章）。", "接线：按教程图连接（全程 USB 5V 低压，安全），先点亮板载 LED 验证环境。", "编程：读取传感器数值→串口打印，先把探头插进干土/湿土记录两组数值，确定阈值。", "写控制逻辑：湿度<阈值→水泵开 3 秒→等待→再测（防过浇），烧录测试。", "联调：整盆花实测，观察一周，调阈值和浇水时长（迭代至少 2 轮）。", "文档：写《项目设计报告》：需求、方案图、代码、测试记录、迭代日志。"], "type": "硬件工程项目；3–4 周，每周 2 次", "knowledge": "信息技术·选必6《开源硬件项目设计》\"开源硬件（Arduino/掌控板/行空板）、传感器与执行器、项目设计流程\"；物理·选必2 第5章《传感器》\"利用传感器制作简单的自动控制装置\"；生物·浙科版必修1《细胞的代谢》\"影响光合速率的环境因素\"（植物需水逻辑）", "abilities": "②逻辑与计算思维：能写出\"读取土壤湿度→阈值判断→启动水泵\"的完整程序；④空间与工程建构：能完成传感器—主控—水泵的电路连接与调试；⑧自主学习与元认知：经历完整\"需求—方案—制作—测试—迭代\"开源项目流程", "materials": "掌控板/Arduino UNO 套件（¥80–150）、土壤湿度传感器（¥10）、微型水泵+继电器模块（¥20）、水管、花盆；约 ¥150–250", "outcome": "可工作的智能浇花装置 + 项目报告。评估清单：①系统稳定运行 1 周；②阈值经实验标定；③代码逻辑完整有注释；④报告含迭代记录；⑤能向人讲解工作原理。", "advance": "加光敏/温湿度传感器升级为\"阳台气象站\"（与 P14 的童年天气站形成十年呼应）；参赛（青少年科技创新类）或作为研究性学习成果。", "textbook": "高二信息技术选必6 学期内；物理选必2《传感器》章联动。", "band": "G1012", "cat": "制作工程", "dims": [1, 3, 7]}, {"id": "P39", "name": "杭州三大世界遗产考察（西湖·大运河·良渚）", "steps": ["建框架：查 UNESCO 世界遗产标准，搞清三处分别因何入选（西湖=文化景观，大运河=工程遗产，良渚=考古遗址）。", "良渚站（可与 P33 合并升级）：按\"实证五千年\"框架考察，重点是世界遗产视角下的\"突出普遍价值\"。", "西湖站：走\"白堤—苏堤—孤山\"一线，做\"文化景观\"观察——自然与人文如何叠加（白居易、苏东坡治水与造景）。", "大运河站：走拱宸桥—桥西历史街区，考察漕运与工业遗产（选必2《经济与社会生活》\"交通与社会变迁\"联动）。", "每站完成：考察笔记、访谈 1 位当地人/游客（语文\"记录家乡的人和物\"）、照片档案。", "成果合成：三份报告 + 一段 2 分钟英文解说视频（任选一处，\"Cultural Heritage of Hangzhou\"）+ 一份《给遗产保护部门的建议书》。"], "type": "综合研学项目；一学期，每处 1 天实地 + 1 周成果", "knowledge": "历史·选必3《文化交流与传播》\"文化的传承与保护（世界遗产——教材明示'西湖、大运河、良渚古城遗址——杭州三大世界遗产项目式考察'）\"；语文·必修上单元4《家乡文化生活》\"记录家乡的人和物、文化生活现状调查、参与家乡文化建设\"；英语·必修2《Cultural Heritage》（西湖申遗解说）；地理·必修2《人地关系与可持续发展》", "abilities": "①观察与探究：能按\"遗产价值—现状—威胁—保护\"框架完成三处考察；③语言表达与沟通：产出三份考察报告 + 一段英文申遗解说；⑦协作与社会责任：完成一项真实的\"参与文化建设\"行动（如提交保护建议、做志愿讲解）", "materials": "三地门票交通（良渚遗址公园约 ¥100/人，西湖免费，大运河段免费+运河游船可选）、录音笔或手机；约 ¥300–500", "outcome": "三份考察报告 + 英文解说视频 + 建议书。评估清单：①三处遗产入选理由表述准确；②每处有访谈与一手记录；③英文解说 2 分钟流利；④建议书有针对性；⑤串联三处遗产讲出\"杭州城市史\"。", "advance": "深化为研究性学习课题（如\"大运河杭州段工业遗产活化调查\"）；与历史纲要上\"宋代经济重心南移\"联动做南宋临安城专题。", "textbook": "高一上语文《家乡文化生活》单元启动，高二历史选必3 教学月收束；可分学期完成。", "band": "G1012", "cat": "实践研学", "dims": [0, 2, 6]}, {"id": "P40", "name": "谣言溯源与事实核查", "steps": ["选靶：从家庭群里选一条真实流传的存疑信息（养生谣言、夸大新闻、旧闻新炒均可，选无害题材）。", "拆解：这条信息说了什么？信源是谁？用了什么手法让你想转发？（情绪词、权威伪装、伪数据）。", "溯源：搜索最早出处——图片用反向搜索，数据找原始报告，\"专家说\"找原话语境。", "查证：对照 2 个以上独立权威信源，判定\"证实/证伪/部分失实\"。", "逻辑分析：指出该信息中的逻辑谬误类型（用《逻辑的力量》概念命名）。", "写《事实核查报告》：原信息—信源链—证据—结论—谬误分析。", "家庭分享会：孩子主讲\"如何 5 步识别谣言\"，给长辈支招。"], "type": "媒介素养研究项目；2–3 周", "knowledge": "语文·必修下单元4《媒介素养》\"信息时代的语文生活——多媒介辨识、善用多媒介、辨识媒介信息\"；政治·选必3《逻辑与思维》\"形式逻辑（同一律矛盾律排中律）、逻辑谬误辨识\"（与语文选必上《逻辑的力量》联动）；信息技术·必修2《信息系统与社会》\"网络技术基础、信息安全\"", "abilities": "⑤数据与证据素养：能对一条网传信息完成\"溯源—查证—证伪/证实\"全流程并出具核查报告；②逻辑与计算思维：能识别 3 种以上逻辑谬误（偷换概念、以偏概全、诉诸情绪）；③语言表达与沟通：能向家人做一次 10 分钟\"防谣指南\"分享", "materials": "手机/电脑、权威查证渠道（官方发布、专业媒体、学术数据库）；¥0", "outcome": "核查报告 + 分享会。评估清单：①溯源到原始出处；②至少 2 个独立信源；③谬误命名准确；④报告结构完整；⑤分享会表达清晰有方法。", "advance": "升级为\"AI 生成内容鉴别\"专题（信息选必4《人工智能初步》联动）；系列化：每月核查一条，一学期做成《家庭辟谣月刊》。", "textbook": "高一下语文必修下单元4《媒介素养》教学月；政治选必3 学期内复用。", "band": "G1012", "cat": "调查研究", "dims": [1, 2, 4]}], "anchors": [{"n": 1, "name": "家庭天气小站", "proj": "P14 / P38", "link": "科学三上《天气》（气温计、降水测量、天气日历）× 数学三下《数据的整理和表示》× 语文三上写日记 × 英语四下 Weather"}, {"n": 2, "name": "蚕的一生", "proj": "P15", "link": "科学三下《动物的一生》× 语文写话/观察日记 × 数学规律启蒙"}, {"n": 3, "name": "一粒种子的旅程（凤仙花）", "proj": "P18 / P30", "link": "科学四下《植物的生长变化》× 语文三下《我的植物朋友》/四上观察日记 × 数学测量"}, {"n": 4, "name": "校园寻宝平面图", "proj": "P22", "link": "数学六下《绘制校园平面图》+《比例》比例尺 × 英语六上 How can I get there? × 信息科技"}, {"n": 5, "name": "造船工程师", "proj": "P21", "link": "科学五下《船的研究》× 数学五下《长方体（二）》体积容积 × 语文五上说明文习作"}, {"n": 6, "name": "班级/家庭市集", "proj": "P08 / P17", "link": "数学二上《购物》（元角分）× 英语四下 Shopping × 道法四下《做聪明的消费者》"}, {"n": 7, "name": "汉字寻根", "proj": "P23", "link": "语文五下《遨游汉字王国》（字谜、谐音、汉字演变、研究报告）× 数学四上《编码》× 书法"}, {"n": 8, "name": "节水行动", "proj": "P24 / P36", "link": "数学四上《滴水实验》× 科学五下《环境与我们·珍惜水资源》× 语文六上《学写倡议书》× 道法环保单元"}, {"n": 9, "name": "厨房发酵", "proj": "P03 / P27", "link": "高中生物浙科版选必3《发酵工程》（果酒果醋泡菜）× 化学必修二乙醇乙酸 × 数学浓度计算（幼小版：P03 厨房小实验、六下《厨房里的物质与变化》）"}, {"n": 10, "name": "良渚古城遗址研学", "proj": "P33 / P39", "link": "历史七上史前文明 × 人文地理「因地制宜」× 英语八下 U6 用英语讲中国故事 × 语文八上新闻/游记写作（余杭在地资源）"}, {"n": 11, "name": "钱塘江潮汐", "proj": "P35", "link": "高中数学必修一《三角函数》周期建模 × 地理湘教版必修1《海水运动·钱塘江涌潮》× 物理必修2万有引力（幼小版：语文四上《观潮》实地体验）"}, {"n": 12, "name": "家庭碳足迹", "proj": "P36 / P24", "link": "高中地理选必3《碳达峰碳中和》× 物理必修3《电能 能量守恒》× 信息技术必修1数据可视化 × 政治必修2绿色发展（初中版：九下《可持续发展·低碳生活》）"}, {"n": 13, "name": "智能浇花系统", "proj": "P38 / P18", "link": "高中信息技术选必6《开源硬件项目设计》× 物理选必2《传感器》× 生物必修1植物生长条件（初中版：八下电与磁·电磁继电器）"}, {"n": 14, "name": "杭州三大世界遗产（西湖/大运河/良渚）", "proj": "P39 / P33", "link": "高中历史选必3《文化的传承与保护·世界遗产》× 语文必修上《家乡文化生活》× 英语必修2 Cultural Heritage × 地理必修2人地关系"}, {"n": 15, "name": "社区口述史", "proj": "P39", "link": "高中语文必修上《家乡文化生活·记录家乡的人和物》× 整本书《乡土中国》× 历史史料实证（小学版：口语交际「走进他们的童年岁月」）"}, {"n": 16, "name": "谣言溯源与媒介素养", "proj": "P40", "link": "高中语文必修下《媒介素养·辨识媒介信息》× 政治选必3《逻辑与思维》× 信息技术必修2网络基础（小学版：道法四上《信息万花筒》）"}, {"n": 17, "name": "桥梁与结构", "proj": "P16 / P29", "link": "高中物理必修1《相互作用——力》桁架受力 × 数学必修二立体几何 × 语文八上《中国石拱桥》（小学版：六下塔台工程；初中版：九上简单机械）"}], "routes": [{"id": "A", "name": "水：从玩冰到算潮", "icon": "💧", "chain": "P03 冰块去哪了（K1）→ P14 天气小站（G3–4）→ P24 家庭节水行动（G5–6）→ 初中浮力实验（G8 自组）→ P35 钱塘江潮汐建模（G10–12）", "note": "数据与证据素养一路上升：贴纸标记 → 天气日历 → 以小推大 → 函数建模"}, {"id": "B", "name": "植物：从摸叶子到智能浇花", "icon": "🌱", "chain": "P07 植物观察员（G1–2）→ P18 凤仙花的一生（G3–4）→ P30 土壤 pH 与径山茶（G7–9）→ P38 智能浇花系统（G10–12）", "note": "观察 → 长期记录 → 定量分析 → 自动化工程；径山茶园是固定外景地"}, {"id": "C", "name": "建造：从积木到水火箭", "icon": "🚀", "chain": "P05 积木城市（K1）→ P16 过山车（G3–4）→ P21 造船（G5–6）→ P31 水火箭（G7–9）→ P38 开源硬件（G10–12）", "note": "每站保留「设计图→实物→测试记录」三件套——这就是工程素养的形状"}, {"id": "D", "name": "钱与数：从购物到房贷", "icon": "🪙", "chain": "P08 购物小当家（G1–2）→ P17 旧物市集（G3–4）→ P28 计费建模（G7–9）→ P37 房贷复利（G10–12）", "note": "数感 → 应用运算 → 函数建模 → 人生财务素养；副产品是最实用的财商教育"}, {"id": "E", "name": "家乡：从小区寻宝到世界遗产", "icon": "🏞", "chain": "P02 自然寻宝（K1）→ P22 平面图测绘（G5–6）→ P33 良渚研学（G7–9）→ P39 三大世界遗产考察（G10–12）→ P40 媒介素养（G10–12）", "note": "观察家乡 → 表达家乡 → 研究家乡 → 参与家乡建设；对应语文必修上「家乡文化生活」"}], "cats": ["游戏", "制作工程", "调查研究", "长期项目", "实践研学"], "guide": {"decisionTree": ["孩子 3–6 岁（学前）：从 P01 分类游戏或 P02 自然寻宝开始——零准备、今晚就能玩。规则只有一个：孩子喊停就停。", "孩子 G1–G2：先看课本进度——科学课学到《植物》就开 P07，数学学到《购物》就开 P08。与课堂同步的项目永远优先。", "孩子 G3–G4（最推荐起点）：首选 P14 家庭天气小站（秋季）或 P15 养蚕（春季）——教材自带单元，投入小、周期长、成就感强。", "孩子 G5–G6：首选 P24 家庭节水行动——调查、数据、倡议书、社会行动四合一，是小初衔接最好的「研究能力体检」；爱动手选 P21 造船。", "孩子 G7–G9：首选 P28 计费建模——直接服务数学主科；偏文选 P32 模拟法庭或 P33 良渚研学。", "孩子 G10–G12：按选科倾向选——理科偏 P35/P37/P38，文科偏 P39/P40；未定选科各试一个，观察热情。", "拿不准时的万能答案：选孩子最近主动问过「为什么」的那个主题。好奇心在，项目就成了一半。"], "scaffold": ["「你觉得接下来会发生什么？为什么？」——预测", "「你怎么知道是这样的？证据呢？」——证据意识", "「还有别的办法吗？」——发散思维", "「刚才哪里出了问题？下次怎么改？」——元认知/迭代", "「这个和我们上次做的××有什么一样的地方？」——迁移"], "pitfalls": ["不要变成家长代工。孩子做 70 分但自己做的作品，胜过家长做 100 分的作品。", "不要一次超载知识点。一个项目吃透 2–3 个知识点即可，按孩子年级选对应深度。", "不要用考试标准评判项目。项目的目标是八维能力，反思单上永远没有分数。", "不要打断孩子的节奏。深度专注比时间表珍贵。", "安全第一不妥协：电路只用电池/低压 USB；热水实验家长操作；水火箭戴护目镜；观潮只在正规观潮点。", "不要让项目挤占睡眠和运动。学期中每周投入建议不超过 2–3 小时。", "不要跟风买装备。40 个项目里超过一半成本在 ¥50 以内；贵重装备先试用再决定。", "不要在孩子没兴趣时硬推。同一个项目可以换个外壳再来。兴趣是入口，知识是顺带的收获。"], "sheet": {"title": "项 目 反 思 单", "fields": [{"label": "项目名称：", "inline": true}, {"label": "日期：      年    月    日", "inline": true}, {"label": "参与人：", "inline": true}, {"label": "用时：", "inline": true}, {"label": "一、我做了什么？（写或画 3 件事）", "lines": 3}, {"label": "二、我学到的知识（至少 1 条，用自己的话）", "lines": 3}, {"label": "三、我遇到的困难和我是怎么解决的", "lines": 3}, {"label": "四、如果再做一次，我想改进：", "lines": 2}, {"label": "五、我想给自己打几颗星？☆☆☆☆☆　理由：", "lines": 2}, {"label": "家长的话（只写鼓励和观察到的一个亮点）：", "lines": 2}], "note": "低幼版（K1–G2）：家长读题、孩子口述家长代笔，或全部用画的。"}}};
+
+/* ===== helpers ===== */
+function $(id){ return document.getElementById(id); }
+function el(tag, cls, text){
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined && text !== null) e.textContent = text;
+  return e;
+}
+function must(id){
+  var e = $(id);
+  if (!e) throw new Error('missing element #' + id);
+  return e;
+}
+
+/* ===== tabs ===== */
+function initTabs(){
+  var tabs = must('tabs');
+  tabs.addEventListener('click', function(ev){
+    var btn = ev.target.closest('button[data-page]');
+    if (!btn) return;
+    var page = btn.getAttribute('data-page');
+    tabs.querySelectorAll('button').forEach(function(b){ b.classList.toggle('active', b === btn); });
+    document.querySelectorAll('section.page').forEach(function(s){
+      s.classList.toggle('active', s.id === 'page-' + page);
+    });
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+}
+
+/* ===== overview ===== */
+function renderOverview(){
+  // version table
+  var vt = must('versionTable');
+  var rows = DATA.versionTable || [];
+  rows.forEach(function(r, i){
+    var tr = document.createElement('tr');
+    r.forEach(function(c){
+      var cell = el(i === 0 ? 'th' : 'td', null, c);
+      tr.appendChild(cell);
+    });
+    vt.appendChild(tr);
+  });
+  // notes
+  var notes = must('versionNotes');
+  (DATA.versionNotes || []).forEach(function(n){ notes.appendChild(el('li', null, n)); });
+  // dims
+  var dg = must('dimsGrid');
+  (DATA.dims || []).forEach(function(d){
+    var c = el('div', 'card dim-card');
+    c.appendChild(el('div', 'num', d.n));
+    var body = el('div');
+    body.appendChild(el('h3', null, d.name));
+    body.appendChild(el('p', null, d.desc));
+    body.appendChild(el('span', 'ev', '行为证据：' + d.ev));
+    c.appendChild(body);
+    dg.appendChild(c);
+  });
+  // how to read
+  var hg = must('howGrid');
+  (DATA.howToRead || []).forEach(function(h){
+    var c = el('div', 'card how-card');
+    c.appendChild(el('h3', null, h.t));
+    c.appendChild(el('p', null, h.d));
+    hg.appendChild(c);
+  });
+}
+
+/* ===== graph: band view ===== */
+var curBand = 'K1';
+function renderBandSelector(){
+  var bs = must('bandSelector');
+  bs.innerHTML = '';
+  DATA.bandOrder.forEach(function(bid){
+    var m = DATA.bandMeta[bid];
+    var b = el('button', 'band-btn' + (bid === curBand ? ' active' : ''));
+    b.appendChild(el('b', null, m.label));
+    b.appendChild(el('span', null, m.sub));
+    b.addEventListener('click', function(){ curBand = bid; renderBandSelector(); renderBandDetail(); });
+    bs.appendChild(b);
+  });
+}
+function renderBandDetail(){
+  var introBox = must('bandIntro');
+  var info = (DATA.bandIntro && DATA.bandIntro[curBand]) || null;
+  introBox.textContent = info ? info.intro : '';
+  var grid = must('bandSubjects');
+  grid.innerHTML = '';
+  var tbl = DATA.bands[curBand];
+  if (!tbl || !tbl.rows) return;
+  var goalHead = tbl.header[2] || '阶段能力落点';
+  tbl.rows.forEach(function(r){
+    var c = el('div', 'card subj-card');
+    c.appendChild(el('h3', null, r[0]));
+    c.appendChild(el('div', 'pts', r[1]));
+    if (r[2]){
+      var g = el('div', 'goal');
+      g.appendChild(el('b', null, '落点'));
+      g.appendChild(document.createTextNode(r[2]));
+      c.appendChild(g);
+    }
+    grid.appendChild(c);
+  });
+}
+
+/* ===== graph: subject (vertical) view ===== */
+var curSubject = null;
+function renderVtPicker(){
+  var p = must('vtPicker');
+  p.innerHTML = '';
+  DATA.verticals.forEach(function(v){
+    var b = el('button', 'vt-btn' + (v.id === curSubject ? ' active' : ''), v.name);
+    b.addEventListener('click', function(){ curSubject = v.id; renderVtPicker(); renderVtDetail(); });
+    p.appendChild(b);
+  });
+}
+function renderVtDetail(){
+  var box = must('vtContent');
+  box.innerHTML = '';
+  var v = null;
+  DATA.verticals.forEach(function(x){ if (x.id === curSubject) v = x; });
+  if (!v) return;
+  var sum = el('div', 'vt-summary', v.summary);
+  box.appendChild(sum);
+  var tl = el('div', 'timeline');
+  DATA.bandOrder.forEach(function(bid){
+    var bd = v.bands[bid];
+    if (!bd) return;
+    var m = DATA.bandMeta[bid];
+    var node = el('div', 'tl-node');
+    var c = el('div', 'card');
+    c.appendChild(el('h4', null, m.label + '　' + m.sub));
+    c.appendChild(el('div', 'pts', bd.points || ''));
+    if (bd.goal){
+      var g = el('div', 'goal');
+      g.appendChild(el('b', null, '落点'));
+      g.appendChild(document.createTextNode(bd.goal));
+      c.appendChild(g);
+    }
+    node.appendChild(c);
+    tl.appendChild(node);
+  });
+  box.appendChild(tl);
+  var lk = el('div', 'vt-links');
+  lk.appendChild(el('b', null, '衔接点'));
+  lk.appendChild(el('div', null, v.links));
+  box.appendChild(lk);
+}
+function renderAnchors(){
+  var al = $('anchorList');
+  if (!al || !DATA.anchors) return;
+  DATA.anchors.forEach(function(a){
+    var c = el('div', 'card anchor-card');
+    c.appendChild(el('div', 'ano', String(a.n)));
+    var body = el('div');
+    body.appendChild(el('h3', null, a.name));
+    body.appendChild(el('div', 'lk', a.link));
+    if (a.proj){
+      var pj = el('div', 'pj');
+      pj.appendChild(el('span', 'chip y', '对应项目 ' + a.proj));
+      body.appendChild(pj);
+    }
+    c.appendChild(body);
+    al.appendChild(c);
+  });
+}
+function initGraph(){
+  renderBandSelector();
+  renderBandDetail();
+  curSubject = DATA.verticals.length ? DATA.verticals[0].id : null;
+  renderVtPicker();
+  renderVtDetail();
+  renderAnchors();
+  must('graphMode').addEventListener('click', function(ev){
+    var btn = ev.target.closest('button[data-mode]');
+    if (!btn) return;
+    var mode = btn.getAttribute('data-mode');
+    must('graphMode').querySelectorAll('button').forEach(function(b){ b.classList.toggle('active', b === btn); });
+    must('graphBandView').style.display = mode === 'band' ? '' : 'none';
+    must('graphSubjectView').style.display = mode === 'subject' ? '' : 'none';
+  });
+}
+
+/* ===== projects ===== */
+var CAT_BADGE = {'游戏':'g','制作工程':'b','调查研究':'y','长期项目':'','实践研学':'b'};
+function projCard(p){
+  var c = el('div', 'card proj-card');
+  var head = el('div', 'head');
+  head.appendChild(el('span', 'pid', p.id));
+  var hbody = el('div');
+  hbody.appendChild(el('h3', null, p.name));
+  var meta = el('div', 'meta');
+  var bm = DATA.bandMeta[p.band];
+  meta.textContent = (bm ? bm.label : p.band) + ' · ' + p.cat;
+  hbody.appendChild(meta);
+  head.appendChild(hbody);
+  c.appendChild(head);
+
+  function field(label, text){
+    if (!text) return;
+    var f = el('div', 'field');
+    f.appendChild(el('span', 'flabel', label));
+    f.appendChild(el('p', null, text));
+    c.appendChild(f);
+  }
+  field('类型 / 时长', p.type);
+  field('调用知识点', p.knowledge);
+  field('能力目标', p.abilities);
+  field('材料与成本', p.materials);
+
+  if (p.steps && p.steps.length){
+    var det = document.createElement('details');
+    var sum = document.createElement('summary');
+    sum.textContent = '玩法 / 步骤（' + p.steps.length + ' 步）';
+    det.appendChild(sum);
+    var ol = document.createElement('ol');
+    p.steps.forEach(function(s){ ol.appendChild(el('li', null, s)); });
+    det.appendChild(ol);
+    c.appendChild(det);
+  }
+  if (p.outcome){
+    var oc = el('div', 'outcome');
+    oc.appendChild(el('b', null, '成果与评估'));
+    oc.appendChild(document.createTextNode(p.outcome));
+    c.appendChild(oc);
+  }
+  field('进阶与变体', p.advance);
+  field('教材衔接', p.textbook);
+
+  var foot = el('div', 'foot');
+  (p.dims || []).forEach(function(i){
+    var d = DATA.dims[i];
+    if (d) foot.appendChild(el('span', 'chip', d.n + ' ' + d.name));
+  });
+  foot.appendChild(el('span', 'chip ' + (CAT_BADGE[p.cat] || ''), p.cat));
+  c.appendChild(foot);
+  return c;
+}
+function renderProjects(){
+  var fb = $('fBand'), fd = $('fDim'), fc = $('fCat');
+  var band = fb ? fb.value : '', dim = fd ? fd.value : '', cat = fc ? fc.value : '';
+  var grid = must('projGrid');
+  grid.innerHTML = '';
+  var shown = 0;
+  DATA.projects.forEach(function(p){
+    if (band && p.band !== band) return;
+    if (cat && p.cat !== cat) return;
+    if (dim !== '' && (p.dims || []).indexOf(Number(dim)) < 0) return;
+    grid.appendChild(projCard(p));
+    shown++;
+  });
+  must('projCount').textContent = '显示 ' + shown + ' / ' + DATA.projects.length + ' 个项目';
+  if (!shown) grid.appendChild(el('div', 'card', '没有符合筛选条件的项目，请放宽筛选。'));
+}
+function initProjects(){
+  var fb = must('fBand');
+  DATA.bandOrder.forEach(function(bid){
+    var o = el('option', null, DATA.bandMeta[bid].label);
+    o.value = bid; fb.appendChild(o);
+  });
+  var fd = must('fDim');
+  DATA.dims.forEach(function(d, i){
+    var o = el('option', null, d.n + ' ' + d.name);
+    o.value = String(i); fd.appendChild(o);
+  });
+  var fc = must('fCat');
+  DATA.cats.forEach(function(c){
+    var o = el('option', null, c);
+    o.value = c; fc.appendChild(o);
+  });
+  [fb, fd, fc].forEach(function(s){ s.addEventListener('change', renderProjects); });
+  renderProjects();
+  // routes
+  var rl = must('routesList');
+  DATA.routes.forEach(function(r){
+    var c = el('div', 'card route-card');
+    c.appendChild(el('div', 'ric', r.icon));
+    var body = el('div');
+    body.appendChild(el('h3', null, '路线 ' + r.id + ' · ' + r.name));
+    body.appendChild(el('div', 'chain', r.chain));
+    body.appendChild(el('div', 'rnote', r.note));
+    c.appendChild(body);
+    rl.appendChild(c);
+  });
+}
+
+/* ===== guide ===== */
+function renderGuide(){
+  var tg = must('treeGrid');
+  DATA.guide.decisionTree.forEach(function(t, i){
+    var c = el('div', 'card tree-card');
+    c.appendChild(el('div', 'tno', String(i + 1)));
+    c.appendChild(el('p', null, t));
+    tg.appendChild(c);
+  });
+  var sl = must('scaffoldList');
+  sl.className = 'q-list';
+  DATA.guide.scaffold.forEach(function(q){
+    sl.appendChild(el('div', 'q-item', q));
+  });
+  var pl = must('pitList');
+  DATA.guide.pitfalls.forEach(function(t, i){
+    var d = el('div', 'pit');
+    d.appendChild(el('b', null, '坑 ' + (i + 1)));
+    d.appendChild(document.createTextNode(t));
+    pl.appendChild(d);
+  });
+  // reflection sheet
+  var sheet = must('reflectionSheet');
+  var sh = DATA.guide.sheet;
+  sheet.appendChild(el('h3', null, sh.title));
+  var inlineRow = el('div', 'row');
+  sh.fields.forEach(function(f){
+    if (f.inline){
+      inlineRow.appendChild(el('span', null, f.label));
+    } else {
+      if (inlineRow.childNodes.length){ sheet.appendChild(inlineRow); inlineRow = el('div', 'row'); }
+      sheet.appendChild(el('div', 'q', f.label));
+      var wl = el('div', 'wlines');
+      for (var i = 0; i < (f.lines || 2); i++) wl.appendChild(document.createElement('div'));
+      sheet.appendChild(wl);
+    }
+  });
+  if (inlineRow.childNodes.length) sheet.appendChild(inlineRow);
+  sheet.appendChild(el('div', 'note', sh.note));
+  var pb = $('printBtn');
+  if (pb) pb.addEventListener('click', function(){ window.print(); });
+}
+
+/* ===== init ===== */
+document.addEventListener('DOMContentLoaded', function(){
+  try {
+    initTabs();
+    renderOverview();
+    initGraph();
+    initProjects();
+    renderGuide();
+    document.title = 'K1–K12 知识图谱与项目地图 · 就绪';
+  } catch (e) {
+    window.__jsErrors.push('init: ' + (e && e.message));
+    var b = document.getElementById('errBadge');
+    if (b){ b.style.display = 'block'; b.textContent = '初始化失败：' + (e && e.message); }
+  }
+});
+</script>
+</body>
+</html>
