@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-09-26T14:16:36.624869+08:00",
+  "last_updated": "2026-09-26T22:36:00.312890+08:00",
   "cn": [
     {
       "ticker": "9988.HK",
@@ -10,13 +10,13 @@
       "price": 108.4,
       "change_pct": -1.45,
       "pe_ttm": 24.976957,
-      "pe_forward": 11.713281,
+      "pe_forward": 11.779352,
       "market_cap": 2156178571264,
       "week52_high": 186.2,
       "week52_low": 88.65,
       "from_high_pct": -41.78,
       "currency": "HKD",
-      "fetched_at": "2026-09-26T14:16:37.063922+08:00",
+      "fetched_at": "2026-09-26T22:36:01.163690+08:00",
       "status": "ok"
     },
     {
@@ -34,7 +34,7 @@
       "week52_low": 49.32,
       "from_high_pct": -32.25,
       "currency": "HKD",
-      "fetched_at": "2026-09-26T14:16:37.301254+08:00",
+      "fetched_at": "2026-09-26T22:36:01.506926+08:00",
       "status": "ok"
     },
     {
@@ -45,14 +45,14 @@
       "thesis": "折价持股海光",
       "price": 82.17,
       "change_pct": -1.59,
-      "pe_ttm": 49.8,
+      "pe_ttm": 50.41104,
       "pe_forward": 32.607143,
       "market_cap": 120224219136,
       "week52_high": 128.12,
       "week52_low": 76.78,
       "from_high_pct": -35.86,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:37.546792+08:00",
+      "fetched_at": "2026-09-26T22:36:01.872120+08:00",
       "status": "ok"
     },
     {
@@ -63,14 +63,14 @@
       "thesis": "设备平台龙头",
       "price": 653.06,
       "change_pct": -2.26,
-      "pe_ttm": 83.29847,
+      "pe_ttm": 85.47906,
       "pe_forward": 45.333347,
       "market_cap": 473918603264,
       "week52_high": 968.0,
       "week52_low": 386.62,
       "from_high_pct": -32.54,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:37.839452+08:00",
+      "fetched_at": "2026-09-26T22:36:02.240086+08:00",
       "status": "ok"
     },
     {
@@ -88,7 +88,7 @@
       "week52_low": 112.0,
       "from_high_pct": -35.57,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:38.064465+08:00",
+      "fetched_at": "2026-09-26T22:36:02.732303+08:00",
       "status": "ok"
     },
     {
@@ -106,7 +106,7 @@
       "week52_low": 34.65,
       "from_high_pct": -27.96,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:38.302595+08:00",
+      "fetched_at": "2026-09-26T22:36:03.118770+08:00",
       "status": "ok"
     },
     {
@@ -119,12 +119,12 @@
       "change_pct": -2.89,
       "pe_ttm": 49.007656,
       "pe_forward": 13.47244,
-      "market_cap": 1047918477312,
+      "market_cap": 1055242125312,
       "week52_high": 1416.88,
       "week52_low": 337.0,
       "from_high_pct": -36.77,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:38.534990+08:00",
+      "fetched_at": "2026-09-26T22:36:03.485073+08:00",
       "status": "ok"
     },
     {
@@ -142,7 +142,7 @@
       "week52_low": 34.58,
       "from_high_pct": -39.6,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:38.840733+08:00",
+      "fetched_at": "2026-09-26T22:36:03.941568+08:00",
       "status": "ok"
     },
     {
@@ -160,7 +160,7 @@
       "week52_low": 411.0,
       "from_high_pct": -36.08,
       "currency": "HKD",
-      "fetched_at": "2026-09-26T14:16:39.091988+08:00",
+      "fetched_at": "2026-09-26T22:36:04.348309+08:00",
       "status": "ok"
     },
     {
@@ -178,7 +178,7 @@
       "week52_low": 196.21,
       "from_high_pct": -37.17,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:39.318581+08:00",
+      "fetched_at": "2026-09-26T22:36:04.783011+08:00",
       "status": "ok"
     },
     {
@@ -196,7 +196,7 @@
       "week52_low": 649.66,
       "from_high_pct": -32.62,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:39.534409+08:00",
+      "fetched_at": "2026-09-26T22:36:05.144534+08:00",
       "status": "ok"
     },
     {
@@ -209,12 +209,12 @@
       "change_pct": -1.23,
       "pe_ttm": 623.25,
       "pe_forward": 131.21053,
-      "market_cap": 31411005440,
+      "market_cap": 31410010112,
       "week52_high": 44.06,
       "week52_low": 24.52,
       "from_high_pct": -43.42,
       "currency": "CNY",
-      "fetched_at": "2026-09-26T14:16:39.764684+08:00",
+      "fetched_at": "2026-09-26T22:36:05.589939+08:00",
       "status": "ok"
     }
   ],
@@ -227,14 +227,14 @@
       "thesis": "AI 算力代名词，PEG < 1",
       "price": 225.07,
       "change_pct": 0.22,
-      "pe_ttm": 28.453857,
+      "pe_ttm": 28.489874,
       "pe_forward": 14.351548,
       "market_cap": 5434765213696,
       "week52_high": 236.54,
       "week52_low": 164.27,
       "from_high_pct": -4.85,
       "currency": "USD",
-      "fetched_at": "2026-09-26T14:16:40.027674+08:00",
+      "fetched_at": "2026-09-26T22:36:06.000873+08:00",
       "status": "ok"
     },
     {
@@ -245,14 +245,14 @@
       "thesis": "估值最低 + Cloud +63%",
       "price": 343.92,
       "change_pct": 0.46,
-      "pe_ttm": 17.256397,
+      "pe_ttm": 17.273733,
       "pe_forward": 23.083103,
       "market_cap": 4206119354368,
       "week52_high": 408.61,
       "week52_low": 235.84,
       "from_high_pct": -15.83,
       "currency": "USD",
-      "fetched_at": "2026-09-26T14:16:40.243406+08:00",
+      "fetched_at": "2026-09-26T22:36:06.376656+08:00",
       "status": "ok"
     },
     {
@@ -263,14 +263,14 @@
       "thesis": "企业 AI 龙头",
       "price": 516.17,
       "change_pct": 3.66,
-      "pe_ttm": 28.788063,
+      "pe_ttm": 28.723984,
       "pe_forward": 21.801512,
       "market_cap": 3832843862016,
       "week52_high": 553.72,
       "week52_low": 349.2,
       "from_high_pct": -6.78,
       "currency": "USD",
-      "fetched_at": "2026-09-26T14:16:40.520905+08:00",
+      "fetched_at": "2026-09-26T22:36:06.767145+08:00",
       "status": "ok"
     },
     {
@@ -281,14 +281,14 @@
       "thesis": "AI 芯片唯一代工商",
       "price": 450.61,
       "change_pct": -0.12,
-      "pe_ttm": 33.40326,
+      "pe_ttm": 33.552494,
       "pe_forward": 20.552242,
       "market_cap": 2337076936704,
       "week52_high": 479.0,
       "week52_low": 266.82,
       "from_high_pct": -5.93,
       "currency": "USD",
-      "fetched_at": "2026-09-26T14:16:40.765210+08:00",
+      "fetched_at": "2026-09-26T22:36:07.148651+08:00",
       "status": "ok"
     },
     {
@@ -299,14 +299,14 @@
       "thesis": "广告 AI 化最早兑现",
       "price": 751.66,
       "change_pct": -3.33,
-      "pe_ttm": 28.343136,
+      "pe_ttm": 28.332453,
       "pe_forward": 21.496538,
       "market_cap": 1914858373120,
       "week52_high": 779.82,
       "week52_low": 520.26,
       "from_high_pct": -3.61,
       "currency": "USD",
-      "fetched_at": "2026-09-26T14:16:40.988844+08:00",
+      "fetched_at": "2026-09-26T22:36:07.508450+08:00",
       "status": "ok"
     },
     {
@@ -317,14 +317,14 @@
       "thesis": "ASIC 王者，$73B AI 订单",
       "price": 352.81,
       "change_pct": 0.7,
-      "pe_ttm": 45.582687,
-      "pe_forward": 18.20118,
+      "pe_ttm": 44.94395,
+      "pe_forward": 18.203583,
       "market_cap": 1684184367104,
       "week52_high": 495.0,
       "week52_low": 289.96,
       "from_high_pct": -28.73,
       "currency": "USD",
-      "fetched_at": "2026-09-26T14:16:41.219809+08:00",
+      "fetched_at": "2026-09-26T22:36:07.968720+08:00",
       "status": "ok"
     },
     {
@@ -338,11 +338,11 @@
       "pe_ttm": 161.7,
       "pe_forward": 40.48134,
       "market_cap": 1029487722496,
-      "week52_high": 638.95,
+      "week52_high": 639.0,
       "week52_low": 159.33,
-      "from_high_pct": -1.3,
+      "from_high_pct": -1.31,
       "currency": "USD",
-      "fetched_at": "2026-09-26T14:16:41.429997+08:00",
+      "fetched_at": "2026-09-26T22:36:08.323619+08:00",
       "status": "ok"
     }
   ]
