@@ -20,6 +20,7 @@ export class BodyViewer {
   private assets: AnatomyAssetManager;
   private models = new Map<string, LoadedOrgan>();
   private body = new THREE.Group();
+  private skinOpacity = 1;
   private skeleton = new THREE.Group();
   private skeletonMeshes: THREE.Mesh[] = [];
   private showSkeleton = true;
@@ -145,17 +146,18 @@ export class BodyViewer {
           : [child.material];
         previous.forEach((material) => material.dispose());
         child.material = new THREE.MeshPhysicalMaterial({
-          color: 0xd8c6ad,
-          roughness: 0.68,
+          color: 0xc58d70,
+          roughness: 0.78,
           metalness: 0,
-          transparent: true,
-          opacity: 0.2,
-          depthWrite: false,
+          transparent: this.skinOpacity < 1,
+          opacity: this.skinOpacity,
+          depthWrite: this.skinOpacity === 1,
           side: THREE.FrontSide,
         });
-        child.renderOrder = 3;
+        child.renderOrder = this.skinOpacity < 1 ? 3 : 0;
       });
       this.body.add(gltf.scene);
+      this.updateMaterials();
       this.dirty = true;
     } catch {
       if (!this.disposed) this.callbacks.onError(["human-body"]);
@@ -178,7 +180,7 @@ export class BodyViewer {
   }
   private async loadSkeleton() {
     try {
-      const gltf = await new GLTFLoader().loadAsync(publicPath("/models/skeleton.glb"));
+      const gltf = await new GLTFLoader().loadAsync(publicPath("/models/skeleton.glb?v=2"));
       if (this.disposed) { disposeObject(gltf.scene); return; }
       gltf.scene.traverse((child) => {
         if (!(child instanceof THREE.Mesh)) return;
@@ -271,7 +273,10 @@ export class BodyViewer {
   }
   private updateMaterials() {
     const bonesActive = this.selected === "bones";
-    this.skeleton.visible = this.showSkeleton && (!this.isolated || bonesActive);
+    // Separately authored meshes can intersect the surface. Fully opaque skin
+    // covers the internal layer; retain its settings for transparent/hidden skin.
+    const interiorVisible = !(this.body.visible && this.body.children.length && this.skinOpacity === 1);
+    this.skeleton.visible = interiorVisible && this.showSkeleton && (!this.isolated || bonesActive);
     for (const mesh of this.skeletonMeshes) {
       const mat = mesh.material as THREE.MeshStandardMaterial;
       const match = !this.filter || this.filter.includes("bones");
@@ -282,7 +287,7 @@ export class BodyViewer {
     this.models.forEach((organ, id) => {
       const match = !this.filter || this.filter.includes(id);
       const active = id === this.selected;
-      organ.pivot.visible = !this.isolated || active;
+      organ.pivot.visible = interiorVisible && (!this.isolated || active);
       organ.meshes.forEach((mesh) => {
         const materials = Array.isArray(mesh.material)
           ? mesh.material
@@ -303,6 +308,21 @@ export class BodyViewer {
   }
   setEnvelope(show: boolean) {
     this.body.visible = show;
+    this.updateMaterials();
+    this.dirty = true;
+  }
+  setSkinOpacity(opacity: number) {
+    this.skinOpacity = THREE.MathUtils.clamp(opacity, .1, 1);
+    this.body.traverse((child) => {
+      if (!(child instanceof THREE.Mesh)) return;
+      const material = child.material as THREE.MeshPhysicalMaterial;
+      material.opacity = this.skinOpacity;
+      material.transparent = this.skinOpacity < 1;
+      material.depthWrite = this.skinOpacity === 1;
+      material.needsUpdate = true;
+      child.renderOrder = this.skinOpacity < 1 ? 3 : 0;
+    });
+    this.updateMaterials();
     this.dirty = true;
   }
   setSkeleton(show: boolean) {
@@ -367,6 +387,9 @@ export class BodyViewer {
       (-(e.clientY - rect.top) / rect.height) * 2 + 1,
     );
     this.raycaster.setFromCamera(this.pointer, this.camera);
+    // Opaque skin occludes interior structures for picking as well as rendering.
+    if (this.body.visible && this.skinOpacity === 1 &&
+      this.raycaster.intersectObject(this.body, true).length) return;
     const meshes = [...this.models.values()]
       .filter((o) => o.pivot.visible)
       .flatMap((o) => o.meshes);

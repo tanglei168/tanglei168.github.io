@@ -40,6 +40,7 @@ export function BodyAtlas({
   const [error, setError] = useState("");
   const [failed, setFailed] = useState<string[]>([]);
   const [envelope, setEnvelope] = useState(true);
+  const [skinOpacity, setSkinOpacity] = useState(100);
   const [skeleton, setSkeleton] = useState(true);
   const [rotating, setRotating] = useState(false);
   const [isolate, setIsolate] = useState(false);
@@ -47,6 +48,13 @@ export function BodyAtlas({
   const [retry, setRetry] = useState(0);
   const hasModel = bodyModelIds.includes(selectedId as OrganId);
   const canIsolate = hasModel || selectedId === "bones";
+  const layers = useRef({ envelope, skinOpacity, skeleton });
+  useEffect(() => {
+    layers.current = { envelope, skinOpacity, skeleton };
+    viewer.current?.setEnvelope(envelope);
+    viewer.current?.setSkinOpacity(skinOpacity / 100);
+    viewer.current?.setSkeleton(skeleton);
+  }, [envelope, skinOpacity, skeleton]);
   useEffect(() => {
     callback.current = onSelect;
     selection.current = { selectedId, visibleIds };
@@ -69,6 +77,9 @@ export function BodyAtlas({
               setFailed((previous) => [...new Set([...previous, ...ids])]),
           });
           viewer.current = instance;
+          instance.setEnvelope(layers.current.envelope);
+          instance.setSkinOpacity(layers.current.skinOpacity / 100);
+          instance.setSkeleton(layers.current.skeleton);
           instance.select(
             selection.current.selectedId,
             selection.current.visibleIds.length === 20
@@ -91,12 +102,6 @@ export function BodyAtlas({
     };
   }, [retry]);
   useEffect(() => {
-    viewer.current?.setEnvelope(envelope);
-  }, [envelope]);
-  useEffect(() => {
-    viewer.current?.setSkeleton(skeleton);
-  }, [skeleton]);
-  useEffect(() => {
     viewer.current?.setRotate(rotating);
   }, [rotating]);
   useEffect(() => {
@@ -110,6 +115,7 @@ export function BodyAtlas({
     setFailed([]);
     setProgress({ loaded: 0, total: bodyModelIds.length });
     setEnvelope(true);
+    setSkinOpacity(100);
     setSkeleton(true);
     setRotating(false);
     setIsolate(false);
@@ -145,6 +151,21 @@ export function BodyAtlas({
         ))}
       </div>
       <div ref={mount} className="aa-body-canvas" />
+      <div className="aa-body-layers" aria-label="人体图层">
+        <button aria-label="显示皮肤" aria-pressed={envelope}
+          onClick={() => setEnvelope(!envelope)}>
+          <Eye size={15} />{envelope ? "隐藏皮肤" : "显示皮肤"}
+        </button>
+        <button aria-label="显示骨骼" aria-pressed={skeleton}
+          onClick={() => setSkeleton(!skeleton)}>
+          <Bone size={15} />{skeleton ? "隐藏骨骼" : "显示骨骼"}
+        </button>
+        {envelope && <label className="aa-skin-opacity">
+          <span>皮肤不透明度 <output>{skinOpacity}%</output></span>
+          <input aria-label="皮肤不透明度" type="range" min="10" max="100" step="5"
+            value={skinOpacity} onChange={(event) => setSkinOpacity(Number(event.target.value))} />
+        </label>}
+      </div>
       <div className="aa-body-reading">
         <span>正在观察</span>
         <strong>{selectedName}</strong>
@@ -192,22 +213,6 @@ export function BodyAtlas({
       )}
       <div className="aa-body-tools">
         <button
-          title="显示骨骼"
-          aria-label="显示骨骼"
-          aria-pressed={skeleton}
-          onClick={() => setSkeleton(!skeleton)}
-        >
-          <Bone size={17} />
-        </button>
-        <button
-          title="显示身体轮廓"
-          aria-label="显示身体轮廓"
-          aria-pressed={envelope}
-          onClick={() => setEnvelope(!envelope)}
-        >
-          <Eye size={17} />
-        </button>
-        <button
           title="自动旋转"
           aria-label="自动旋转"
           aria-pressed={rotating}
@@ -247,12 +252,15 @@ export function BodyAtlas({
           <button
             aria-pressed={isolate}
             disabled={!canIsolate}
-            onClick={() => setIsolate(!isolate)}
+            onClick={() => {
+              setIsolate(!isolate);
+              if (!isolate) { setEnvelope(false); if (selectedId === "bones") setSkeleton(true); }
+            }}
           >
             <Box size={14} />
             {isolate ? "显示全部器官" : "单独查看所选"}
           </button>
-          <button aria-pressed={spread} onClick={() => setSpread(!spread)}>
+          <button aria-pressed={spread} onClick={() => { setSpread(!spread); if (!spread) setEnvelope(false); }}>
             <Expand size={14} />
             {spread ? "回到解剖位置" : "展开器官关系"}
           </button>
@@ -260,7 +268,7 @@ export function BodyAtlas({
         <p>
           {spread
             ? "当前为展开视图：器官已移开以便观察，非真实解剖位置。"
-            : "拖动旋转 · 滚轮缩放 · 点击器官选择"}
+            : envelope && skinOpacity === 100 ? "隐藏皮肤可查看内部器官，或调低不透明度进行透视。" : "拖动旋转 · 滚轮缩放 · 点击器官选择"}
         </p>
       </div>
       <div className="aa-body-caption">

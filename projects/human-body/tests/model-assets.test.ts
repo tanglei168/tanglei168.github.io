@@ -39,6 +39,16 @@ describe("shared 3D assets", () => {
     for (const bone of ["Femur.r", "Femur.l", "Humerus.r", "Humerus.l", "Frontal bone", "Sacrum"])
       expect(names).toContain(bone);
     expect(json.meshes.length).toBeGreaterThan(200);
+    const bounds = (name: string) => {
+      const node = json.nodes.find((n: { name: string }) => n.name === name);
+      return json.accessors[json.meshes[node.mesh].primitives[0].attributes.POSITION];
+    };
+    const coccyx = bounds("Coccyx"), sacrum = bounds("Sacrum");
+    // Tailbone must stay on the spinal midline immediately below the sacrum,
+    // not receive the wrist transform just because its source height overlaps.
+    expect(Math.abs((coccyx.min[0] + coccyx.max[0]) / 2)).toBeLessThan(.02);
+    expect(coccyx.max[1]).toBeLessThan(sacrum.min[1] + .03);
+    expect(Math.abs(coccyx.max[1] - sacrum.min[1])).toBeLessThan(.08);
     expect(readFileSync("public/licenses/skeleton.md", "utf8")).toContain("CC BY-SA 4.0");
   });
 });

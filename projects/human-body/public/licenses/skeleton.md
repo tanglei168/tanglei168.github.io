@@ -13,7 +13,9 @@ License and legal terms: https://creativecommons.org/licenses/by-sa/4.0/legalcod
 The adapted file `models/skeleton.glb` is distributed under CC BY-SA 4.0.
 Changes: decoded geometry, mirrored right-side paired bones, coordinate and
 limb registration to the MakeHuman envelope, recomputed normals and runtime
-material/transparency changes. Source anatomical mesh names are retained.
+material/transparency changes. The coccyx uses torso registration rather than
+hand-bone registration; reproducible registration code is in
+`scripts/register-skeleton.py` with measured body landmarks. Source anatomical mesh names are retained.
 Preserve this attribution, source and license notice when redistributing this
 asset or further adaptations. This asset license does not relicense unrelated
 application code or the separate organ assets.
