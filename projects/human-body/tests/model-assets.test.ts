@@ -29,6 +29,11 @@ describe("shared 3D assets", () => {
     const json = JSON.parse(body.toString("utf8", 20, 20 + jsonSize));
     expect(json.accessors[0].count).toBeGreaterThan(10000);
     expect(json.accessors[2].count).toBeGreaterThan(70000);
+    expect(json.extras.privacySanitized).toBe(true);
+    expect(json.nodes.some((node: { name: string }) => node.name === "Privacy shorts")).toBe(true);
+    const triangleCount = json.meshes.reduce((sum: number, mesh: { primitives: { indices: number }[] }) =>
+      sum + json.accessors[mesh.primitives[0].indices].count, 0);
+    expect(triangleCount).toBe(json.accessors[2].count);
   });
   it("ships a complete bilateral skeleton with its redistribution notice", () => {
     const bytes = readFileSync("public/models/skeleton.glb");

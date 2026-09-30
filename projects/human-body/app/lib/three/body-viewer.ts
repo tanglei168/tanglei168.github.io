@@ -134,7 +134,7 @@ export class BodyViewer {
   };
   private async loadBody() {
     try {
-      const gltf = await new GLTFLoader().loadAsync(publicPath("/models/human-body.glb"));
+      const gltf = await new GLTFLoader().loadAsync(publicPath("/models/human-body.glb?v=privacy-1"));
       if (this.disposed) {
         disposeObject(gltf.scene);
         return;
@@ -146,7 +146,7 @@ export class BodyViewer {
           : [child.material];
         previous.forEach((material) => material.dispose());
         child.material = new THREE.MeshPhysicalMaterial({
-          color: 0xc58d70,
+          color: child.name === "Privacy_shorts" || child.name === "Privacy shorts" ? 0x546c70 : 0xc58d70,
           roughness: 0.78,
           metalness: 0,
           transparent: this.skinOpacity < 1,
