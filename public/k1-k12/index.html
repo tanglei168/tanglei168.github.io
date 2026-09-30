@@ -199,6 +199,14 @@ footer{margin-top:50px;text-align:center;font-size:12.5px;color:var(--ink2);bord
   nav.tabs button{padding:6px 12px;font-size:13px}
   .wrap{padding:0 14px 60px}
 }
+
+.human-body-link{display:inline-flex;align-items:center;padding:9px 15px;border-radius:20px;background:var(--accent-soft);color:var(--accent);text-decoration:none;font-weight:700;white-space:nowrap}
+.human-body-feature{display:flex;align-items:center;gap:28px;justify-content:space-between;padding:26px 30px;margin:24px 0 32px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(115deg,#fffdf8,#f3e2d3)}
+.human-body-kicker{font-size:12px;letter-spacing:2px;color:var(--accent)}
+.human-body-feature h2{font-size:27px;margin:9px 0;color:var(--ink)}
+.human-body-feature p{max-width:720px;margin:0;line-height:1.8;color:var(--ink2)}
+.human-body-feature>a{flex-shrink:0;padding:13px 21px;background:var(--accent);color:white;border-radius:24px;text-decoration:none;font-weight:700}
+@media(max-width:640px){.human-body-feature{align-items:flex-start;flex-direction:column;padding:22px}.human-body-link{font-size:12px;padding:8px 10px}}
 </style>
 </head>
 <body>
@@ -210,6 +218,7 @@ footer{margin-top:50px;text-align:center;font-size:12.5px;color:var(--ink2);bord
       <button data-page="graph">知识图谱</button>
       <button data-page="projects">项目地图</button>
       <button data-page="guide">执行指南</button>
+      <a class="human-body-link" href="/k1-k12/human-body/">人体结构 ↗</a>
     </nav>
   </div>
 </header>
@@ -228,6 +237,14 @@ footer{margin-top:50px;text-align:center;font-size:12.5px;color:var(--ink2);bord
         <div class="stat"><b>5</b><span>主题路线</span></div>
       </div>
     </div>
+
+    <section class="human-body-feature" aria-labelledby="human-body-title">
+      <div><span class="human-body-kicker">互动探索 · 生命科学</span>
+        <h2 id="human-body-title">人体结构</h2>
+        <p>走进身体，看看器官在哪里、骨骼怎样支撑身体、各个系统如何协作。从 3D 探索出发，沿学习路径整理知识，留下自己的观察笔记。</p>
+      </div>
+      <a href="/k1-k12/human-body/">开始探索人体 →</a>
+    </section>
 
     <h2 class="sec">教材版本总表</h2>
     <p class="sub">学段 × 学科 × 版本（余杭区公办校实际在用，2026 年基线）</p>
