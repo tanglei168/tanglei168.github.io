@@ -31,6 +31,16 @@ function node(tag, text, className) {
   if (className) n.className = className;
   return n;
 }
+function hasName(f) {return typeof f.properties.NAME === 'string' && !!f.properties.NAME.trim();}
+function regionalFeatures(id) {
+  const unique = new Map();
+  for (const f of features.filter(f=>hasName(f) && f._region===id)) {
+    const name=f.properties.NAME;
+    if(!unique.has(name)) unique.set(name,{...f});
+    else unique.get(name)._area += f._area;
+  }
+  return [...unique.values()].sort((a,b)=>b._area-a._area);
+}
 function translated(f) {return names[f.properties.NAME?.trim()] || f.properties.NAME?.trim() || '未标注区域';}
 function setURL() {
   const q=new URLSearchParams({year:String(year)});
@@ -47,7 +57,7 @@ function resetDetail() {
   d.append(node('p',currentRegion?'这里列出本期地图中归入该地区的政体与文化区域。选择一个名称，观察它的位置。':'点击地图上的一块区域，了解它在这一时期的名称与关联。也可以从下方选择一个地区。'));
   if(currentRegion) {
     const list=node('div',undefined,'region-detail-list');
-    features.filter(f=>f._region===currentRegion).sort((a,b)=>b._area-a._area).forEach(f=>{
+    regionalFeatures(currentRegion).forEach(f=>{
       const b=node('button',translated(f));b.onclick=()=>selectFeature(f);list.append(b);
     });
     d.append(list);
@@ -66,6 +76,7 @@ function sourceLink(url, text) {
 }
 function selectFeature(f) {
   if(currentRegion && currentRegion !== f._region) currentRegion = null;
+  if(!hasName(f)) return;
   selectedName=f.properties.NAME;
   const region=regionMap.get(f._region);
   $('detail-kicker').textContent=region.name;
@@ -123,7 +134,7 @@ function renderStories() {
 function renderCards() {
   const box=$('region-cards');box.replaceChildren();
   regions.forEach(r=>{
-    const list=features.filter(f=>f._region===r.id).sort((a,b)=>b._area-a._area);
+    const list=regionalFeatures(r.id);
     const card=node('article',undefined,'region-card');card.style.setProperty('--region-color',r.color);
     const h=node('h3',r.name),focus=node('button','聚焦 ↗');focus.setAttribute('aria-label','聚焦'+r.name);focus.onclick=()=>focusRegion(r.id);h.append(focus);card.append(h);
     if(!list.length) card.append(node('small','本快照暂无记录；不代表没有历史。'));
@@ -149,7 +160,7 @@ function normalizeGeometry(feature) {
 }
 function draw(geo) {
   features=geo.features.filter(f=>f.geometry&&['Polygon','MultiPolygon'].includes(f.geometry.type)).map(normalizeGeometry).sort((a,b)=>b._area-a._area);
-  const paths=territories.selectAll('path').data(features,(_,i)=>i).join('path').attr('class','territory').attr('d',geoPath).attr('fill',f=>regionMap.get(f._region).color).attr('role','button').attr('tabindex',-1).attr('aria-label',translated);
+  const paths=territories.selectAll('path').data(features,(_,i)=>i).join('path').attr('class','territory').attr('d',geoPath).attr('fill',f=>hasName(f)?regionMap.get(f._region).color:'#d8ddd1').attr('role','button').attr('tabindex',-1).attr('aria-label',translated);
   paths.on('click',(event,f)=>{event.stopPropagation();selectFeature(f);}).on('pointermove',(event,f)=>{
     const tip=$('tooltip'),stage=$('map-stage').getBoundingClientRect();
     tip.textContent=translated(f);tip.hidden=false;
@@ -160,7 +171,7 @@ function draw(geo) {
   // Keep only spatially separated large-region labels; all names remain searchable.
   const occupied=[];
   const labelFeatures=features.filter(f=>{
-    if(f._area<0.006||f._area>6) return false;
+    if(!hasName(f)||f._area<0.006||f._area>6) return false;
     const p=projection(f._center);if(!p||p.some(v=>!Number.isFinite(v)))return false;
     if(occupied.some(q=>Math.abs(p[0]-q[0])<90&&Math.abs(p[1]-q[1])<23))return false;
     occupied.push(p);return true;
@@ -169,7 +180,7 @@ function draw(geo) {
     const s=translated(f);return s.length>14?s.slice(0,12)+'…':s;
   });
   renderCards();renderStories();
-  const selected=features.find(f=>f.properties.NAME===selectedName);
+  const selected=selectedName && features.find(f=>hasName(f) && f.properties.NAME===selectedName);
   if(selected) selectFeature(selected); else resetDetail();
   highlight();search();
 }
@@ -212,7 +223,7 @@ async function loadYear(value,updateURL=true) {
 function search() {
   const q=$('search').value.trim().toLowerCase(),results=$('search-results');results.replaceChildren();
   if(!q){results.hidden=true;return;}
-  const matches=features.filter(f=>(translated(f)+' '+f.properties.NAME+' '+(f.properties.SUBJECTO||'')).toLowerCase().includes(q));
+  const matches=[...new Map(features.filter(f=>hasName(f) && (translated(f)+' '+f.properties.NAME+' '+(f.properties.SUBJECTO||'')).toLowerCase().includes(q)).map(f=>[f.properties.NAME,f])).values()];
   results.hidden=false;
   if(!matches.length)results.append(node('p','本快照没有匹配记录。可切换年份，或试试英文名称。'));
   matches.slice(0,20).forEach(f=>{
