@@ -43,4 +43,11 @@ await download(base + 'LICENSE', path.join(output, 'DATA-LICENSE.txt'));
 await download(base + 'README.md', path.join(output, 'DATA-README.md'));
 await download('https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js', path.join(output, 'vendor/d3.min.js'));
 await download('https://cdn.jsdelivr.net/npm/d3@7.9.0/LICENSE', path.join(output, 'vendor/D3-LICENSE.txt'));
+// Content-address the entry module so a deployment cannot reuse stale browser/CDN code.
+const app = await readFile(path.join(output, 'app.mjs'));
+const appName = 'app.' + createHash('sha256').update(app).digest('hex').slice(0,12) + '.mjs';
+await writeFile(path.join(output, appName), app);
+const indexPath = path.join(output, 'index.html');
+const index = await readFile(indexPath, 'utf8');
+await writeFile(indexPath, index.replace(/src="\.\/app(?:\.[a-f0-9]+)?\.mjs"/, 'src="./' + appName + '"'));
 console.log('Prepared ' + manifest.snapshots.length + ' global historical snapshots.');
