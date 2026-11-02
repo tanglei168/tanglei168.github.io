@@ -25,3 +25,6 @@ pnpm-debug.log*
 
 # local docs (not for public)
 docs/
+
+# Generated from the pinned Jiangshan Atlas submodule
+public/jiangshan-map/
