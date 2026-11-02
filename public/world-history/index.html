@@ -1,60 +1,25 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="以世界为视野的互动历史地图：在同一条时间轴上，比较各地区的政体、文化与文明。">
-  <title>世界历史 · 同一时刻，不同文明</title>
-  <link rel="stylesheet" href="./style.css">
-  <script type="module" src="./app.mjs"></script>
-</head>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="全屏世界历史地图：拖动地图、缩放疆域，用时间标尺浏览不同文明。"><title>世界历史 · 互动地图</title><link rel="stylesheet" href="./style.css?v=map-2"><script type="module" src="./app.mjs"></script></head>
 <body>
-<header class="topbar">
-  <a class="brand" href="/k1-k12/"><span class="brand-icon">◎</span><span>世界历史<small>同一时刻，不同文明</small></span></a>
-  <nav aria-label="页面导航"><a href="/k1-k12/">← 教育首页</a><a id="china-link" href="/jiangshan-map/?view=china&year=1500">中国详图 ↗</a><button id="about-open">资料与说明</button></nav>
-</header>
+<header class="topbar"><a class="brand" href="/k1-k12/"><span class="brand-icon">◎</span><span>世界历史<small>WORLD HISTORY ATLAS</small></span></a><nav aria-label="页面导航"><a href="/k1-k12/">教育首页</a><a id="china-link" href="/jiangshan-map/?view=china&year=1500">中国详图 ↗</a><button id="about-open">资料与说明</button></nav></header>
 <main>
-  <section class="intro">
-    <div><span class="eyebrow">WORLD HISTORY ATLAS</span><h1>把世界放在同一条时间线上</h1><p>移动时间，看看地球另一边的人们，正在怎样生活。</p></div>
-    <div class="year-display"><span id="era-label">跨洋交流与社会变迁</span><strong id="year-title">公元 1500 年</strong></div>
-  </section>
-  <div class="workspace">
-    <section class="map-panel" aria-label="世界历史地图">
-      <div class="map-toolbar">
-        <div class="search-wrap"><label class="sr-only" for="search">搜索当前地图中的政体或文化区域</label><input id="search" type="search" placeholder="搜索政体、文化区域，如：罗马 / Maya" autocomplete="off"><div id="search-results" class="search-results" hidden></div></div>
-        <button id="reset" title="恢复全球视野">◎ 全球视野</button>
-      </div>
-      <div id="map-stage">
-        <svg id="world-map" viewBox="0 0 1100 590" role="img" aria-label="可缩放的世界历史地图"><title>世界历史地图</title></svg>
-        <div id="loading" role="status">正在展开世界地图…</div>
-        <div id="map-error" role="alert" hidden><p>地图暂时没有加载成功。</p><button id="retry">重新加载</button></div>
-        <div id="tooltip" hidden></div>
-        <div class="zoom-tools"><button id="zoom-in" aria-label="放大地图">＋</button><button id="zoom-out" aria-label="缩小地图">−</button></div>
-        <div class="map-caption"><span class="dot"></span><span id="snapshot-label">历史疆域快照</span></div>
-      </div>
-      <div id="regions" class="legend" aria-label="按地区聚焦地图"></div>
-      <p class="map-note">色块表示政体或文化区域，不等同于现代国家；空白不代表无人居住。历史边界为近似示意，部分原始标注待校订。</p>
-    </section>
-    <aside class="detail-panel" aria-label="历史详情">
-      <div class="detail-heading"><span class="eyebrow" id="detail-kicker">同一个世界</span><button id="clear-selection" hidden aria-label="关闭详情">×</button></div>
-      <div id="detail"><h2>先看世界，再看彼此</h2><p>点击地图上的一块区域，了解它在这一时期的名称与关联。也可以从下方选择一个地区。</p></div>
-      <div class="prompt"><span>和孩子聊一聊</span><p id="question">同一年，生活在不同地方的人们，会有怎样不同的故事？</p></div>
-      <section class="guide"><h3>这一时期的探索线索</h3><div id="stories"></div></section>
-    </aside>
-  </div>
-  <section class="time-panel" aria-label="世界历史时间轴">
-    <div class="time-controls"><div class="transport"><button id="previous" aria-label="上一个历史快照">←</button><button id="play" aria-label="播放历史快照" aria-pressed="false">▶ 播放</button><button id="next" aria-label="下一个历史快照">→</button></div><form id="year-form"><label for="year-input">跳到</label><input id="year-input" type="number" min="-3000" max="2010" value="1500" aria-describedby="year-hint"><button type="submit">前往</button><span id="year-hint">负数为公元前 · 无公元 0 年</span></form><button id="share">复制当前视图链接</button></div>
-    <label class="sr-only" for="timeline">历史年份</label><input id="timeline" type="range" min="-3000" max="2010" value="1500" step="1">
-    <div class="ticks"><span>前3000</span><span>前2000</span><span>前1000</span><span>公元1</span><span>1000</span><span>2010</span></div>
-    <div class="era-buttons" aria-label="选择历史时期">
-      <button data-year="-3000">早期城市</button><button data-year="-500">多元文明</button><button data-year="100">古代世界</button><button data-year="800">区域交流</button><button data-year="1500">跨洋联系</button><button data-year="1800">工业时代</button><button data-year="1914">世界大战时期</button><button data-year="1960">战后世界</button>
-    </div>
-    <p id="timeline-note" role="status">49 个历史地图快照 · 前3000—2010年</p>
-  </section>
-  <section class="comparison"><div class="section-heading"><div><span class="eyebrow">MEANWHILE, ELSEWHERE</span><h2>同一时期，世界各地</h2></div><p>点选一块区域，再观察它与世界的联系。</p></div><div id="region-cards" class="region-cards"></div></section>
+<section class="workspace" aria-label="世界历史地图工作区">
+<div id="map-stage"><svg id="world-map" role="img" aria-label="可缩放的世界历史地图"><title>拖动平移、滚轮或双指缩放、点击查看详情、双击定位</title></svg><div id="loading" role="status"><span>正在加载历史地图…</span></div><div id="map-error" role="alert" hidden><p>地图加载失败</p><button id="retry">重试</button></div><div id="tooltip" hidden></div></div>
+<div class="map-toolbar"><div class="search-wrap"><label class="sr-only" for="search">搜索当前地图中的政体或文化区域</label><span class="search-icon" aria-hidden="true">⌕</span><input id="search" type="search" placeholder="搜索政体或文化区域…" autocomplete="off"><div id="search-results" class="search-results" hidden></div></div></div>
+<div class="mode-switch" role="group" aria-label="地图浏览模式"><button id="mode-regions" aria-pressed="true"><span aria-hidden="true">◇</span>疆域</button><button id="mode-stories" aria-pressed="false"><span aria-hidden="true">⌖</span>文明线索</button><button id="mode-compare" aria-pressed="false"><span aria-hidden="true">▥</span>同年对照</button></div>
+<div class="zoom-tools"><button id="zoom-in" aria-label="放大地图" title="放大">＋</button><button id="zoom-out" aria-label="缩小地图" title="缩小">−</button><button id="reset" aria-label="恢复全球视野" title="全球视野">◎</button><button id="labels-toggle" aria-label="显示地图标签" aria-pressed="true" title="地图标签">字</button><button id="region-toggle" aria-label="按地区定位" aria-expanded="false" title="地区定位">⌖</button><button id="fullscreen" aria-label="进入全屏" title="全屏">⛶</button></div>
+<div id="regions" class="legend" aria-label="按地区聚焦地图" hidden></div>
+<div class="map-caption"><span class="dot"></span><span id="snapshot-label">历史疆域快照</span></div>
+<div class="map-help">拖拽平移 · 滚轮 / 双指缩放 · 点击详情 · 双击定位</div>
+<button id="detail-toggle" class="detail-toggle" aria-expanded="false" aria-controls="detail-panel">详情 ‹</button><aside id="detail-panel" class="detail-panel" aria-label="历史详情" hidden><div class="detail-heading"><span class="eyebrow" id="detail-kicker">同一个世界</span><button id="clear-selection" aria-label="关闭详情">×</button></div><div id="detail"></div><div class="prompt"><span>和孩子聊一聊</span><p id="question"></p></div><section class="guide"><h3>这一时期的探索线索</h3><div id="stories"></div></section></aside>
+<section class="comparison" aria-label="同年地区对照" hidden><div class="section-heading"><div><span class="eyebrow">MEANWHILE, ELSEWHERE</span><h2>同一时期，世界各地</h2></div><button id="compare-close" aria-label="关闭同年对照">×</button></div><div id="region-cards" class="region-cards"></div></section>
+</section>
+<section class="time-panel" aria-label="世界历史时间轴">
+<div class="time-top"><div class="transport"><button id="previous" aria-label="上一个历史快照">◀</button><button id="play" aria-label="播放历史快照" aria-pressed="false">▶ 播放</button><button id="next" aria-label="下一个历史快照">▶</button></div><form id="year-form"><label class="sr-only" for="year-input">跳到年份</label><input id="year-input" type="number" min="-3000" max="2010" value="1500" aria-label="跳到年份（负数为公元前）"><button type="submit">前往</button></form><div class="year-display"><strong id="year-title">公元 1500 年</strong><span id="era-label"></span></div><div class="time-options"><button id="time-zoom-in" aria-label="放大时间刻度" title="放大时间刻度">＋</button><button id="time-zoom-out" aria-label="缩小时间刻度" title="缩小时间刻度">−</button><button id="share">分享</button></div></div>
+<div class="ruler-wrap"><svg id="timeline-ruler" role="slider" tabindex="0" aria-label="拖动时间标尺选择年份" aria-valuemin="-3000" aria-valuemax="2010" aria-valuenow="1500"></svg></div><label class="sr-only" for="timeline">历史年份</label><input class="sr-only" id="timeline" type="range" min="-3000" max="2010" value="1500" step="1">
+<div class="time-bottom"><div class="era-buttons" aria-label="选择历史时期"><button data-year="-3000">早期城市</button><button data-year="-500">多元文明</button><button data-year="100">古代世界</button><button data-year="800">区域交流</button><button data-year="1500">跨洋联系</button><button data-year="1800">工业时代</button><button data-year="1914">世界大战时期</button><button data-year="1960">战后世界</button></div><p id="timeline-note" role="status"></p></div>
+</section>
 </main>
-<footer><a href="/k1-k12/">返回教育首页</a><span>世界模式 · 基于江山时序扩展</span><a href="https://github.com/aourednik/historical-basemaps" target="_blank" rel="noopener">地图数据 © A. Ourednik 等 · GPL-3.0</a><a href="https://github.com/tanglei168/tanglei168.github.io" target="_blank" rel="noopener">源代码与修改记录</a></footer>
+<div class="attribution"><a href="https://github.com/aourednik/historical-basemaps" target="_blank" rel="noopener">Historical Basemaps · GPL-3.0</a><span>历史边界为示意 · 数据截至2010年</span></div>
 <dialog id="about"><button id="about-close" aria-label="关闭说明">×</button><span class="eyebrow">关于这张地图</span><h2>用世界的尺度，读不同的历史</h2><p>时间轴以公元纪年组织，不以任何单一国家的朝代划分世界。时期按钮仅用于导航，各地区的历史节奏并不相同。</p><p>地图包含公元前3000年至2010年的49个离散快照。选到快照之间的年份时，显示不晚于该年份的最近快照，并单独标明地图年份；不虚构中间年份的边界变化。2010为数据终点，并非今日地图。</p><p>全球疆域来自 <a href="https://github.com/aourednik/historical-basemaps" target="_blank" rel="noopener">Historical Basemaps</a>，固定数据版本，按 GPL-3.0 使用。该项目仍在校订，历史界线、政体名称和时间归属可能有误；不用于精确边界判断。文化区域可能重叠，按地理中心粗略归入地区，不表示文化归属或现代主权。</p><p>中国详图沿用 <a href="https://github.com/DeanChensj/jiangshan-map" target="_blank" rel="noopener">DeanChensj / 江山时序</a>。中国详图中的部分 CHGIS / Hartwell 数据仍遵循其原始学术、非商业使用条款。</p><p>探索线索另附 UNESCO 原始资料链接；日期范围表示探索主题覆盖时期，不是精确的政权起讫。</p><p><a href="./DATA-LICENSE.txt">地图数据许可证</a> · <a href="./DATA-README.md">数据原始说明</a> · <a href="./vendor/D3-LICENSE.txt">D3 许可证</a></p></dialog>
-<div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
-</body>
-</html>
+<div id="announcement" class="sr-only" role="status" aria-live="polite"></div></body></html>

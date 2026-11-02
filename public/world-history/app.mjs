@@ -4,8 +4,8 @@ import { regions, names, stories, eras } from './content.mjs';
 const d3 = globalThis.d3;
 const $ = id => document.getElementById(id);
 const svg = d3.select('#world-map');
-const W = 1100, H = 590;
-const projection = d3.geoNaturalEarth1().fitExtent([[18, 20], [W-18, H-20]], {type:'Sphere'});
+let W = $('map-stage').clientWidth, H = $('map-stage').clientHeight;
+const projection = d3.geoMercator().scale(W/(2*Math.PI)).translate([W/2,H/2+W*0.07]);
 const geoPath = d3.geoPath(projection);
 const layer = svg.append('g');
 layer.append('path').attr('class','sphere').attr('d',geoPath({type:'Sphere'}));
@@ -15,7 +15,8 @@ const labels = layer.append('g');
 const pins = layer.append('g');
 const zoom = d3.zoom().scaleExtent([1,10]).extent([[0,0],[W,H]]).translateExtent([[-W,-H],[2*W,2*H]]).on('zoom',event => {
   layer.attr('transform',event.transform);
-  labels.selectAll('text').attr('font-size',10/Math.sqrt(event.transform.k));
+  renderLabels(event.transform);
+  pins.selectAll('g').attr('transform',s=>'translate('+projection([s.lon,s.lat])+') scale('+1/event.transform.k+')');
 });
 svg.call(zoom).on('dblclick.zoom',null);
 const regionMap = new Map(regions.map(r=>[r.id,r]));
@@ -51,7 +52,7 @@ function setURL() {
 function resetDetail() {
   selectedName=null;
   $('detail-kicker').textContent=currentRegion?regionMap.get(currentRegion).name:'同一个世界';
-  $('clear-selection').hidden=!currentRegion;
+  $('clear-selection').hidden=false;
   const d=$('detail');d.replaceChildren();
   d.append(node('h2',currentRegion?'把这一片世界看近一点':'先看世界，再看彼此'));
   d.append(node('p',currentRegion?'这里列出本期地图中归入该地区的政体与文化区域。选择一个名称，观察它的位置。':'点击地图上的一块区域，了解它在这一时期的名称与关联。也可以从下方选择一个地区。'));
@@ -75,6 +76,7 @@ function sourceLink(url, text) {
   const a=node('a',text);a.href=href;a.target='_blank';a.rel='noopener';return a;
 }
 function selectFeature(f) {
+  setDetail(true);
   if(currentRegion && currentRegion !== f._region) currentRegion = null;
   if(!hasName(f)) return;
   selectedName=f.properties.NAME;
@@ -100,7 +102,7 @@ function selectFeature(f) {
   $('announcement').textContent='已选择 '+translated(f);
 }
 function focusRegion(id) {
-  stop();currentRegion=id;resetDetail();setURL();
+  stop();currentRegion=id;resetDetail();setURL();setDetail(!!id);$('regions').hidden=true;$('region-toggle').setAttribute('aria-expanded','false');
   if(!id) svg.transition().duration(350).call(zoom.transform,d3.zoomIdentity);
   else {
     const r=regionMap.get(id),p=projection(r.center);
@@ -108,6 +110,7 @@ function focusRegion(id) {
   }
 }
 function showStory(story) {
+  setDetail(true);
   selectedName=null;
   $('detail-kicker').textContent=story.region+' · 探索线索';
   $('clear-selection').hidden=false;
@@ -138,7 +141,7 @@ function renderCards() {
     const card=node('article',undefined,'region-card');card.style.setProperty('--region-color',r.color);
     const h=node('h3',r.name),focus=node('button','聚焦 ↗');focus.setAttribute('aria-label','聚焦'+r.name);focus.onclick=()=>focusRegion(r.id);h.append(focus);card.append(h);
     if(!list.length) card.append(node('small','本快照暂无记录；不代表没有历史。'));
-    list.slice(0,4).forEach(f=>{const b=node('button',translated(f),'polity');b.title=f.properties.NAME;b.onclick=()=>{selectFeature(f);$('detail').scrollIntoView({block:'nearest',behavior:'smooth'});};card.append(b);});
+    list.slice(0,4).forEach(f=>{const b=node('button',translated(f),'polity');b.title=f.properties.NAME;b.onclick=()=>{selectFeature(f);fitFeature(f);};card.append(b);});
     card.append(node('small',list.length+' 条地图记录 · '+formatYear(snapshot.year)));
     box.append(card);
   });
@@ -160,28 +163,20 @@ function normalizeGeometry(feature) {
 }
 function draw(geo) {
   features=geo.features.filter(f=>f.geometry&&['Polygon','MultiPolygon'].includes(f.geometry.type)).map(normalizeGeometry).sort((a,b)=>b._area-a._area);
-  const paths=territories.selectAll('path').data(features,(_,i)=>i).join('path').attr('class','territory').attr('d',geoPath).attr('fill',f=>hasName(f)?regionMap.get(f._region).color:'#d8ddd1').attr('role','button').attr('tabindex',-1).attr('aria-label',translated);
-  paths.on('click',(event,f)=>{event.stopPropagation();selectFeature(f);}).on('pointermove',(event,f)=>{
+  const paths=territories.selectAll('path').data(features,(_,i)=>i).join('path').attr('class','territory').attr('d',geoPath).attr('fill',f=>hasName(f)?polityColor(f.properties.SUBJECTO||f.properties.NAME):'#eeeee4').attr('role','button').attr('tabindex',-1).attr('aria-label',translated);
+  paths.on('dblclick',(event,f)=>{event.preventDefault();event.stopPropagation();selectFeature(f);fitFeature(f);}).on('click',(event,f)=>{event.stopPropagation();selectFeature(f);}).on('pointermove',(event,f)=>{
     const tip=$('tooltip'),stage=$('map-stage').getBoundingClientRect();
     tip.textContent=translated(f);tip.hidden=false;
     tip.style.left=Math.min(stage.width-240,Math.max(8,event.clientX-stage.left+15))+'px';
     tip.style.top=Math.max(8,event.clientY-stage.top-40)+'px';
   }).on('pointerleave',()=>{$('tooltip').hidden=true;});
   paths.selectAll('title').data(f=>[f]).join('title').text(f=>translated(f)+' · '+formatYear(snapshot.year));
-  // Keep only spatially separated large-region labels; all names remain searchable.
-  const occupied=[];
-  const labelFeatures=features.filter(f=>{
-    if(!hasName(f)||f._area<0.006||f._area>6) return false;
-    const p=projection(f._center);if(!p||p.some(v=>!Number.isFinite(v)))return false;
-    if(occupied.some(q=>Math.abs(p[0]-q[0])<90&&Math.abs(p[1]-q[1])<23))return false;
-    occupied.push(p);return true;
-  }).slice(0,40);
-  labels.selectAll('text').data(labelFeatures).join('text').attr('class','map-label').attr('x',f=>projection(f._center)[0]).attr('y',f=>projection(f._center)[1]).text(f=>{
-    const s=translated(f);return s.length>14?s.slice(0,12)+'…':s;
-  });
+  renderLabels();
   renderCards();renderStories();
   const selected=selectedName && features.find(f=>hasName(f) && f.properties.NAME===selectedName);
+  const wasOpen=!$('detail-panel').hidden;
   if(selected) selectFeature(selected); else resetDetail();
+  setDetail(wasOpen || !!initialPolity && version===1);
   highlight();search();
 }
 async function loadYear(value,updateURL=true) {
@@ -189,6 +184,7 @@ async function loadYear(value,updateURL=true) {
   year=normalizeYear(value);
   snapshot=snapshotFor(year,manifest.snapshots);
   const requested=snapshot;
+  renderRuler();
   $('year-title').textContent=formatYear(year);$('year-input').value=year;$('timeline').value=year;
   $('timeline').setAttribute('aria-valuetext',formatYear(year));
   $('era-label').textContent=eras.find(e=>year>=e.from&&year<=e.to).name;
@@ -228,7 +224,7 @@ function search() {
   if(!matches.length)results.append(node('p','本快照没有匹配记录。可切换年份，或试试英文名称。'));
   matches.slice(0,20).forEach(f=>{
     const b=node('button',translated(f));b.append(node('small',f.properties.NAME));
-    b.onclick=()=>{selectFeature(f);results.hidden=true;$('search').value='';const p=projection(f._center),k=2.5;svg.transition().duration(400).call(zoom.transform,d3.zoomIdentity.translate(W/2-k*p[0],H/2-k*p[1]).scale(k));};
+    b.onclick=()=>{selectFeature(f);results.hidden=true;$('search').value='';fitFeature(f);};
     results.append(b);
   });
 }
@@ -243,7 +239,7 @@ regions.forEach(r=>{const b=node('button',r.name);b.dataset.region=r.id;b.setAtt
 $('search').addEventListener('input',search);
 $('search').addEventListener('keydown',e=>{if(e.key==='Escape')$('search-results').hidden=true;});
 $('reset').onclick=()=>focusRegion(null);
-$('clear-selection').onclick=()=>{currentRegion=null;resetDetail();setURL();};
+$('clear-selection').onclick=()=>setDetail(false);
 $('zoom-in').onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1.5);
 $('zoom-out').onclick=()=>svg.transition().duration(200).call(zoom.scaleBy,1/1.5);
 $('retry').onclick=()=>loadYear(year);
@@ -254,19 +250,101 @@ $('previous').onclick=()=>{stop();loadYear(adjacentSnapshot(year,-1,manifest.sna
 $('next').onclick=()=>{stop();loadYear(adjacentSnapshot(year,1,manifest.snapshots));};
 document.querySelectorAll('[data-year]').forEach(b=>b.onclick=()=>{stop();loadYear(Number(b.dataset.year));});
 $('play').onclick=()=>{if(playing){stop();return;}playing=true;$('play').textContent='Ⅱ 暂停';$('play').setAttribute('aria-pressed','true');playStep();};
-$('share').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$('share').textContent='已复制链接';setTimeout(()=>$('share').textContent='复制当前视图链接',2000);}catch{$('share').textContent='请复制浏览器地址栏链接';}};
+$('share').onclick=async()=>{try{await navigator.clipboard.writeText(location.href);$('share').textContent='已复制链接';setTimeout(()=>$('share').textContent='分享',2000);}catch{$('share').textContent='请复制浏览器地址栏链接';}};
 $('about-open').onclick=()=>{stop();$('about').showModal();};
 $('about-close').onclick=()=>$('about').close();
 $('about').addEventListener('click',e=>{if(e.target===$('about')){const b=$('about').getBoundingClientRect();if(e.clientX<b.left||e.clientX>b.right||e.clientY<b.top||e.clientY>b.bottom)$('about').close();}});
 document.addEventListener('keydown',e=>{
-  if(['INPUT','BUTTON','TEXTAREA','SELECT'].includes(e.target.tagName)||$('about').open||!manifest)return;
+  if(e.target.id==='timeline-ruler'||['INPUT','BUTTON','TEXTAREA','SELECT'].includes(e.target.tagName)||$('about').open||!manifest)return;
   if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();stop();loadYear(adjacentSnapshot(year,e.key==='ArrowRight'?1:-1,manifest.snapshots));}
-  if(e.key==='Escape'){$('search-results').hidden=true;focusRegion(null);}
+  if(e.key==='Escape'){$('search-results').hidden=true;setDetail(false);document.querySelector('.comparison').hidden=true;}
 });
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
 window.addEventListener('pagehide',()=>{disposed=true;stop();});
 window.addEventListener('pageshow',()=>{disposed=false;});
 window.addEventListener('popstate',()=>{stop();const q=new URLSearchParams(location.search);currentRegion=regionMap.has(q.get('region'))?q.get('region'):null;selectedName=q.get('polity');loadYear(normalizeYear(q.get('year')),false);});
+
+let labelsVisible=true, timeSpan=1000, rulerScale, rulerDrag=null;
+function setDetail(open){
+  $('detail-panel').hidden=!open;
+  $('detail-toggle').textContent=open?'›':'详情 ‹';
+  $('detail-toggle').setAttribute('aria-expanded',String(open));
+  document.querySelector('.workspace').classList.toggle('detail-open',open);
+  if(open) document.querySelector('.comparison').hidden=true;
+}
+function polityColor(name){let hash=0;for(const c of name) hash=(hash*31+c.charCodeAt(0))|0;return ['#f4dfba','#dbe9d1','#e5d8e8','#f1d8cf','#d4e4e8','#eeeacb','#e4dfce','#d7e0ed'][Math.abs(hash)%8];}
+function fitFeature(f){
+  const [[x0,y0],[x1,y1]]=geoPath.bounds(f), k=Math.max(1,Math.min(10,0.65/Math.max((x1-x0)/W,(y1-y0)/H)));
+  svg.transition().duration(500).call(zoom.transform,d3.zoomIdentity.translate(W/2-k*(x0+x1)/2,H/2-k*(y0+y1)/2).scale(k));
+}
+function renderLabels(t=d3.zoomTransform(svg.node())){
+  const occupied=[],seen=new Set();
+  const candidates=[...features].sort((a,b)=>(b.properties.NAME===selectedName)-(a.properties.NAME===selectedName)||b._area-a._area);
+  const visible=labelsVisible?candidates.filter(f=>{
+    if(!hasName(f)||seen.has(f.properties.NAME)||f._area*t.k*t.k<0.0015)return false;
+    const p=t.apply(projection(f._center));
+    const width=Math.min(160,translated(f).length*10+12);
+    if(!p.every(Number.isFinite)||p[0]<0||p[0]>W||p[1]<0||p[1]>H)return false;
+    if(occupied.some(q=>Math.abs(p[0]-q.x)<(width+q.width)/2&&Math.abs(p[1]-q.y)<25))return false;
+    occupied.push({x:p[0],y:p[1],width});seen.add(f.properties.NAME);return true;
+  }).slice(0,100):[];
+  labels.selectAll('text').data(visible).join('text').attr('class','map-label').attr('x',f=>projection(f._center)[0]).attr('y',f=>projection(f._center)[1]).attr('font-size',12/t.k).attr('stroke-width',3/t.k).text(f=>translated(f).length>18?translated(f).slice(0,16)+'…':translated(f));
+}
+function resizeMap(){
+  const oldW=W,oldH=H,t=d3.zoomTransform(svg.node());
+  W=$('map-stage').clientWidth;H=$('map-stage').clientHeight;
+  if(!W||!H)return;
+  const center=projection.invert(t.invert([oldW/2,oldH/2]));
+  projection.scale(W/(2*Math.PI)).translate([W/2,H/2+W*0.07]);
+  svg.attr('viewBox',`0 0 ${W} ${H}`);
+  zoom.extent([[0,0],[W,H]]).translateExtent([[-W,-H],[2*W,2*H]]);
+  layer.select('.sphere').attr('d',geoPath({type:'Sphere'}));layer.select('.graticule').attr('d',geoPath(d3.geoGraticule10()));
+  territories.selectAll('path').attr('d',geoPath);
+  const p=projection(center);
+  svg.call(zoom.transform,t.k===1?d3.zoomIdentity:d3.zoomIdentity.translate(W/2-t.k*p[0],H/2-t.k*p[1]).scale(t.k));
+  renderRuler();
+}
+function renderRuler(){
+  const el=$('timeline-ruler'),width=el.clientWidth||W;
+  const start=Math.max(-3000,Math.min(2010-timeSpan,year-timeSpan/2));
+  rulerScale=d3.scaleLinear().domain([start,start+timeSpan]).range([24,width-24]);
+  const r=d3.select(el).attr('viewBox',`0 0 ${width} 62`).attr('aria-valuenow',year).attr('aria-valuetext',formatYear(year));
+  r.selectAll('*').remove();
+  const ticks=rulerScale.ticks(Math.max(3,Math.floor(width/95)));
+  r.append('line').attr('x1',24).attr('x2',width-24).attr('y1',16).attr('y2',16).attr('class','ruler-line');
+  const g=r.selectAll('g').data(ticks).join('g').attr('transform',d=>`translate(${rulerScale(d)},0)`);
+  g.append('line').attr('y1',7).attr('y2',25).attr('class','ruler-tick');
+  g.append('text').attr('y',46).attr('text-anchor','middle').text(d=>d<0?'前'+Math.abs(d):d===0?'纪元':d);
+  r.append('circle').attr('cx',rulerScale(year)).attr('cy',16).attr('r',9).attr('class','ruler-cursor');
+}
+function changeTimeSpan(factor){timeSpan=Math.max(50,Math.min(5010,timeSpan*factor));renderRuler();}
+$('detail-toggle').onclick=()=>setDetail($('detail-panel').hidden);
+$('labels-toggle').onclick=()=>{labelsVisible=!labelsVisible;$('labels-toggle').setAttribute('aria-pressed',String(labelsVisible));renderLabels();};
+$('region-toggle').onclick=()=>{$('regions').hidden=!$('regions').hidden;$('region-toggle').setAttribute('aria-expanded',String(!$('regions').hidden));};
+$('fullscreen').hidden=!document.fullscreenEnabled;
+$('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{$('announcement').textContent='当前浏览器无法进入全屏';}};
+function mode(name){
+  ['regions','stories','compare'].forEach(m=>$('mode-'+m).setAttribute('aria-pressed',String(m===name)));
+  pins.style('display',name==='stories'?null:'none');
+  setDetail(name==='stories');
+  document.querySelector('.comparison').hidden=name!=='compare';
+}
+pins.style('display','none');
+['regions','stories','compare'].forEach(m=>$('mode-'+m).onclick=()=>mode(m));
+$('compare-close').onclick=()=>mode('regions');
+$('time-zoom-in').onclick=()=>changeTimeSpan(0.5);
+$('time-zoom-out').onclick=()=>changeTimeSpan(2);
+const ruler=$('timeline-ruler');
+ruler.addEventListener('pointerdown',e=>{if(!manifest)return;stop();ruler.setPointerCapture(e.pointerId);rulerDrag={x:e.clientX,year,scale:rulerScale.copy(),width:ruler.clientWidth};});
+ruler.addEventListener('pointermove',e=>{if(!rulerDrag)return;const value=normalizeYear(rulerDrag.year-(e.clientX-rulerDrag.x)*timeSpan/(rulerDrag.width-48));clearTimeout(debounce);debounce=setTimeout(()=>loadYear(value),70);});
+ruler.addEventListener('pointerup',e=>{if(!rulerDrag)return;clearTimeout(debounce);const dx=e.clientX-rulerDrag.x;const value=Math.abs(dx)<4?rulerDrag.scale.invert(e.clientX-ruler.getBoundingClientRect().left):rulerDrag.year-dx*timeSpan/(rulerDrag.width-48);rulerDrag=null;loadYear(value);});
+ruler.addEventListener('pointercancel',()=>{rulerDrag=null;clearTimeout(debounce);});
+ruler.addEventListener('wheel',e=>{e.preventDefault();changeTimeSpan(e.deltaY>0?1.15:1/1.15);},{passive:false});
+ruler.addEventListener('keydown',e=>{if(!manifest)return;let value;if(e.key==='ArrowRight')value=year+(e.shiftKey?10:1);if(e.key==='ArrowLeft')value=year-(e.shiftKey?10:1);if(e.key==='Home')value=-3000;if(e.key==='End')value=2010;if(value!==undefined){e.preventDefault();stop();loadYear(value);}});
+svg.on('click',e=>{if(e.target===svg.node()||e.target.classList.contains('sphere'))setDetail(false);});
+new ResizeObserver(resizeMap).observe($('map-stage'));
+resizeMap();
+
 try {
   const response=await fetch('./snapshots.json');if(!response.ok)throw new Error('Missing snapshot index');
   manifest=await response.json();
