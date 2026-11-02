@@ -29,4 +29,27 @@ function localize(dir) {
   }
 }
 localize(output);
+// The atlas now opens in world mode; existing query-based China deep links stay valid.
+const indexPath = path.join(output, 'index.html');
+const worldMode = `<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  if (!location.search || q.get('view') === 'world') {
+    location.replace('/world-history/' + location.search);
+  }
+  document.addEventListener('DOMContentLoaded', function () {
+    const heading = document.getElementById('site-heading');
+    if (!heading) return;
+    const link = document.createElement('a');
+    link.textContent = '← 世界历史';
+    const year = q.get('year');
+    link.href = '/world-history/' + (year && /^-?\\d+$/.test(year) ? '?year=' + encodeURIComponent(year) : '');
+    link.style.cssText = 'font:12px sans-serif;color:#9c542e;white-space:nowrap;text-decoration:none;margin-right:10px';
+    heading.parentNode.insertBefore(link, heading);
+  });
+})();
+</script>`;
+writeFileSync(indexPath, readFileSync(indexPath, 'utf8').replace('<head>', '<head>' + worldMode));
+
 console.log('Prepared Jiangshan Atlas at /jiangshan-map/');
+

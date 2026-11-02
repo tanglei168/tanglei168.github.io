@@ -28,3 +28,10 @@ docs/
 
 # Generated from the pinned Jiangshan Atlas submodule
 public/jiangshan-map/
+
+
+# Generated global atlas data and pinned D3 distribution
+public/world-history/data/
+public/world-history/vendor/
+public/world-history/DATA-LICENSE.txt
+public/world-history/DATA-README.md
