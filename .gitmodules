@@ -1,3 +1,6 @@
 [submodule "vendor/jiangshan-map"]
 	path = vendor/jiangshan-map
 	url = https://github.com/DeanChensj/jiangshan-map.git
+[submodule "vendor/tongjiang-lab"]
+	path = vendor/tongjiang-lab
+	url = https://github.com/smithjohn78390/tongjiang-lab.git

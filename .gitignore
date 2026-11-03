@@ -36,3 +36,12 @@ public/world-history/vendor/
 public/world-history/DATA-LICENSE.txt
 public/world-history/DATA-README.md
 public/world-history/app.*.mjs
+
+# Generated from the pinned Tongjiang Lab submodule
+public/k1-k12/tongjiang-lab/courses/
+public/k1-k12/tongjiang-lab/covers/
+public/k1-k12/tongjiang-lab/catalog.json
+public/k1-k12/tongjiang-lab/LICENSE
+public/k1-k12/tongjiang-lab/THIRD_PARTY_NOTICES.md
+public/k1-k12/tongjiang-lab/README.zh-CN.md
+public/k1-k12/tongjiang-lab/SOURCE.json
