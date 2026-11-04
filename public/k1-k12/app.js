@@ -900,7 +900,7 @@ function renderCurrent(skipFade){
       host.classList.remove("is-fading");
       restoreScroll(view);
       var h = host.querySelector("h2");
-      if (h){ h.focus(); }
+      if (h){ h.focus({preventScroll: true}); }
     });
   } else {
     restoreScroll(view);
