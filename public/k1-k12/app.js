@@ -18,7 +18,7 @@ var GRADE_BAND = {K1:"K1",G1:"G12",G2:"G12",G3:"G34",G4:"G34",G5:"G56",G6:"G56",
 var CAT_CHIP = {"游戏":"lv","制作工程":"qing","调查研究":"huang","长期项目":"","实践研学":"zhe"};
 var scrollMap = {};
 var lastView = "/";
-var drawerPushDepth = 0;
+var drawerDidPush = false;
 var focusBeforeDrawer = null;
 
 function $(id){ return document.getElementById(id); }
@@ -58,8 +58,13 @@ function buildHash(view, params, projectId){
 function navigate(view, params, opts){
   opts = opts || {};
   var hash = buildHash(view, params, opts.projectId);
-  if (opts.replace) history.replaceState(null, "", hash);
-  else location.hash = hash;
+  if (opts.replace){
+    // replaceState does not fire hashchange — re-render explicitly.
+    if ((location.hash || "#/") !== hash) history.replaceState(null, "", hash);
+    renderCurrent(!!opts.silent);
+  } else {
+    location.hash = hash;
+  }
 }
 
 function saveScroll(view){
@@ -551,8 +556,23 @@ function renderProjects(host, params){
   mobRow.appendChild(mobSearch);
   host.appendChild(mobRow);
 
-  function applyParams(replace){
-    navigate("/projects", params, {replace: !!replace});
+  var grid = el("div", "grid proj-grid");
+  grid.id = "projGrid";
+  host.appendChild(grid);
+
+  function syncProjectUrl(){
+    var hash = buildHash("/projects", params);
+    if ((location.hash || "#/") !== hash) history.replaceState(null, "", hash);
+  }
+  function applyParams(liveSearch){
+    if (liveSearch){
+      // Keep the search input focused; only refresh the grid + URL.
+      syncProjectUrl();
+      renderProjectGrid(grid, params, countEl);
+      syncFilterChipUi(barInner, params);
+      return;
+    }
+    navigate("/projects", params, {replace:true, silent:true});
   }
   renderFilterControls(params, function(repl){ applyParams(repl); }, barInner, false);
   mobSearch.addEventListener("input", function(){
@@ -564,13 +584,10 @@ function renderProjects(host, params){
     var body = $("filterSheetBody");
     body.innerHTML = "";
     window.__sheetFilterParams = Object.assign({}, params);
-    renderFilterControls(window.__sheetFilterParams, function(){ applyParams(true); }, body, true);
+    renderFilterControls(window.__sheetFilterParams, function(){}, body, true);
     sheet.hidden = false;
   });
 
-  var grid = el("div", "grid proj-grid");
-  grid.id = "projGrid";
-  host.appendChild(grid);
   renderProjectGrid(grid, params, countEl);
 
   host.appendChild(secTitle(ORD[1], "跨学段主题路线"));
@@ -829,7 +846,7 @@ function openProject(id, push){
   }
   var cur = parseHash();
   if (cur.projectId !== id && push){
-    drawerPushDepth = history.length;
+    drawerDidPush = true;
     location.hash = "#/project/" + id;
     return;
   }
@@ -841,7 +858,10 @@ function openProject(id, push){
   drawer.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
   var title = $("drawerTitle");
-  if (title){ title.tabIndex = -1; title.focus(); }
+  if (title){
+    title.tabIndex = -1;
+    try { title.focus({preventScroll:true}); } catch (err) { title.focus(); }
+  }
 }
 
 function closeDrawer(useHistory){
@@ -851,11 +871,24 @@ function closeDrawer(useHistory){
   drawer.hidden = true;
   drawer.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
-  if (useHistory && location.hash.match(/\/project\//)) history.back();
-  else if (!location.hash.match(/\/project\//)) { /* ok */ }
-  else navigate("/projects", parseHash().params, {replace:true});
+  var onProject = /\/project\//.test(location.hash || "");
+  if (useHistory && onProject){
+    if (drawerDidPush){
+      drawerDidPush = false;
+      history.back();
+    } else {
+      // Landed directly on #/project/… — don't leave the site via history.back().
+      navigate("/projects", parseHash().params, {replace:true, silent:true});
+    }
+  } else if (onProject){
+    navigate("/projects", parseHash().params, {replace:true, silent:true});
+  } else {
+    drawerDidPush = false;
+  }
   if (focusBeforeDrawer && typeof focusBeforeDrawer.focus === "function"){
-    try { focusBeforeDrawer.focus(); } catch (err) { /* ignore */ }
+    try { focusBeforeDrawer.focus({preventScroll:true}); } catch (err) {
+      try { focusBeforeDrawer.focus(); } catch (err2) { /* ignore */ }
+    }
   }
   focusBeforeDrawer = null;
 }
@@ -900,14 +933,19 @@ function renderCurrent(skipFade){
       host.classList.remove("is-fading");
       restoreScroll(view);
       var h = host.querySelector("h2");
-      if (h){ h.focus(); }
+      if (h){
+        try { h.focus({preventScroll:true}); } catch (err) { /* ignore */ }
+      }
     });
   } else {
     restoreScroll(view);
   }
 
   if (route.projectId) openProject(route.projectId, false);
-  else closeDrawer(false);
+  else {
+    drawerDidPush = false;
+    closeDrawer(false);
+  }
 }
 
 function initDrawerUi(){
