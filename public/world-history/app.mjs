@@ -11,8 +11,11 @@ const layer = svg.append('g');
 layer.append('path').attr('class','sphere').attr('d',geoPath({type:'Sphere'}));
 layer.append('path').attr('class','graticule').attr('d',geoPath(d3.geoGraticule10()));
 const territories = layer.append('g');
+const nineDashLayer = layer.append('g').attr('class', 'nine-dash').attr('pointer-events', 'none');
 const labels = layer.append('g');
 const pins = layer.append('g');
+let nineDashFeature = null;
+const NINE_DASH_SINCE = 1945;
 const zoom = d3.zoom().scaleExtent([1,10]).extent([[0,0],[W,H]]).translateExtent([[-W,-H],[2*W,2*H]]).on('zoom',event => {
   layer.attr('transform',event.transform);
   renderLabels(event.transform);
@@ -172,6 +175,7 @@ function draw(geo) {
   }).on('pointerleave',()=>{$('tooltip').hidden=true;});
   paths.selectAll('title').data(f=>[f]).join('title').text(f=>translated(f)+' · '+formatYear(snapshot.year));
   renderLabels();
+  renderNineDash();
   renderCards();renderStories();
   const selected=selectedName && features.find(f=>hasName(f) && f.properties.NAME===selectedName);
   const wasOpen=!$('detail-panel').hidden;
@@ -306,9 +310,20 @@ function resizeMap(){
   zoom.extent([[0,0],[W,H]]).translateExtent([[-W,-H],[2*W,2*H]]);
   layer.select('.sphere').attr('d',geoPath({type:'Sphere'}));layer.select('.graticule').attr('d',geoPath(d3.geoGraticule10()));
   territories.selectAll('path').attr('d',geoPath);
+  nineDashLayer.selectAll('path').attr('d',geoPath);
   const p=projection(center);
   svg.call(zoom.transform,t.k===1?d3.zoomIdentity:d3.zoomIdentity.translate(W/2-t.k*p[0],H/2-t.k*p[1]).scale(t.k));
   renderRuler();
+}
+function territoryMode(){return $('mode-regions').getAttribute('aria-pressed')==='true';}
+function renderNineDash(){
+  const show=!!(nineDashFeature && snapshot && snapshot.year>=NINE_DASH_SINCE && territoryMode());
+  nineDashLayer.style('display',show?null:'none');
+  if(!show){nineDashLayer.selectAll('path').remove();return;}
+  const path=nineDashLayer.selectAll('path').data([nineDashFeature]).join('path')
+    .attr('class','nine-dash-line')
+    .attr('d',geoPath);
+  path.selectAll('title').data([0]).join('title').text('南海九段线（示意）');
 }
 function renderRuler(){
   const el=$('timeline-ruler'),width=el.clientWidth||W;
@@ -334,6 +349,7 @@ function mode(name){
   pins.style('display',name==='stories'?null:'none');
   setDetail(name==='stories');
   document.querySelector('.comparison').hidden=name!=='compare';
+  renderNineDash();
 }
 pins.style('display','none');
 ['regions','stories','compare'].forEach(m=>$('mode-'+m).onclick=()=>mode(m));
@@ -341,9 +357,13 @@ $('compare-close').onclick=()=>mode('regions');
 $('time-zoom-in').onclick=()=>changeTimeSpan(0.5);
 $('time-zoom-out').onclick=()=>changeTimeSpan(2);
 const ruler=$('timeline-ruler');
+function yearFromRulerDrag(dx){
+  // Drag right → later years; drag left → earlier years, matching the left→right timeline.
+  return normalizeYear(rulerDrag.year + dx * timeSpan / (rulerDrag.width - 48));
+}
 ruler.addEventListener('pointerdown',e=>{if(!manifest)return;stop();ruler.setPointerCapture(e.pointerId);rulerDrag={x:e.clientX,year,scale:rulerScale.copy(),width:ruler.clientWidth};});
-ruler.addEventListener('pointermove',e=>{if(!rulerDrag)return;const value=normalizeYear(rulerDrag.year-(e.clientX-rulerDrag.x)*timeSpan/(rulerDrag.width-48));clearTimeout(debounce);debounce=setTimeout(()=>loadYear(value),70);});
-ruler.addEventListener('pointerup',e=>{if(!rulerDrag)return;clearTimeout(debounce);const dx=e.clientX-rulerDrag.x;const value=Math.abs(dx)<4?rulerDrag.scale.invert(e.clientX-ruler.getBoundingClientRect().left):rulerDrag.year-dx*timeSpan/(rulerDrag.width-48);rulerDrag=null;loadYear(value);});
+ruler.addEventListener('pointermove',e=>{if(!rulerDrag)return;const value=yearFromRulerDrag(e.clientX-rulerDrag.x);clearTimeout(debounce);debounce=setTimeout(()=>loadYear(value),70);});
+ruler.addEventListener('pointerup',e=>{if(!rulerDrag)return;clearTimeout(debounce);const dx=e.clientX-rulerDrag.x;const value=Math.abs(dx)<4?rulerDrag.scale.invert(e.clientX-ruler.getBoundingClientRect().left):yearFromRulerDrag(dx);rulerDrag=null;loadYear(value);});
 ruler.addEventListener('pointercancel',()=>{rulerDrag=null;clearTimeout(debounce);});
 ruler.addEventListener('wheel',e=>{e.preventDefault();changeTimeSpan(e.deltaY>0?1.15:1/1.15);},{passive:false});
 ruler.addEventListener('keydown',e=>{if(!manifest)return;let value;if(e.key==='ArrowRight')value=year+(e.shiftKey?10:1);if(e.key==='ArrowLeft')value=year-(e.shiftKey?10:1);if(e.key==='Home')value=-3000;if(e.key==='End')value=2010;if(value!==undefined){e.preventDefault();stop();loadYear(value);}});
@@ -355,6 +375,10 @@ try {
   const response=await fetch('./snapshots.json');if(!response.ok)throw new Error('Missing snapshot index');
   manifest=await response.json();
   currentRegion=initialRegion;selectedName=initialPolity;
+  try {
+    const dash=await fetch('./nine-dash.json');
+    if(dash.ok) nineDashFeature=await dash.json();
+  } catch (error) { console.warn('Nine-dash overlay unavailable', error); }
   await loadYear(normalizeYear(params.get('year')));
   if(initialRegion){const r=regionMap.get(initialRegion),p=projection(r.center);svg.call(zoom.transform,d3.zoomIdentity.translate(W/2-r.zoom*p[0],H/2-r.zoom*p[1]).scale(r.zoom));}
 }catch(error){$('loading').hidden=true;$('map-error').hidden=false;$('retry').onclick=()=>location.reload();console.error(error);}
