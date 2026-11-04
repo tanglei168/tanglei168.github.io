@@ -205,7 +205,7 @@ window.DATA.library = [
   {id:"world", seal:"史", name:"世界", pigment:"zhe", title:"历史与地图", desc:"世界文明时序与中国历史地图，对照阅读。", local:"", upstream:"", license:"", bands:"G5–G12", tags:["历史","地理"], projects:["P33","P39"],
    items:[
      {name:"世界历史地图", local:"/world-history/", upstream:"https://github.com/aourednik/historical-basemaps", license:"GPL-3.0"},
-     {name:"江山时序·中国历史地图", local:"/jiangshan-map/", upstream:"https://github.com/DeanChensj/jiangshan-map", license:"GPL-3.0（部分数据非商业）"}
+     {name:"江山时序·中国历史地图", local:"/china-map/", upstream:"https://github.com/DeanChensj/jiangshan-map", license:"GPL-3.0（部分数据非商业）"}
    ]},
   {id:"science", seal:"格", name:"科学", pigment:"qing", subtitle:"格物致知", title:"铜匠实验室", desc:"54 门高中理化生地 3D 互动课件，对齐教材。", local:"/k1-k12/tongjiang-lab/", upstream:"https://github.com/smithjohn78390/tongjiang-lab", license:"CC BY-NC 4.0", bands:"G10–G12", tags:["物理","化学","生物","地理"], projects:["P31","P35","P38"],
    items:[{name:"铜匠实验室", local:"/k1-k12/tongjiang-lab/", upstream:"https://lab.tongjiang.app/"}]}

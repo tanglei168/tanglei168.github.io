@@ -1,7 +1,7 @@
 # 世界历史模式
 
-教育页和网站首页进入 /world-history/；无参数的 /jiangshan-map/ 进入世界模式。
-中国详图使用 /jiangshan-map/?view=china&year=1500。旧的带 year/place/person 等参数的链接仍可访问中国详图。
+教育页和网站首页进入 /world-history/；无参数的 /china-map/ 进入世界模式。
+中国详图使用 /china-map/?view=china&year=1500。旧的带 year/place/person 等参数的链接仍可访问中国详图。
 
 ## 内容与数据
 

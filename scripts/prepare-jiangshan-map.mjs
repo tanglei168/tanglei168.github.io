@@ -5,7 +5,7 @@ import path from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const source = path.join(root, 'vendor/jiangshan-map');
-const output = path.join(root, 'public/jiangshan-map');
+const output = path.join(root, 'public/china-map');
 
 // Checkout the exact gitlink recorded by this website, never a moving branch.
 execFileSync('git', ['submodule', 'update', '--init', '--', 'vendor/jiangshan-map'], {
@@ -23,7 +23,7 @@ function localize(dir) {
     if (entry.isDirectory()) localize(file);
     else if (/\.(html|js|css|webmanifest|txt)$/.test(entry.name)) {
       const original = readFileSync(file, 'utf8');
-      const updated = original.replaceAll('https://deanchen.me/jiangshan-map', 'https://tanglei168.github.io/jiangshan-map');
+      const updated = original.replaceAll('https://deanchen.me/jiangshan-map', 'https://tanglei168.github.io/china-map');
       if (updated !== original) writeFileSync(file, updated);
     }
   }
@@ -51,5 +51,12 @@ const worldMode = `<script>
 </script>`;
 writeFileSync(indexPath, readFileSync(indexPath, 'utf8').replace('<head>', '<head>' + worldMode));
 
-console.log('Prepared Jiangshan Atlas at /jiangshan-map/');
+// Old /jiangshan-map/ links keep working by forwarding to /china-map/.
+const legacy = path.join(root, 'public/jiangshan-map');
+mkdirSync(legacy, { recursive: true });
+writeFileSync(path.join(legacy, 'index.html'), `<!doctype html><meta charset="utf-8"><title>China Map</title>
+<script>location.replace('/china-map/' + location.search + location.hash);</script>
+<a href="/china-map/">China Map</a>`);
+
+console.log('Prepared China Map at /china-map/');
 

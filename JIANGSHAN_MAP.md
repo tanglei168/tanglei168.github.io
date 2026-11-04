@@ -1,9 +1,9 @@
 # 江山时序集成
 
-访问路径：/jiangshan-map/。首页提供入口。
+访问路径：/china-map/（旧地址 /jiangshan-map/ 自动跳转）。首页提供入口。
 
 原始代码通过 vendor/jiangshan-map Git 子模块固定到 f1520c2ef5b3455b4ce34aba27359f1a12f198ac。
-pnpm dev 和 pnpm build 会初始化该固定版本，并复制静态资源到 public/jiangshan-map/。
+pnpm dev 和 pnpm build 会初始化该固定版本，并复制静态资源到 public/china-map/。
 构建环境需要 Git 和访问 GitHub 的网络；现有 GitHub Pages 工作流无需更改。
 
 本地首次使用可运行 git submodule update --init。更新时，在子模块中检出经过验证的新提交，再提交父仓库中的 gitlink 变化。

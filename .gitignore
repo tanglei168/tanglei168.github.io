@@ -27,6 +27,7 @@ pnpm-debug.log*
 docs/
 
 # Generated from the pinned Jiangshan Atlas submodule
+public/china-map/
 public/jiangshan-map/
 
 

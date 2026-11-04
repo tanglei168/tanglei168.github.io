@@ -188,7 +188,7 @@ async function loadYear(value,updateURL=true) {
   $('year-title').textContent=formatYear(year);$('year-input').value=year;$('timeline').value=year;
   $('timeline').setAttribute('aria-valuetext',formatYear(year));
   $('era-label').textContent=eras.find(e=>year>=e.from&&year<=e.to).name;
-  $('china-link').href='/jiangshan-map/?view=china&year='+Math.max(-403,year);
+  $('china-link').href='/china-map/?view=china&year='+Math.max(-403,year);
   $('china-link').title=year< -403?'中国详图从公元前403年开始':'进入同年中国详图';
   $('snapshot-label').textContent='地图快照 · '+formatYear(snapshot.year);
   $('timeline-note').textContent=year===snapshot.year?'49 个离散历史快照 · 当前年份有地图记录 · 数据截至2010年':'所选 '+formatYear(year)+'；疆域显示 '+formatYear(snapshot.year)+' 快照，不插值推断边界。';
