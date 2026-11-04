@@ -10,12 +10,18 @@
 - 八个地理分组只是便于浏览，按几何中心粗分。跨区域政体不代表只属于某一洲。
 - 地图记录涵盖政体与文化区域；数据集仍在校订，不能作为精确边界、现代主权或政体起讫的权威依据。
 - 探索线索附 UNESCO 来源，日期范围表示主题覆盖时期。
+- 1945 年及以后的疆域模式叠加南海九段线示意（`nine-dash.json`），不参与点选；仅供学习对照。
 
 全球地图来源：A. Ourednik 等，https://github.com/aourednik/historical-basemaps
 固定提交与每个原始文件的 Git blob SHA 见 snapshots.json。
 数据按 GPL-3.0 分发；构建会同时保存 DATA-LICENSE.txt 和 DATA-README.md。
 D3 7.9.0 按 ISC 许可使用，许可证随本地分发的脚本一起保存。
+南海九段线示意坐标整理自公开中国地图境界线资料（Apache ECharts china map boundary line，Apache-2.0）。
 本目录新增应用代码按 GPL-3.0 分发。
+
+## 交互修正
+
+时间标尺拖拽：向右拖动前往更晚年份，向左拖动前往更早年份，与左→右的时间方向一致。点击标尺仍直接跳到对应年份。
 
 ## 构建
 

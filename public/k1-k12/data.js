@@ -200,13 +200,13 @@ window.DATA.aiRules = [
   "低年级需家长陪同使用 AI：控制时长，讨论输出是否适合直接交作业。"
 ];
 window.DATA.library = [
-  {id:"body", seal:"身", name:"人体", pigment:"lv", title:"人体结构 3D", desc:"3D 器官、骨骼、系统与学习路径，从探索到笔记。", local:"/k1-k12/human-body/", upstream:"https://github.com/thebuggeddev/anatomy", license:"上游开源项目，本站镜像仅供非商业学习", bands:"G3–G12", tags:["生物","科学"], projects:["P15","P27"],
+  {id:"body", seal:"身", name:"人体结构", pigment:"lv", title:"人体结构 3D", desc:"3D 器官、骨骼、系统与学习路径，从探索到笔记。", local:"/k1-k12/human-body/", upstream:"https://github.com/thebuggeddev/anatomy", license:"上游开源项目，本站镜像仅供非商业学习", bands:"G3–G12", tags:["生物","科学"], projects:["P15","P27"],
    items:[{name:"人体结构 3D", local:"/k1-k12/human-body/", upstream:"https://github.com/thebuggeddev/anatomy"}]},
-  {id:"world", seal:"史", name:"世界", pigment:"zhe", title:"历史与地图", desc:"世界文明时序与中国历史地图，对照阅读。", local:"", upstream:"", license:"", bands:"G5–G12", tags:["历史","地理"], projects:["P33","P39"],
+  {id:"world", seal:"地", name:"地理科学", pigment:"zhe", title:"历史与地图", desc:"世界文明时序与中国历史地图，对照阅读。", local:"", upstream:"", license:"", bands:"G5–G12", tags:["历史","地理"], projects:["P33","P39"],
    items:[
      {name:"世界历史地图", local:"/world-history/", upstream:"https://github.com/aourednik/historical-basemaps", license:"GPL-3.0"},
      {name:"江山时序·中国历史地图", local:"/china-map/", upstream:"https://github.com/DeanChensj/jiangshan-map", license:"GPL-3.0（部分数据非商业）"}
    ]},
-  {id:"science", seal:"格", name:"科学", pigment:"qing", subtitle:"格物致知", title:"铜匠实验室", desc:"54 门高中理化生地 3D 互动课件，对齐教材。", local:"/k1-k12/tongjiang-lab/", upstream:"https://github.com/smithjohn78390/tongjiang-lab", license:"CC BY-NC 4.0", bands:"G10–G12", tags:["物理","化学","生物","地理"], projects:["P31","P35","P38"],
-   items:[{name:"铜匠实验室", local:"/k1-k12/tongjiang-lab/", upstream:"https://lab.tongjiang.app/"}]}
+  {id:"science", seal:"格", name:"科学 3D 实验室", pigment:"qing", subtitle:"格物致知", title:"科学 3D 实验室", desc:"54 门高中理化生地 3D 互动课件，对齐教材。", local:"/k1-k12/tongjiang-lab/", upstream:"https://github.com/smithjohn78390/tongjiang-lab", license:"CC BY-NC 4.0", bands:"G10–G12", tags:["物理","化学","生物","地理"], projects:["P31","P35","P38"],
+   items:[{name:"科学 3D 实验室（铜匠实验室）", local:"/k1-k12/tongjiang-lab/", upstream:"https://lab.tongjiang.app/"}]}
 ];
