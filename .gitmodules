@@ -3,4 +3,4 @@
 	url = https://github.com/DeanChensj/jiangshan-map.git
 [submodule "vendor/tongjiang-lab"]
 	path = vendor/tongjiang-lab
-	url = https://github.com/smithjohn78390/tongjiang-lab.git
+	url = https://github.com/sdvch/tongjiang-lab.git

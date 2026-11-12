@@ -9,6 +9,11 @@ const output = path.join(root, 'public/k1-k12/tongjiang-lab');
 const PINNED = '4d63ce0a72d987c850ec6d919e570bdb752c87a6';
 
 // Checkout the exact gitlink recorded by this website, never a moving branch.
+// Upstream smithjohn78390/tongjiang-lab may 404; .gitmodules points at a public mirror.
+execFileSync('git', ['submodule', 'sync', '--', 'vendor/tongjiang-lab'], {
+  cwd: root,
+  stdio: 'inherit',
+});
 execFileSync('git', ['submodule', 'update', '--init', '--', 'vendor/tongjiang-lab'], {
   cwd: root,
   stdio: 'inherit',
@@ -54,7 +59,7 @@ writeFileSync(
   path.join(output, 'SOURCE.json'),
   JSON.stringify(
     {
-      upstream: 'https://github.com/smithjohn78390/tongjiang-lab',
+      upstream: 'https://github.com/sdvch/tongjiang-lab',
       homepage: 'https://lab.tongjiang.app',
       commit: head,
       lessonCount: catalog.length,

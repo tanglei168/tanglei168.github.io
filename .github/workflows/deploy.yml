@@ -21,7 +21,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          submodules: true
+          submodules: false
+
+      - name: Init submodules
+        run: |
+          set -e
+          git submodule sync --recursive
+          git submodule update --init --depth 1 -- vendor/jiangshan-map
+          git submodule update --init --depth 1 -- vendor/tongjiang-lab
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
