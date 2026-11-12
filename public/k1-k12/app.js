@@ -272,10 +272,10 @@ function renderOverview(host){
   });
   host.appendChild(whyG);
 
-  host.appendChild(secTitle(ORD[2], "三大方向"));
+  host.appendChild(secTitle(ORD[2], "四大方向"));
   host.appendChild(secDivider());
   var tg = el("div", "grid teaser-grid");
-  [{c:"lv",t:"人体结构",d:"3D 探索与生命系统"},{c:"zhe",t:"地理科学",d:"历史地图与文明对照"},{c:"qing",t:"科学 3D 实验室",d:"格物致知 · 互动实验"}].forEach(function(x){
+  [{c:"lv",t:"人体结构",d:"3D 探索与生命系统"},{c:"zhe",t:"地理科学",d:"历史地图与文明对照"},{c:"qing",t:"科学 3D 实验室",d:"格物致知 · 互动实验"},{c:"huang",t:"AI 探索任务",d:"游戏化 AI 通识课"}].forEach(function(x){
     var c = el("div", "teaser-card " + x.c);
     var seal = el("div", "seal", x.t.charAt(0));
     c.appendChild(seal);
@@ -643,7 +643,7 @@ function renderProjectGrid(grid, params, countEl){
 function renderLibrary(host){
   host.innerHTML = "";
   host.appendChild(secTitle(ORD[0], "资源馆"));
-  host.appendChild(el("p", "sub", "三大方向分馆陈列；本地进入，外链查看源项目。"));
+  host.appendChild(el("p", "sub", "四大方向分馆陈列；本地进入，外链查看源项目。"));
   host.appendChild(secDivider());
   host.appendChild(el("p", "mirror-note", "本站镜像仅作非商业学习，版权归原作者。"));
 

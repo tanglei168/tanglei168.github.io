@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>页面跳转</title>
+<script>
+(function () {
+  var p = location.pathname || '';
+  if (p.indexOf('/ai-quests/') === 0) {
+    sessionStorage.setItem('aiq-redirect', p + location.search + location.hash);
+    location.replace('/ai-quests/intl/zh_cn/');
+    return;
+  }
+  location.replace('/');
+})();
+</script>
+</head>
+<body><p>正在跳转…</p></body>
+</html>

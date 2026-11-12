@@ -1,0 +1,24 @@
+/* 简体中文排版覆盖；保留原站布局与动画 */
+:root{--font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",Arial,sans-serif}
+body,button,input,textarea,select{font-family:"Google Sans","PingFang SC","Microsoft YaHei",Arial,sans-serif!important}
+body{word-break:normal;overflow-wrap:break-word} button{letter-spacing:normal!important} 
+.ipsa__body,.ipsa__heading{line-height:1.55!important}
+
+@font-face{font-family:"Google Sans";src:local("Arial")}
+@font-face{font-family:"Google Sans Text";src:local("Arial")}
+@font-face{font-family:"Google Sans Display";src:local("Arial")}
+
+.zh-credit{padding:16px 24px;text-align:center;font-size:14px;line-height:1.7;color:#555}.zh-language{padding:8px}.zh-footer-mail{padding:8px;color:inherit;text-decoration:none}.zh-footer-mail:hover{text-decoration:underline}
+
+@media(max-width:600px){.glue-expansion-panels__header{display:flex!important;flex-wrap:wrap;gap:12px;align-items:center}.glue-expansion-panels__header .glue-eyebrow{flex:1;min-width:0}.glue-expansion-panels__toggle-all{position:static!important;flex-shrink:0;margin-left:auto!important}.glue-expansion-panel__header-text{overflow-wrap:anywhere;min-width:0}}
+
+/* B 站视频占位：BV 号未填写时显示，样式对齐原视频卡片 */
+.aiq-media__pending{display:flex;align-items:center;justify-content:center;text-align:center;width:100%;aspect-ratio:16/9;background:#1b1c1d;color:#9aa0a6;font-size:15px;line-height:1.6;padding:0 16px;box-sizing:border-box}
+.aiq-video-card__media .aiq-media__pending{border-radius:inherit}
+
+/* 本地中文配音视频播放器 */
+video.aiq-media__localvideo{width:100%;aspect-ratio:16/9;background:#000;display:block}
+.aiq-video-card__media video.aiq-media__localvideo{border-radius:inherit}
+
+/* 夸克网盘按钮：链接未填写时的筹备中样式 */
+.aiq-quark-pending{opacity:.55;cursor:default;pointer-events:auto}

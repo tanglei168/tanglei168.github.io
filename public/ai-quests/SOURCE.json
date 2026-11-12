@@ -1,0 +1,24 @@
+{
+  "upstream": "https://yayaexplore.com/ai-quests/",
+  "project": "AI 探索任务（Google AI Quests 中文站）",
+  "snapshotId": "20260914-141641",
+  "mirroredAt": "2026-11-12T08:12:25.882Z",
+  "note": "本站静态镜像，仅供非商业学习；内容版权归 Google / 原站。已去除第三方统计脚本。",
+  "quests": [
+    {
+      "id": "market-marshes",
+      "name": "集市湿地",
+      "topic": "洪水预测"
+    },
+    {
+      "id": "dusky-dunes",
+      "name": "暮色沙丘",
+      "topic": "预防失明"
+    },
+    {
+      "id": "polar-peaks",
+      "name": "极地之巅",
+      "topic": "绘制脑图谱"
+    }
+  ]
+}

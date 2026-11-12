@@ -1,0 +1,1506 @@
+{
+  "collection_id": "FloodPrediction",
+  "document_id": "",
+  "general": {
+    "forecast_key": {
+      "heading": "预测图例：",
+      "low_key": "危险等级",
+      "mid_key": "警告级别",
+      "high_key": "正常水平"
+    },
+    "labels": {
+      "continue_cta": "继续"
+    },
+    "learning_ticket_video_call": {
+      "media": {
+        "webm": {
+          "url": "quests/prof-skye-idle.webm",
+          "file_name": ""
+        },
+        "poster": {
+          "url": "quests/prof-skye-poster.webp",
+          "file_name": ""
+        },
+        "mp4": {
+          "url": "quests/prof-skye-idle.mp4",
+          "file_name": ""
+        },
+        "subtitles": null
+      },
+      "transmission_text": "视频传输",
+      "speaker": "斯凯教授"
+    }
+  },
+  "inventory_bar": {
+    "data_label": "关于此数据",
+    "missing_data_label": "未找到数据？？",
+    "missing_data_heading": "尚未找到",
+    "missing_data_body": "您还没有找到所有数据。返回森林继续寻找。",
+    "missing_data_cta": "回到森林"
+  },
+  "intro": {
+    "video": {
+      "webm": {
+        "url": "zh_cn/media/flood_prediction-intro-video.mp4",
+        "file_name": ""
+      },
+      "poster": {
+        "url": "marshes/intro-video.webp",
+        "file_name": ""
+      },
+      "mp4": {
+        "url": "zh_cn/media/flood_prediction-intro-video.mp4",
+        "file_name": ""
+      },
+      "subtitles": "WEBVTT\n\n00:00:00.000 --> 00:00:02.600\n啊，糟了……这下麻烦大了。\n\n00:00:02.600 --> 00:00:07.600\n你好，我是露娜，负责管理集市湿地的摊位。\n\n00:00:07.600 --> 00:00:10.360\n我们的生活离不开莎莎河。\n\n00:00:10.360 --> 00:00:14.480\n但你也看到了，河水可能毫无预警地淹没集市。\n\n00:00:14.520 --> 00:00:17.800\n我们甚至来不及把摊位收起来。\n\n00:00:17.800 --> 00:00:22.360\n我们一直想预测洪水，但现有的天气预报还不够可靠。\n\n00:00:22.360 --> 00:00:27.480\n听说 AI 可以帮助预测极端天气事件，比如洪水。\n\n00:00:27.480 --> 00:00:29.840\n如果能提前得到准确的预警，\n\n00:00:29.840 --> 00:00:32.720\n我们就能保护集市，避免这样的损失。\n\n00:00:32.720 --> 00:00:35.160\n那么，你能帮上忙吗？\n"
+    },
+    "learning_ticket": [
+      {
+        "id": "introticket",
+        "question": "欢迎，我是斯凯教授，您的AI导师！当您做出有关人工智能的重要决策时，我会为您提供指导。",
+        "answers": [
+          {
+            "text": "听起来不错！",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "先从第一步开始！构建 AI 洪水预测工具，需要有助于预测洪水的数据。前往森林收集数据吧。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": null
+      }
+    ]
+  },
+  "collect_tokens": {
+    "instructions": {
+      "eyebrow_task_number": "任务1",
+      "eyebrow_text": "查找数据",
+      "heading": "搜索森林",
+      "description": "训练洪水预测人工智能模型所需的数据隐藏在整个森林的物体中。你能找到并收集缺失的数据吗？",
+      "interaction_slot_text": "单击并拖动以探索",
+      "continue_cta_text": "继续"
+    },
+    "objective_reminder": {
+      "heading_title": "任务1",
+      "heading_description": "查找数据",
+      "heading_thumbnail": {
+        "file": {
+          "url": "icons/objective-reminder-magnifier.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "body": "拖动场景探索森林，找到藏有数据的 12 件物品。",
+      "video": {
+        "webm": {
+          "url": "marshes/1.0-data-collection-tutorial.webm",
+          "file_name": ""
+        },
+        "poster": {
+          "url": "marshes/1.0-data-collection-tutorial.webp",
+          "file_name": ""
+        },
+        "mp4": {
+          "url": "marshes/1.0-data-collection-tutorial.mp4",
+          "file_name": ""
+        },
+        "subtitles": null
+      }
+    },
+    "has_enough_tokens": {
+      "prompt": "您有足够的数据来继续执行下一个任务，但收集更多数据可能有助于使其更加准确",
+      "cta": "继续执行下一个任务"
+    },
+    "token_transfer_modal": {
+      "transfer_cta": "拖动传输数据",
+      "transfer_complete": "传输完成",
+      "info_eyebrow": "新数据已解锁",
+      "info_cta": "收集数据"
+    },
+    "learning_ticket": [
+      {
+        "id": "collecttokens",
+        "question": "做得好！我的系统标记了数据中可能存在的一些错误。你能发现它们吗？",
+        "answers": [
+          {
+            "text": "当然可以",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "我们走吧！",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": null
+      }
+    ],
+    "easter_eggs": [
+      {
+        "id": "newt",
+        "hover_text": "这是什么？",
+        "click_text": "什么，你以前从未见过会说话的蜥蜴？"
+      },
+      {
+        "id": "rocky",
+        "hover_text": "这是什么？",
+        "click_text": "在这儿没钓到鱼，倒是快冻感冒了！"
+      }
+    ]
+  },
+  "select_tokens": {
+    "instructions": {
+      "eyebrow_task_number": "任务3",
+      "eyebrow_text": "相关性问题",
+      "heading": "选择您的数据",
+      "description": "从您在森林中找到的数据中，选择您认为对生成准确预测最有帮助的数据。",
+      "interaction_slot_text": "选择四枚数据芯片",
+      "continue_cta_text": "继续"
+    },
+    "objective_reminder": {
+      "heading_title": "任务3",
+      "heading_description": "选择数据",
+      "heading_thumbnail": {
+        "file": {
+          "url": "icons/objective-reminder-chip.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "body": "从您在森林中找到的数据中，选择您认为对预测洪水最有帮助的数据。",
+      "video": {
+        "webm": {
+          "url": "marshes/2.0-data-selection-tutorial.webm",
+          "file_name": ""
+        },
+        "poster": {
+          "url": "marshes/2.0-data-selection-tutorial.webp",
+          "file_name": ""
+        },
+        "mp4": {
+          "url": "marshes/2.0-data-selection-tutorial.mp4",
+          "file_name": ""
+        },
+        "subtitles": null
+      }
+    },
+    "learning_ticket_final": [
+      {
+        "id": "aftermodeltraininganimation",
+        "question": "太棒了！你已经训练了你的人工智能！ 🎉 接下来你想做什么？",
+        "answers": [
+          {
+            "text": "让露娜知道我们的工作已经完成，她现在可以使用人工智能来预测洪水。",
+            "isCorrect": false
+          },
+          {
+            "text": "首先测试一下它的准确性。",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "好方法！在让露娜使用人工智能之前，我们需要测试它以确保它能够做出准确的预测。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "在让露娜使用它之前，我们需要测试人工智能以确保它能够做出准确的预测。",
+          "media": null,
+          "emoji": null
+        }
+      }
+    ],
+    "learning_ticket": [
+      {
+        "id": "token_selection_q",
+        "question": "您的人工智能将从您选择的数据中学习模式。如果我们错过了一些关键数据会怎样？",
+        "answers": [
+          {
+            "text": "这将导致更多的降雨和更严重的洪水。",
+            "isCorrect": false
+          },
+          {
+            "text": "人工智能将更难找到有用的模式，从而导致洪水预测不准确。",
+            "isCorrect": true
+          },
+          {
+            "text": "人工智能很聪明。我们提供什么数据并不重要。它会弄清楚的。",
+            "isCorrect": false
+          }
+        ],
+        "success_response": {
+          "text": "是的，没错。您的选择会影响模型的准确性。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "如果我们错过了关键细节，人工智能就很难找到有用的模式，我们的洪水预测也不会准确。这就是为什么我们的人类决策对于有效设计人工智能如此重要！",
+          "media": null,
+          "emoji": null
+        }
+      },
+      {
+        "id": "token_selection_q2",
+        "question": "现在是重头戏 - 是时候训练 AI 模型了！观察它从所有数据中学习，开始发现模式并做出预测。",
+        "answers": [
+          {
+            "text": "我准备好了！",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "让我们训练您的模型！",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "还不太对。人工智能模型的准确性取决于我们提供给它们的数据。您的数据选择无法改变降雨量，但可以影响模型预测洪水的效果。让我们看看您的模型如何预测洪水。",
+          "media": null,
+          "emoji": null
+        }
+      }
+    ],
+    "title": "选择您的数据",
+    "slot_empty_label": "空的",
+    "slot_remove_label": "移除",
+    "slot_number_label": "插槽 {number}",
+    "confirm_cta_label": "确认数据选择",
+    "hint_relevant": "高度相关",
+    "hint_somewhat_relevant": "有点相关",
+    "hint_irrelevant": "最不相关"
+  },
+  "data_cleaning": {
+    "instructions": {
+      "eyebrow_task_number": "任务2",
+      "eyebrow_text": "错误消除",
+      "heading": "清理数据",
+      "description": "人工智能模型依赖于无错误的数据来生成可靠的预测。让我们清理我们想要使用的数据。",
+      "interaction_slot_text": "点击看起来不正确的数据",
+      "continue_cta_text": "继续"
+    },
+    "objective_reminder": {
+      "heading_title": "任务2",
+      "heading_description": "点击看起来不正确的数据。",
+      "heading_thumbnail": {
+        "file": {
+          "url": "icons/objective-reminder-pointer.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "body": "查看数据并点击任何您认为不合适的数据。",
+      "video": {
+        "webm": {
+          "url": "marshes/3.0-clean-the-data-tutorial.webm",
+          "file_name": ""
+        },
+        "poster": {
+          "url": "marshes/3.0-clean-the-data-tutorial.webp",
+          "file_name": ""
+        },
+        "mp4": {
+          "url": "marshes/3.0-clean-the-data-tutorial.mp4",
+          "file_name": ""
+        },
+        "subtitles": null
+      }
+    },
+    "learning_ticket": [
+      {
+        "id": "data_cleaning_q",
+        "question": "我们还有很多数据需要清理！你能教露娜如何做，以便她可以完成剩下的事情吗？",
+        "answers": [
+          {
+            "text": "买点肥皂吧露娜！",
+            "isCorrect": false
+          },
+          {
+            "text": "检查数据，找出异常值或缺失值。",
+            "isCorrect": true
+          },
+          {
+            "text": "呼叫人工智能代理来为您完成此操作。",
+            "isCorrect": false
+          }
+        ],
+        "success_response": {
+          "text": "没错！",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "肥皂和人工智能代理都无法解决这个问题。对于人类来说，亲自检查数据以发现任何可能扰乱我们预测的因素至关重要。",
+          "media": null,
+          "emoji": null
+        }
+      },
+      {
+        "id": "data_cleaning_guidance",
+        "question": "在您的下一个任务中，请考虑：哪些数据源对于预测洪水最有用？",
+        "answers": [
+          {
+            "text": "我准备好了！",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "开始吧！",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": null
+      }
+    ],
+    "game": {
+      "title": "清理数据",
+      "data": {
+        "headers": [
+          "月",
+          "年",
+          "地点",
+          "温度",
+          "降水量"
+        ],
+        "locations": [
+          "沼泽"
+        ],
+        "inches_label": "英寸",
+        "missing_label": "缺失"
+      }
+    },
+    "model_training_video": {
+      "webm": {
+        "url": "",
+        "file_name": ""
+      },
+      "poster": {
+        "url": "",
+        "file_name": ""
+      },
+      "mp4": null,
+      "subtitles": null
+    }
+  },
+  "testing_training": {
+    "learning_ticket": [
+      {
+        "id": "intro-1",
+        "question": "现在，我们将使用您的数据来训练我们的人工智能模型来进行洪水预测。该预测将显示特定区域在特定时间发生洪水的可能性。",
+        "answers": [
+          {
+            "text": "开始吧！",
+            "isCorrect": true
+          }
+        ],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "intro-2",
+        "question": "这是位于集市湿地的露娜市场。让我们首先看看该地区的洪水预测会是什么样子。",
+        "answers": [
+          {
+            "text": "让我们来看看",
+            "isCorrect": true
+          }
+        ],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "intro-3",
+        "question": "我们的预测将在左侧。市场区域被分为几个部分，以显示哪些部分可能会发生洪水。预报将使用颜色来显示洪水风险。",
+        "answers": [
+          {
+            "text": "给我看看",
+            "isCorrect": true
+          }
+        ],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "intro-4",
+        "question": "颜色显示预期的洪水风险：蓝色 - 预计不会发生洪水，黄色 - 预计轻度洪水，红色 - 预计严重洪水。",
+        "answers": [
+          {
+            "text": "继续",
+            "isCorrect": true
+          }
+        ],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "intro-5",
+        "question": "您认为这对于蓝色区域的市场摊位意味着什么？",
+        "answers": [
+          {
+            "text": "蓝色区域的市场摊位应该转移到更安全的地方。",
+            "isCorrect": false
+          },
+          {
+            "text": "蓝色区域的市场摊位是安全的。",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "答对了！在此预测期间，蓝色区域的摊位是安全的。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "还不太对。根据这一预测，蓝色区域的摊位是安全的。",
+          "media": null,
+          "emoji": null
+        }
+      },
+      {
+        "id": "intro-6",
+        "question": "现在您已经知道预测是什么样子了，让我们训练我们的 AI 模型，以便它可以创建预测来帮助露娜和她的社区。",
+        "answers": [
+          {
+            "text": "让我们训练模型吧！",
+            "isCorrect": true
+          }
+        ],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "intro-7",
+        "question": "首先，我们为人工智能模型提供您选择的输入数据。",
+        "answers": [
+          {
+            "text": "好的",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "人工智能从数据中开始学习。它的工作是找到洪水可能遵循的所有不同模式。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": null
+      },
+      {
+        "id": "intro-8",
+        "question": "应使用哪个数据源来学习模式？",
+        "answers": [
+          {
+            "text": "综合使用所有数据源",
+            "isCorrect": true
+          },
+          {
+            "text": "只有第一个",
+            "isCorrect": false
+          }
+        ],
+        "success_response": {
+          "text": "答对了！为了识别准确的洪水模式，人工智能需要调查不同类型的数据并从中学习。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "还不太对。为了识别准确的洪水模式，人工智能需要调查不同类型的数据并从中学习。",
+          "media": null,
+          "emoji": null
+        }
+      },
+      {
+        "id": "intro-9",
+        "question": "学习模式后，模型会进行洪水预测。对于每组条件，它都会预测洪水何时可能发生以及洪水的严重程度。",
+        "answers": [
+          {
+            "text": "继续",
+            "isCorrect": true
+          }
+        ],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "intro-10",
+        "question": "为了检查该模型的效果如何，我们将使用它以前从未见过的过去洪水的数据对其进行测试。",
+        "answers": [
+          {
+            "text": "好的",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "这些数据已经事先留出，没有用于训练！",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": null
+      },
+      {
+        "id": "intro-11",
+        "question": "为了真正测试我们的人工智能，我们应该使用训练期间已经看到的数据吗？",
+        "answers": [
+          {
+            "text": "是的",
+            "isCorrect": false
+          },
+          {
+            "text": "不",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "没错！我们使用新数据进行测试，以真实了解人工智能的预测能力。否则它可能只适用于它已经知道的数据。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "还不太对。如果人工智能已经看到了数据，就像给它一个测试的答案一样。在将其用于现实世界之前，我们需要看看它是否能够解决新问题。",
+          "media": null,
+          "emoji": null
+        }
+      },
+      {
+        "id": "interaction-1",
+        "question": "移动滑块将模型的预测与当天实际发生的情况进行比较。最后，您将看到模型的最终准确度得分。",
+        "answers": [
+          {
+            "text": "继续",
+            "isCorrect": true
+          }
+        ],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "testing-perfect",
+        "question": "你做到了！您的模型的准确度得分为 90%！这是可能的最高分数，因为现实世界的预测不可能 100% 确定。您已准备就绪，让我们生成预测吧！",
+        "answers": [],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "testing-good",
+        "question": "您的模型的准确度得分在 70-90% 范围内，这非常棒！这意味着您的模型对于现实世界的使用来说足够准确。最高可能得分为 90%，因为任何预测都不可能 100% 确定。您现在可以继续生成预测，或者，如果您愿意，您可以尝试进一步改进它。",
+        "answers": [],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "testing-bad",
+        "question": "您的模型的准确度分数低于 70%，但您可以提高它！我们的目标是达到 70-90% 的准确率，您可以通过返回并选择不同的数据组合来实现这一目标。",
+        "answers": [],
+        "success_response": null,
+        "failure_response": null
+      },
+      {
+        "id": "outro-pass",
+        "question": "你的 AI 模型生成了第一份洪水预测！幸好提前预测到了：五天内发生洪水的风险很高。我们要抓紧时间，立即提醒露娜和团队做好准备！",
+        "answers": [],
+        "success_response": null,
+        "failure_response": null
+      }
+    ],
+    "speaker": "斯凯教授",
+    "videos": [
+      {
+        "id": "training-1",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/01-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/01-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/01-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "training-2",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/02-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/02-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/02-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "training-3",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/03-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/03-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/03-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "training-4",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/04-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/04-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/04-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "training-5",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/05-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/05-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/05-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "training-6",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/06-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/06-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/06-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "training-7",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/07-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/07-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/07-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "interaction-intro",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/flood-interaction-intro.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/flood-interaction-intro.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/flood-interaction-intro.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      },
+      {
+        "id": "interaction-processing",
+        "video": {
+          "webm": {
+            "url": "marshes/en_gb/08-training-testing.webm",
+            "file_name": ""
+          },
+          "poster": {
+            "url": "marshes/en_gb/08-training-testing.webp",
+            "file_name": ""
+          },
+          "mp4": {
+            "url": "marshes/en_gb/08-training-testing.mp4",
+            "file_name": ""
+          },
+          "subtitles": null
+        }
+      }
+    ],
+    "ipsa_labels": {
+      "testing_accuracy": "测试预测准确性",
+      "model_training": "AI模型训练",
+      "model_testing": "人工智能模型测试"
+    },
+    "accuracy": {
+      "cta_adjust_data": "提高预测准确性",
+      "chart_title": "你的人工智能预测",
+      "cta_generate_forecast": "生成预测",
+      "score_accuracy_title": "准确性",
+      "score_slider_accuracy": "准确性",
+      "score_slider_sufficient": "达标：",
+      "title": "AI模型测试结果"
+    },
+    "forecast": {
+      "graph_warning": "警告：预计河水将在 5 天内上涨",
+      "take_action_cta": "采取行动",
+      "title": "你的人工智能预测",
+      "card": {
+        "date": "TOMORROW",
+        "title": "生成的预测",
+        "image": {
+          "file": {
+            "url": "marshes/generated-forecast-map-2.webp",
+            "width": 0,
+            "height": 0
+          },
+          "alt": "预测卡"
+        }
+      }
+    },
+    "slider": {
+      "cta": "拖动滑块测试模型",
+      "complete": "测试完成",
+      "sub_progress": "测试人工智能模型..."
+    }
+  },
+  "stalls_game": {
+    "instructions": {
+      "eyebrow_task_number": "任务5",
+      "eyebrow_text": "水位上涨",
+      "heading": "拯救市场",
+      "description": "根据您的预测找到最安全的地点设置市场摊位以避免洪水。",
+      "interaction_slot_text": null,
+      "continue_cta_text": "继续"
+    },
+    "objective_reminder": {
+      "heading_title": "任务5",
+      "heading_description": "根据您的预测，将摊位放置在市场最安全的区域",
+      "heading_thumbnail": {
+        "file": {
+          "url": "icons/objective-reminder-sorbet-stall.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "body": "请注意，普通摊位只能放置在预计不会发生洪水的地方（蓝色区域），而高摊位则可以安全地放置在预计会发生轻微洪水的地方（黄色区域）",
+      "video": {
+        "webm": {
+          "url": "marshes/6.0-market-stall-placement-tutorial-compressed.webm",
+          "file_name": ""
+        },
+        "poster": {
+          "url": "marshes/6.0-market-stall-placement-tutorial.webp",
+          "file_name": ""
+        },
+        "mp4": {
+          "url": "marshes/6.0-market-stall-placement-tutorial-compressed.mp4",
+          "file_name": ""
+        },
+        "subtitles": null
+      }
+    },
+    "safe_label": "安全的",
+    "label_safe": "安全的",
+    "label_not_quite": "还不太对……",
+    "label_unsafe": "警告",
+    "label_stall_tall": "高的",
+    "label_stall_normal": "普通的",
+    "assess_safety_cta": "评估洪水安全",
+    "diagram": {
+      "date": "今天稍晚",
+      "title": "生成的预测",
+      "image": {
+        "file": {
+          "url": "marshes/generated-forecast-map-2.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      }
+    },
+    "fail_message": "有些市场摊位的位置不安全。查看您的预测并重试。"
+  },
+  "complete": {
+    "luna_outro_video": {
+      "webm": {
+        "url": "zh_cn/media/flood_prediction-complete-luna_outro_video.mp4",
+        "file_name": ""
+      },
+      "poster": {
+        "url": "marshes/en_gb/flood-hub-outro.webp",
+        "file_name": ""
+      },
+      "mp4": {
+        "url": "zh_cn/media/flood_prediction-complete-luna_outro_video.mp4",
+        "file_name": ""
+      },
+      "subtitles": "WEBVTT\n\n00:00:00.000 --> 00:00:02.840\n你好，很高兴又见到你。\n\n00:00:02.840 --> 00:00:04.080\n告诉你一个好消息！\n\n00:00:04.080 --> 00:00:06.120\n你的系统发挥作用了！\n\n00:00:06.120 --> 00:00:08.720\n上次洪水来临前，我们及时收到了预警，\n\n00:00:08.720 --> 00:00:12.640\n得以在遭受损失前收好集市的摊位。\n\n00:00:12.640 --> 00:00:16.320\n有了更准确的预测，我们就能提前做好准备。\n\n00:00:16.320 --> 00:00:19.120\n非常感谢你的帮助！回头见。\n"
+    },
+    "real_world_video": {
+      "webm": {
+        "url": "zh_cn/media/flood_prediction-complete-real_world_video.mp4",
+        "file_name": ""
+      },
+      "poster": {
+        "url": "marshes/Floodhub-real-world-video.webp",
+        "file_name": ""
+      },
+      "mp4": {
+        "url": "zh_cn/media/flood_prediction-complete-real_world_video.mp4",
+        "file_name": ""
+      },
+      "subtitles": "WEBVTT\n\n00:00:05.000 --> 00:00:07.000\n谢谢教授。大家好，我是\n\n00:00:07.000 --> 00:00:09.000\n塔尔，我是格雷。我们在 Google\n\n00:00:09.000 --> 00:00:10.000\n研究院的洪水预测团队工作。\n\n00:00:18.000 --> 00:00:20.000\n我们的团队利用 AI 预测世界各地\n\n00:00:20.000 --> 00:00:23.000\n可能发生洪水的位置，及时发出预警，帮助人们\n\n00:00:23.000 --> 00:00:25.000\n保障安全。你刚刚完成的任务，\n\n00:00:25.000 --> 00:00:27.000\n灵感就来自我们的研究历程。我最喜欢\n\n00:00:27.000 --> 00:00:30.000\n这份工作的地方，是我们能通过科学和技术，\n\n00:00:30.000 --> 00:00:34.000\n切实改善数百万人的生活，尤其是在那些\n\n00:00:34.000 --> 00:00:35.000\n可能遭受严重洪灾的地区。\n\n00:00:35.000 --> 00:00:37.000\n洪水的破坏力很大。它会摧毁\n\n00:00:37.000 --> 00:00:39.000\n房屋，让社区与外界隔绝。不过，\n\n00:00:39.000 --> 00:00:43.000\n有了合适的数据和工具，我们就能帮助降低影响，\n\n00:00:43.000 --> 00:00:45.000\n尽可能减少损失。这样，社区就能\n\n00:00:45.000 --> 00:00:47.000\n在洪水过后更快地恢复。\n\n00:00:47.000 --> 00:00:49.000\n我们的工作是这样展开的。你应该\n\n00:00:49.000 --> 00:00:53.000\n会觉得很熟悉，因为这与你刚刚完成的\n\n00:00:53.000 --> 00:00:55.000 线：65%\n任务十分相似。首先，我们收集大量\n\n00:00:55.000 --> 00:00:59.000 线：65%\n公开数据，例如降雨量、水位、天气预报和\n\n00:00:59.000 --> 00:01:01.000 线：65%\n卫星图像。接着，我们检查\n\n00:01:01.000 --> 00:01:03.000\n数据质量，并在必要时清理数据。\n\n00:01:03.000 --> 00:01:07.000\n然后，我们利用 AI 详细模拟水在\n\n00:01:07.000 --> 00:01:09.000\n环境中的流动过程。你可以把它看作\n\n00:01:09.000 --> 00:01:10.000\n现实世界的一个虚拟模型。\n\n00:01:10.000 --> 00:01:15.000\n我们训练 AI 模型，预测水位会在何时何地上涨、上涨速度，\n\n00:01:15.000 --> 00:01:17.000\n以及哪些人可能受到影响。这种\n\n00:01:17.000 --> 00:01:20.000\n预测称为洪水建模。\n\n00:01:20.000 --> 00:01:24.000\n因为即使降雨量发生微小变化，也可能彻底改变洪水的走向。\n\n00:01:24.000 --> 00:01:25.000\n模型训练完成后，我们会测试\n\n00:01:25.000 --> 00:01:28.000\n它们的准确性。随后，我们用模型\n\n00:01:28.000 --> 00:01:32.000\n提前发出预警，有时可以提前好几天。这些预警会显示在\n\n00:01:32.000 --> 00:01:36.000\nGoogle 搜索和 Google 地图中，有时还会以通知的形式\n\n00:01:36.000 --> 00:01:37.000\n发送到你的手机上。\n\n00:01:37.000 --> 00:01:38.000\n我们也与政府和救援\n\n00:01:38.000 --> 00:01:42.000\n团队合作，帮助他们迅速行动，在现场提供援助，\n\n00:01:42.000 --> 00:01:45.000\n让人们及时脱离危险。我们的系统已经覆盖\n\n00:01:45.000 --> 00:01:46.000\n世界各地数千个地点的\n\n00:01:46.000 --> 00:01:48.000\n洪水易发区域。\n\n00:01:48.000 --> 00:01:52.000\n我们还在努力扩大覆盖范围，因为我们希望\n\n00:01:52.000 --> 00:01:54.000\n每一位有需要的人都能获得\n\n00:01:54.000 --> 00:01:55.000\n洪水预测服务。\n\n00:01:55.000 --> 00:01:57.000\n请记住，AI 是一项\n\n00:01:57.000 --> 00:02:01.000\n需要团队协作的工作，汇集了许多来自不同背景、\n\n00:02:01.000 --> 00:02:05.000\n拥有不同观点的人。团队里有像我这样研究洪水的科学家，\n\n00:02:05.000 --> 00:02:07.000\n也有像塔尔这样精通 AI 的工程师，\n\n00:02:07.000 --> 00:02:09.000\n大家紧密合作。我们希望这段\n\n00:02:09.000 --> 00:02:12.000\n视频能帮助你理解，任务中完成的那些工作\n\n00:02:12.000 --> 00:02:13.000\n在现实中是如何开展的。\n\n00:02:13.000 --> 00:02:14.000\n有请教授。\n"
+    },
+    "learning_recap": [
+      {
+        "id": "learning_recap",
+        "question": "拯救那些市场摊位干得很棒，让我们整理一份任务报告吧！你能引导我完成你的过程吗？你的第一步是什么？",
+        "answers": [
+          {
+            "text": "训练人工智能",
+            "isCorrect": false
+          },
+          {
+            "text": "评估人工智能的预测",
+            "isCorrect": false
+          },
+          {
+            "text": "收集相关数据",
+            "isCorrect": true
+          },
+          {
+            "text": "使用人工智能预测洪水",
+            "isCorrect": false
+          }
+        ],
+        "success_response": {
+          "text": "答对了！您在森林中搜索数据点以了解洪水并训练您的模型。",
+          "media": {
+            "webm": {
+              "url": "marshes/1.0-data-collection-tutorial.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/1.0-data-collection-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/1.0-data-collection-tutorial.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-eyes.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        },
+        "failure_response": {
+          "text": "还不太对，首先你搜索了森林并收集了相关数据！",
+          "media": {
+            "webm": {
+              "url": "marshes/1.0-data-collection-tutorial.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/1.0-data-collection-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/1.0-data-collection-tutorial.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-eyes.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        }
+      },
+      {
+        "id": "learning_recap2",
+        "question": "你采取的第二步是什么？",
+        "answers": [
+          {
+            "text": "训练人工智能模型",
+            "isCorrect": true
+          },
+          {
+            "text": "评估人工智能的预测",
+            "isCorrect": false
+          },
+          {
+            "text": "使用人工智能预测洪水",
+            "isCorrect": false
+          }
+        ],
+        "success_response": {
+          "text": "答对了！你挑选了收集到的关键数据，并用它们训练模型。",
+          "media": {
+            "webm": {
+              "url": "marshes/2.0-data-selection-tutorial.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/2.0-data-selection-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/2.0-data-selection-tutorial.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-eyes.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        },
+        "failure_response": {
+          "text": "还不太对，您选择了找到的最重要的数据并用它来训练您的模型。",
+          "media": {
+            "webm": {
+              "url": "marshes/2.0-data-selection-tutorial.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/2.0-data-selection-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/2.0-data-selection-tutorial.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-eyes.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        }
+      },
+      {
+        "id": "learning_recap3",
+        "question": "你的第三步是什么？",
+        "answers": [
+          {
+            "text": "评估人工智能的预测",
+            "isCorrect": true
+          },
+          {
+            "text": "使用人工智能预测洪水",
+            "isCorrect": false
+          }
+        ],
+        "success_response": {
+          "text": "答对了！您使用历史洪水信息来测试您的 AI 并确保其足够准确",
+          "media": {
+            "webm": {
+              "url": "marshes/4.0-model-testing-tutorial.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/4.0-model-testing-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/4.0-model-testing-tutorial.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-eyes.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        },
+        "failure_response": {
+          "text": "实际上你使用了历史洪水信息来测试你的AI并确保它足够准确",
+          "media": {
+            "webm": {
+              "url": "marshes/4.0-model-testing-tutorial.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/4.0-model-testing-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/4.0-model-testing-tutorial.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-eyes.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        }
+      },
+      {
+        "id": "learning_recap4",
+        "question": "您采取的最后一步是什么？",
+        "answers": [
+          {
+            "text": "使用人工智能预测洪水",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "你明白了！您使用人工智能来预测洪水泛滥的位置，并在其周围放置市场摊位。",
+          "media": {
+            "webm": {
+              "url": "marshes/6.0-market-stall-placement-tutorial-compressed.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/6.0-market-stall-placement-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/6.0-market-stall-placement-tutorial-compressed.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-sparks.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        },
+        "failure_response": {
+          "text": "",
+          "media": {
+            "webm": {
+              "url": "marshes/6.0-market-stall-placement-tutorial-compressed.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/6.0-market-stall-placement-tutorial.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/6.0-market-stall-placement-tutorial-compressed.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-sparks.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        }
+      },
+      {
+        "id": "learning_real_world",
+        "question": "我们报告的最后一件事是——在这个任务中，你们使用人工智能来帮助预测洪水并提供早期预警。关于让人工智能帮助解决这样的现实问题，您学到的最重要的事情是什么？",
+        "answers": [
+          {
+            "text": "人工智能可以自己解决一切问题，所以不需要人类。",
+            "isCorrect": false
+          },
+          {
+            "text": "人类可以自己完美解决洪水预测等大问题，无需任何人工智能。",
+            "isCorrect": false
+          },
+          {
+            "text": "人类对于决定人工智能应该做什么工作、设计它、收集正确的数据以及利用其输出产生真正的影响至关重要",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "这对我们的报告来说是一个绝妙的见解！您已经抓住了最重要的想法：人类对于让人工智能发挥作用至关重要。我们决定人工智能做什么、使用什么数据以及如何使用它来解决现实世界的问题。",
+          "media": null,
+          "emoji": null
+        },
+        "failure_response": {
+          "text": "人工智能的最大力量来自于人类的指导。人类对于决定人工智能应该做什么、为其提供正确的数据以及利用其预测解决现实世界的问题至关重要。",
+          "media": null,
+          "emoji": null
+        }
+      },
+      {
+        "id": "learning_recapfinal",
+        "question": "最后一件事！这一任务反映了一个真实的谷歌研究人工智能项目，其中人类发起并设计了洪水预测工具以产生积极影响。你站在了他们的立场上！观看此视频以听取他们的意见。",
+        "answers": [
+          {
+            "text": "酷，给我看视频！",
+            "isCorrect": true
+          }
+        ],
+        "success_response": {
+          "text": "接下来交给研究团队！",
+          "media": {
+            "webm": {
+              "url": "marshes/luna-wave-in-scene.webm",
+              "file_name": ""
+            },
+            "poster": {
+              "url": "marshes/luna-wave-in-scene.webp",
+              "file_name": ""
+            },
+            "mp4": {
+              "url": "marshes/luna-wave-in-scene.mp4",
+              "file_name": ""
+            },
+            "subtitles": null
+          },
+          "emoji": {
+            "file": {
+              "url": "icons/learning-ticket-emoji-eyes.webp",
+              "width": 0,
+              "height": 0
+            },
+            "alt": null
+          }
+        },
+        "failure_response": null
+      }
+    ],
+    "learning_recap_complete_media": {
+      "file": {
+        "url": "marshes/badge.gif",
+        "width": 0,
+        "height": 0
+      },
+      "alt": null
+    },
+    "learning_recap_complete_text": "你拯救了市场！",
+    "next_quest_cta": "下一个任务"
+  },
+  "tokens": [
+    {
+      "id": "RAINFALL",
+      "name": "雨量",
+      "token_name": "雨量",
+      "token_collected_dialog": "下了多少雨。更多的降雨意味着河里的水更多。",
+      "eyebrow": "您找到了降雨量数据！",
+      "transfer_packets": [
+        "10MM",
+        "5MM",
+        "13MM"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-rainfall-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 25
+    },
+    {
+      "id": "RIVER_FLOW",
+      "name": "河流流量",
+      "token_name": "河流流量",
+      "token_collected_dialog": "河流中的水流有多深、多快。",
+      "eyebrow": "您找到了河流流量数据！",
+      "transfer_packets": [
+        "10立方米/秒",
+        "27立方米/秒",
+        "64立方米/秒",
+        "91立方米/秒"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-river-flow-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 25
+    },
+    {
+      "id": "SOIL_ANALYSIS",
+      "name": "土壤湿度",
+      "token_name": "土壤湿度",
+      "token_collected_dialog": "地面能吸收多少水。如果地面满了，雨水就会直接流入河里。",
+      "eyebrow": "您找到了土壤湿度数据！",
+      "transfer_packets": [
+        "0.1立方米/立方米",
+        "0.3立方米/立方米",
+        "0.5立方米/立方米"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-soil-moisture-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 25
+    },
+    {
+      "id": "SATELLITE_IMAGERY",
+      "name": "卫星图像",
+      "token_name": "卫星图像",
+      "token_collected_dialog": "来自太空的图片显示了过去洪水的影响范围。这准确地显示了水的去向。",
+      "eyebrow": "您找到了卫星图像数据！",
+      "transfer_packets": [
+        "JPEG 1",
+        "JPEG 2",
+        "JPEG 3"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-satellite-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 25
+    },
+    {
+      "id": "TEMPERATURE",
+      "name": "温度",
+      "token_name": "温度",
+      "token_collected_dialog": "温度显着影响融雪和蒸发等过程，直接影响河水。",
+      "eyebrow": "您找到了温度数据！",
+      "transfer_packets": [
+        "28°",
+        "35°",
+        "12°",
+        "14°"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-temperature-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 10
+    },
+    {
+      "id": "EVAPORATION",
+      "name": "蒸发",
+      "token_name": "蒸发",
+      "token_collected_dialog": "水蒸发的速度有多快。这会使地面变干，从而可能改变雨水流入河流的方式。",
+      "eyebrow": "您找到了蒸发数据！",
+      "transfer_packets": [
+        "7毫米",
+        "10毫米",
+        "12毫米"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-evaporation-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 10
+    },
+    {
+      "id": "UV",
+      "name": "太阳辐射",
+      "token_name": "太阳辐射",
+      "token_collected_dialog": "土地获得多少阳光。更多的阳光会使天气变得更热并使物体变得干燥，这可能会影响河流。",
+      "eyebrow": "您找到了太阳辐射数据！",
+      "transfer_packets": [
+        "500瓦/平方米",
+        "1372W/平方米",
+        "1121W/平方米"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-solar-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 10
+    },
+    {
+      "id": "HUMIDITY",
+      "name": "湿度",
+      "token_name": "湿度",
+      "token_collected_dialog": "当空气非常潮湿时，蒸发的雨水就会减少，这意味着更多的水流入河流。",
+      "eyebrow": "您找到了湿度数据！",
+      "transfer_packets": [
+        "72%",
+        "79%",
+        "65%"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-humidity-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 10
+    },
+    {
+      "id": "SORBET_SALES",
+      "name": "冰糕销售",
+      "token_name": "冰糕销售",
+      "token_collected_dialog": "一个可爱的小记录，可能反映了一些天气状况。",
+      "eyebrow": "您找到了冰糕销售数据！",
+      "transfer_packets": [
+        "$1,000",
+        "$8",
+        "$497"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-sorbet-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": -10
+    },
+    {
+      "id": "TOWN_GOSSIP",
+      "name": "小镇闲话",
+      "token_name": "小镇闲话",
+      "token_collected_dialog": "这与河流没有直接关系，但人们可能会提到相关的事情。",
+      "eyebrow": "您找到了小镇八卦数据！",
+      "transfer_packets": [
+        "HMM",
+        "???",
+        "!!!"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-town-gossip-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": -10
+    },
+    {
+      "id": "ELEVATION",
+      "name": "海拔",
+      "token_name": "海拔",
+      "token_collected_dialog": "土地有多高或多低。水流向低处，因此这可以改变河流的流动方式。",
+      "eyebrow": "您找到了海拔数据！",
+      "transfer_packets": [
+        "4000M",
+        "3800M",
+        "3900M"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-elevation-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 10
+    },
+    {
+      "id": "VEGETATION",
+      "name": "植被",
+      "token_name": "植被",
+      "token_collected_dialog": "植物和树木可以阻挡水，这可能会影响流入河流的水量。",
+      "eyebrow": "您找到了植被数据！",
+      "transfer_packets": [
+        "GRASSLAND",
+        "SHRUBLAND",
+        "FOREST",
+        "FARMS"
+      ],
+      "icon": {
+        "file": {
+          "url": "marshes/chip-vegetation-large.webp",
+          "width": 0,
+          "height": 0
+        },
+        "alt": null
+      },
+      "score": 10
+    }
+  ]
+}

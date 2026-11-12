@@ -1,0 +1,25 @@
+{
+  "collection_id": "SiteConfig",
+  "document_id": "",
+  "id": "live",
+  "default_site_locale": "zh_cn",
+  "use_published": true,
+  "locales": [
+    {
+      "text": "简体中文",
+      "enabled": true,
+      "kintaro_locale": "zh_cn",
+      "site_locale": "zh_cn",
+      "country_codes": "CN",
+      "html_lang": "zh-CN",
+      "sitemap_hreflangs": "zh-CN",
+      "lang_dir_rtl": false,
+      "enabled_quests": [
+        "quest-flood",
+        "quest-blindness",
+        "quest-brain"
+      ],
+      "additional_resources_enabled": true
+    }
+  ]
+}

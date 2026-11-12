@@ -208,5 +208,12 @@ window.DATA.library = [
      {name:"江山时序·中国历史地图", local:"/china-map/", upstream:"https://github.com/DeanChensj/jiangshan-map", license:"GPL-3.0（部分数据非商业）"}
    ]},
   {id:"science", seal:"格", name:"科学 3D 实验室", pigment:"qing", subtitle:"格物致知", title:"科学 3D 实验室", desc:"54 门高中理化生地 3D 互动课件，对齐教材。", local:"/k1-k12/tongjiang-lab/", upstream:"https://github.com/smithjohn78390/tongjiang-lab", license:"CC BY-NC 4.0", bands:"G10–G12", tags:["物理","化学","生物","地理"], projects:["P31","P35","P38"],
-   items:[{name:"科学 3D 实验室（铜匠实验室）", local:"/k1-k12/tongjiang-lab/", upstream:"https://lab.tongjiang.app/"}]}
+   items:[{name:"科学 3D 实验室（铜匠实验室）", local:"/k1-k12/tongjiang-lab/", upstream:"https://lab.tongjiang.app/"}]},
+  {id:"aiquests", seal:"智", name:"AI 探索任务", pigment:"huang", subtitle:"游戏化 AI 通识", title:"AI 探索任务", desc:"Google AI Quests 中文站镜像：洪水预测、眼疾筛查、脑图谱三个 WebGL 互动任务。", local:"/ai-quests/intl/zh_cn/", upstream:"https://yayaexplore.com/ai-quests/", license:"本站镜像仅供非商业学习；内容版权归 Google / 原站", bands:"G5–G9", tags:["信息技术","科学","AI"], projects:["P40","P28","P27"],
+   items:[
+     {name:"AI 探索任务 · 总入口", local:"/ai-quests/intl/zh_cn/", upstream:"https://yayaexplore.com/ai-quests/intl/zh_cn/"},
+     {name:"集市湿地 · 洪水预测", local:"/ai-quests/intl/zh_cn/market-marshes/", upstream:"https://yayaexplore.com/ai-quests/"},
+     {name:"暮色沙丘 · 预防失明", local:"/ai-quests/intl/zh_cn/dusky-dunes/", upstream:"https://yayaexplore.com/ai-quests/"},
+     {name:"极地之巅 · 绘制脑图谱", local:"/ai-quests/intl/zh_cn/polar-peaks/", upstream:"https://yayaexplore.com/ai-quests/"}
+   ]}
 ];

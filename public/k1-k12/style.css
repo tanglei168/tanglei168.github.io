@@ -159,6 +159,7 @@ a:hover{text-decoration:underline}
 .teaser-card.lv{border-color:var(--lv);background:linear-gradient(135deg,var(--card),var(--lv-soft))}
 .teaser-card.zhe{border-color:var(--zhe);background:linear-gradient(135deg,var(--card),var(--zhe-soft))}
 .teaser-card.qing{border-color:var(--qing);background:linear-gradient(135deg,var(--card),var(--qing-soft))}
+.teaser-card.huang{border-color:var(--huang);background:linear-gradient(135deg,var(--card),var(--huang-soft))}
 .teaser-card .seal{
   width:32px;height:32px;border-radius:4px;display:flex;align-items:center;justify-content:center;
   font-family:var(--serif);font-weight:700;color:#fff;margin-bottom:8px;
@@ -166,6 +167,7 @@ a:hover{text-decoration:underline}
 .teaser-card.lv .seal{background:var(--lv)}
 .teaser-card.zhe .seal{background:var(--zhe)}
 .teaser-card.qing .seal{background:var(--qing)}
+.teaser-card.huang .seal{background:var(--huang)}
 
 .dims-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
 .dim-card{display:flex;gap:12px;align-items:flex-start}
@@ -285,6 +287,7 @@ ul.notes li{margin:6px 0}
 .library-head.lv{background:linear-gradient(135deg,var(--card),var(--lv-soft))}
 .library-head.zhe{background:linear-gradient(135deg,var(--card),var(--zhe-soft))}
 .library-head.qing{background:linear-gradient(135deg,var(--card),var(--qing-soft))}
+.library-head.huang{background:linear-gradient(135deg,var(--card),var(--huang-soft))}
 .library-head .big-seal{
   width:48px;height:48px;border-radius:4px;display:flex;align-items:center;justify-content:center;
   font-family:var(--serif);font-size:22px;color:#fff;flex-shrink:0;
@@ -292,6 +295,7 @@ ul.notes li{margin:6px 0}
 .library-head.lv .big-seal{background:var(--lv)}
 .library-head.zhe .big-seal{background:var(--zhe)}
 .library-head.qing .big-seal{background:var(--qing)}
+.library-head.huang .big-seal{background:var(--huang)}
 .resource-row{
   display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
   padding:12px 0;border-bottom:1px dashed var(--line);
