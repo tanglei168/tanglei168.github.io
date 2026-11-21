@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-11-21T16:28:57.303987+08:00",
+  "last_updated": "2026-11-22T01:40:15.646771+08:00",
   "cn": [
     {
       "ticker": "9988.HK",
@@ -9,14 +9,14 @@
       "thesis": "全栈 AI 重估 + 3800 亿承诺",
       "price": 83.35,
       "change_pct": 3.48,
-      "pe_ttm": 20.68238,
-      "pe_forward": 9.455091,
+      "pe_ttm": 12.667173,
+      "pe_forward": 9.633167,
       "market_cap": 1658828357632,
       "week52_high": 174.2,
       "week52_low": 80.2,
       "from_high_pct": -52.15,
       "currency": "HKD",
-      "fetched_at": "2026-11-21T16:28:57.783382+08:00",
+      "fetched_at": "2026-11-22T01:40:16.426536+08:00",
       "status": "ok"
     },
     {
@@ -34,7 +34,7 @@
       "week52_low": 41.06,
       "from_high_pct": -47.18,
       "currency": "HKD",
-      "fetched_at": "2026-11-21T16:28:58.038836+08:00",
+      "fetched_at": "2026-11-22T01:40:16.777379+08:00",
       "status": "ok"
     },
     {
@@ -52,7 +52,7 @@
       "week52_low": 66.11,
       "from_high_pct": -35.32,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:28:58.315886+08:00",
+      "fetched_at": "2026-11-22T01:40:17.164739+08:00",
       "status": "ok"
     },
     {
@@ -67,10 +67,10 @@
       "pe_forward": 38.823208,
       "market_cap": 421485248512,
       "week52_high": 968.0,
-      "week52_low": 386.62,
+      "week52_low": 389.85,
       "from_high_pct": -40.19,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:28:58.612067+08:00",
+      "fetched_at": "2026-11-22T01:40:17.558865+08:00",
       "status": "ok"
     },
     {
@@ -88,7 +88,7 @@
       "week52_low": 112.0,
       "from_high_pct": -61.43,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:28:58.867461+08:00",
+      "fetched_at": "2026-11-22T01:40:17.916637+08:00",
       "status": "ok"
     },
     {
@@ -106,7 +106,7 @@
       "week52_low": 34.65,
       "from_high_pct": -53.16,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:28:59.139506+08:00",
+      "fetched_at": "2026-11-22T01:40:18.462533+08:00",
       "status": "ok"
     },
     {
@@ -124,7 +124,7 @@
       "week52_low": 377.96,
       "from_high_pct": -72.25,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:28:59.399460+08:00",
+      "fetched_at": "2026-11-22T01:40:18.855727+08:00",
       "status": "ok"
     },
     {
@@ -142,7 +142,7 @@
       "week52_low": 34.58,
       "from_high_pct": -55.91,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:28:59.668545+08:00",
+      "fetched_at": "2026-11-22T01:40:19.267018+08:00",
       "status": "ok"
     },
     {
@@ -153,14 +153,14 @@
       "thesis": "防御性 + AI 期权",
       "price": 344.0,
       "change_pct": -1.26,
-      "pe_ttm": 12.956686,
+      "pe_ttm": 12.108413,
       "pe_forward": 10.2013645,
       "market_cap": 3097584992256,
       "week52_high": 639.0,
       "week52_low": 339.6,
       "from_high_pct": -46.17,
       "currency": "HKD",
-      "fetched_at": "2026-11-21T16:28:59.936137+08:00",
+      "fetched_at": "2026-11-22T01:40:19.684438+08:00",
       "status": "ok"
     },
     {
@@ -171,14 +171,14 @@
       "thesis": "PE 260x 仅小仓位",
       "price": 164.25,
       "change_pct": -8.75,
-      "pe_ttm": 121.666664,
+      "pe_ttm": 110.97973,
       "pe_forward": 56.32523,
       "market_cap": 381687103488,
       "week52_high": 395.17,
       "week52_low": 156.05,
       "from_high_pct": -58.44,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:29:00.188580+08:00",
+      "fetched_at": "2026-11-22T01:40:20.057355+08:00",
       "status": "ok"
     },
     {
@@ -189,14 +189,14 @@
       "thesis": "PE 348x 仅小仓位",
       "price": 920.0,
       "change_pct": -1.5,
-      "pe_ttm": 141.97531,
+      "pe_ttm": 139.81763,
       "pe_forward": 43.492504,
       "market_cap": 578545713152,
       "week52_high": 1620.0,
       "week52_low": 649.66,
       "from_high_pct": -43.21,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:29:00.436974+08:00",
+      "fetched_at": "2026-11-22T01:40:20.404562+08:00",
       "status": "ok"
     },
     {
@@ -214,7 +214,7 @@
       "week52_low": 20.12,
       "from_high_pct": -53.84,
       "currency": "CNY",
-      "fetched_at": "2026-11-21T16:29:00.707147+08:00",
+      "fetched_at": "2026-11-22T01:40:21.056892+08:00",
       "status": "ok"
     }
   ],
@@ -234,7 +234,7 @@
       "week52_low": 124.5,
       "from_high_pct": -48.42,
       "currency": "USD",
-      "fetched_at": "2026-11-21T16:29:00.967690+08:00",
+      "fetched_at": "2026-11-22T01:40:21.467542+08:00",
       "status": "ok"
     },
     {
@@ -252,7 +252,7 @@
       "week52_low": 264.22,
       "from_high_pct": -35.08,
       "currency": "USD",
-      "fetched_at": "2026-11-21T16:29:01.220666+08:00",
+      "fetched_at": "2026-11-22T01:40:21.848824+08:00",
       "status": "ok"
     },
     {
@@ -270,7 +270,7 @@
       "week52_low": 349.2,
       "from_high_pct": -13.35,
       "currency": "USD",
-      "fetched_at": "2026-11-21T16:29:01.511058+08:00",
+      "fetched_at": "2026-11-22T01:40:22.258451+08:00",
       "status": "ok"
     },
     {
@@ -285,10 +285,10 @@
       "pe_forward": 13.628653,
       "market_cap": 1652980711424,
       "week52_high": 487.47,
-      "week52_low": 266.82,
+      "week52_low": 273.08,
       "from_high_pct": -34.62,
       "currency": "USD",
-      "fetched_at": "2026-11-21T16:29:01.800792+08:00",
+      "fetched_at": "2026-11-22T01:40:22.636274+08:00",
       "status": "ok"
     },
     {
@@ -306,7 +306,7 @@
       "week52_low": 520.26,
       "from_high_pct": -28.08,
       "currency": "USD",
-      "fetched_at": "2026-11-21T16:29:02.059458+08:00",
+      "fetched_at": "2026-11-22T01:40:23.046276+08:00",
       "status": "ok"
     },
     {
@@ -324,7 +324,7 @@
       "week52_low": 289.77,
       "from_high_pct": -38.5,
       "currency": "USD",
-      "fetched_at": "2026-11-21T16:29:02.330515+08:00",
+      "fetched_at": "2026-11-22T01:40:23.437819+08:00",
       "status": "ok"
     },
     {
@@ -342,7 +342,7 @@
       "week52_low": 188.22,
       "from_high_pct": -35.55,
       "currency": "USD",
-      "fetched_at": "2026-11-21T16:29:02.615262+08:00",
+      "fetched_at": "2026-11-22T01:40:23.822230+08:00",
       "status": "ok"
     }
   ]
